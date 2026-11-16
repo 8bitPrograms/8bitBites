@@ -14,6 +14,7 @@ import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import org.eightbit.bite.core.*
@@ -80,6 +81,7 @@ internal fun DashboardScreen(modifier: Modifier, date: LocalDate, entries: List<
     var trendsExpanded by rememberSaveable { mutableStateOf(false) }
     val (powder, powderComplete) = supplementAmount(SupplementKind.PROTEIN_POWDER, daily, products, doses)
     val (creatine, creatineComplete) = supplementAmount(SupplementKind.CREATINE, daily, products, doses)
+    val supplementNutrition = supplementNutrientContributions(daily, doses)
     val listState = rememberLazyListState()
     LaunchedEffect(waterRequest) { if (waterRequest != 0L && prefs.waterEnabled) listState.animateScrollToItem(3) }
     LazyColumn(modifier, state = listState, contentPadding = PaddingValues(20.dp, 8.dp, 20.dp, 100.dp), verticalArrangement = Arrangement.spacedBy(12.dp)) {
@@ -116,9 +118,9 @@ internal fun DashboardScreen(modifier: Modifier, date: LocalDate, entries: List<
                 }
             }
         } }
-    if (prefs.waterEnabled) item { WaterCard(drinks, prefs, addWater, deleteWater, undoWater, canUndoWater, save,
-        prefs.dailyWaterGoal(powder, creatine), waterRequest) }
-        if (prefs.showSupplements) item { Card(Modifier.fillMaxWidth()) {
+        if (prefs.waterEnabled) item { WaterCard(drinks, prefs, addWater, deleteWater, undoWater, canUndoWater, save,
+            prefs.dailyWaterGoal(powder, creatine), waterRequest) }
+        if (prefs.showSupplements) item { Card(Modifier.fillMaxWidth().testTag("supplements-card")) {
             Column(Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(10.dp)) {
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     Column(Modifier.weight(1f)) {
@@ -127,6 +129,8 @@ internal fun DashboardScreen(modifier: Modifier, date: LocalDate, entries: List<
                     }
                     SectionToggle(supplementsExpanded) { supplementsExpanded = !supplementsExpanded }
                 }
+                BiteText("Nutrients from supplements", style = MaterialTheme.typography.labelMedium)
+                SupplementNutrients(supplementNutrition.map { it.nutrients })
                 if (supplementsExpanded) {
                     GoalProgress("Protein powder", powder, prefs.powderGoal, complete = powderComplete)
                     GoalProgress("Creatine", creatine, prefs.creatineGoal, complete = creatineComplete)
@@ -139,7 +143,10 @@ internal fun DashboardScreen(modifier: Modifier, date: LocalDate, entries: List<
                         val consumed = doses.filter { it.productId == product.id }.sumOf { it.quantity }
                         if (product.dailyTarget != null || product.foodId == null) {
                             ListItem(headlineContent = { BiteText(product.name, maxLines = 2, overflow = TextOverflow.Ellipsis) },
-                                supportingContent = { Text("${consumed.display()}${product.dailyTarget?.let { " / ${it.display()}" } ?: ""} ${t(DoseUnit.valueOf(product.unit).label)}") },
+                                supportingContent = { Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
+                                    Text("${consumed.display()}${product.dailyTarget?.let { " / ${it.display()}" } ?: ""} ${t(DoseUnit.valueOf(product.unit).label)}")
+                                    if (consumed > 0) SupplementNutrients(supplementNutrition.filter { it.productId == product.id }.map { it.nutrients })
+                                } },
                                 trailingContent = { Column { TextButton(onClick = { dose(product) }) { BiteText("Log dose") }
                                     TextButton(onClick = { editTarget(product) }) { BiteText("Daily target") } } })
                         }
@@ -151,6 +158,7 @@ internal fun DashboardScreen(modifier: Modifier, date: LocalDate, entries: List<
                             Column(Modifier.weight(1f)) {
                                 BiteText(intake.name, style = MaterialTheme.typography.bodyMedium, maxLines = 2, overflow = TextOverflow.Ellipsis)
                                 Text("${intake.quantity.display()} ${t(DoseUnit.valueOf(intake.unit).label)}${entry?.let { " · ${t(meals[it.mealType] ?: "Snack")}" } ?: ""}", style = MaterialTheme.typography.bodySmall)
+                                SupplementNutrients(listOf(entry?.nutrients() ?: Nutrients()))
                             }
                             Box {
                                 IconButton(onClick = { menu = true }) { Icon(Icons.Default.MoreVert, t("Entry actions")) }

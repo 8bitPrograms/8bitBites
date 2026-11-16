@@ -336,4 +336,6 @@
     <string name="mded0d98cde26" formatted="false">İndirmeyi sürdürmek için yeterli depolama alanı yok</string>
     <string name="m38d7baa79faa" formatted="false">Bu model için bir Hugging Face okuma anahtarı gir</string>
     <string name="m816e2ffa223a" formatted="false">Bağlantı kesildi. Modelin indirilen bölümü korundu.</string>
+    <string name="m50c793ae7135" formatted="false">Şeker</string>
+    <string name="mc4d59ec08616" formatted="false">Takviyelerden gelen</string>
 </resources>

@@ -49,11 +49,14 @@ Photo portions are estimates. A scoop with no known weight stays unspecified.
 Review drafts are kept in memory and can be lost after process death. Inference,
 device memory use and live provider calls still require physical-device testing.
 
-## Download recovery in 0.6.0
+## Download recovery
 
 The public Qwen model appears first. Gemma entries require Hugging Face access
 and an authorised read token; a free account alone does not grant gated access.
 Connecting, waiting for Wi-Fi, transferring and verifying are shown separately.
+Android's system deferral is separate from a missing eligible network. The first
+received bytes appear in B/KB so a small transfer is visible before it reaches
+one percent or one MB.
 Use Retry now for a queued/interrupted transfer, or explicitly allow mobile data
 for that download. Turning off Wi-Fi-only does not silently change other jobs.
 
@@ -62,6 +65,20 @@ HTTP ranges continue immediately; ignored ranges restart safely. Android 14+
 transfers use the network assigned to the job. Repeated connection failures stop
 after five consecutive attempts without progress, with a manual resume option.
 Size and SHA-256 verification remain mandatory before a model becomes usable.
+
+Resumable jobs declare a 64 KB minimum network chunk, capped by the remaining
+file size. Android can therefore budget a small resumable transfer instead of
+treating the entire remaining GB-sized model as one indivisible transfer. This
+uses Android's [minimum network chunk contract](https://developer.android.com/reference/android/app/job/JobInfo.Builder#setMinimumNetworkChunkBytes(long)).
+The manager also reads the [pending job reason](https://developer.android.com/reference/android/app/job/JobScheduler#getPendingJobReason(int))
+when Android delays a queued job. Neither change overrides the user's Wi-Fi-only
+choice or the operating system's restrictions.
+
+If a download remains at its starting amount, the visible state distinguishes
+network waiting, Android deferral and connecting to the server. Retry now keeps
+the partial file; Allow mobile data explicitly changes that download's network
+choice. Public Qwen does not need a token. Gemma needs an accepted model license
+and a read token authorised for that model.
 
 The desktop checked small real Qwen download/resume requests and host transfer
 tests. Complete download, background behaviour and inference still need phone

@@ -8,7 +8,7 @@ Jetpack Compose and Material 3. Your diary works offline and stays on your devic
 [Türkçe](README.tr.md) · [Build](docs/BUILDING.md) · [AI](docs/AI.md) ·
 [Database](database/README.md) · [Privacy](docs/PRIVACY.md) · [Contribute](CONTRIBUTING.md)
 
-**Status:** early development. Current source: **0.6.0-dev**. Bundled food
+**Status:** early development. Current source: **0.6.1-dev**. Bundled food
 catalogue: **0.4.0** with **2,193 foods**, including 260 ETİ products. Android 9
 (API 28) or newer is required. Device testing is still in progress.
 
@@ -26,7 +26,9 @@ catalogue: **0.4.0** with **2,193 foods**, including 260 ETİ products. Android 
   [how the suggestion works](docs/HYDRATION.md).
 - **Supplements:** tick **This is a supplement** when adding a food. It stays in
   its meal, appears in supplements and contributes nutrition once. Dietary
-  protein, protein-powder mass and creatine are tracked separately.
+  protein, protein-powder mass and creatine are tracked separately. The supplement
+  card shows consumed **protein, carbs and sugars**, both per intake and as a daily
+  total; missing label values remain unknown. See [supplement tracking](docs/SUPPLEMENTS.md).
 - **Targets:** energy and water goals, optional protein/carbohydrate/fat goals
   (off by default), and user-defined protein-powder/creatine amount targets.
 

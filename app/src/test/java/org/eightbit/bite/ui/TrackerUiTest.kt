@@ -66,6 +66,41 @@ class TrackerUiTest {
         compose.onNodeWithText("Save").performClick()
         assertEquals(10.0, saved, .0001)
     }
+    @Test fun supplementSummaryShowsOnlyProteinCarbsAndSugarsAndPreservesUnknowns() {
+        compose.setContent { MaterialTheme { SupplementNutrients(listOf(org.eightbit.bite.core.Nutrients(
+            kcal = 120.0, protein = 24.0, carbs = 3.0, sugar = null, fat = 2.0, fiber = .5, sodium = .05))) } }
+        compose.onNodeWithText("Protein 24 g").assertExists()
+        compose.onNodeWithText("Carbs 3 g").assertExists()
+        compose.onNodeWithText("Sugars —").assertExists()
+        compose.onNodeWithText("Fat", substring = true).assertDoesNotExist()
+        compose.onNodeWithText("kcal", substring = true).assertDoesNotExist()
+        compose.onNodeWithText("Fiber", substring = true).assertDoesNotExist()
+        assertEquals("24 + ? g", supplementNutrientAmount(org.eightbit.bite.core.NutrientTotal(24.0, 1)))
+    }
+    @Test @Config(qualifiers = "tr-w393dp-h852dp-xxhdpi") fun turkishSupplementCardShowsConsumedNutritionWithoutCountingItTwice() {
+        val date = LocalDate.of(2026, 11, 16)
+        val time = date.atTime(10, 0).atZone(java.time.ZoneId.systemDefault()).toInstant().toEpochMilli()
+        val whey = DiaryEntry(id = "whey-meal", foodId = "personal:whey", name = "Whey protein tozu", source = "Etiket",
+            grams = 30.0, mealType = 1, time = time, offsetSeconds = 0, kcal = 120.0, protein = 24.0,
+            carbs = 3.0, fat = 2.0, fiber = .5, sugar = 1.0, sodium = .05, isSupplement = true, supplementKind = "PROTEIN_POWDER")
+        val intake = SupplementIntake(id = "whey-dose", productId = "whey", name = whey.name, quantity = 30.0,
+            unit = "GRAM", time = time, diaryEntryId = whey.id)
+        compose.setContent { BiteTheme(Preferences()) { Surface(Modifier.fillMaxSize()) {
+            rootView = LocalView.current
+            DashboardScreen(Modifier.fillMaxSize(), date, listOf(whey), emptyList(),
+                listOf(Supplement(id = "whey", name = whey.name, foodId = whey.foodId, kind = "PROTEIN_POWDER")),
+                listOf(intake), Preferences(name = "Demo", waterEnabled = false, showTrends = false), {}, {}, {}, {}, {}, {}, {}, {}, {}, false, {}, {}, {}, {}, {}, {})
+        } } }
+        compose.onNodeWithTag("supplements-card").performScrollTo()
+        val expand = localized(org.robolectric.RuntimeEnvironment.getApplication(), "Expand")
+        compose.onNode(hasContentDescription(expand) and hasAnyAncestor(hasTestTag("supplements-card"))).performClick()
+        compose.onNodeWithTag("supplements-card").performScrollTo()
+        compose.onAllNodesWithText("Protein 24 g").assertCountEquals(2)
+        compose.onAllNodesWithText("Karbonhidrat 3 g").assertCountEquals(2)
+        compose.onAllNodesWithText("Şeker 1 g").assertCountEquals(2)
+        compose.onNode(hasText("Yağ", substring = true) and hasAnyAncestor(hasTestTag("supplements-card"))).assertDoesNotExist()
+        capture("supplements-tr")
+    }
     @Test fun dashedSupplementBottlesAppearOnlyOnDaysWithRecordedIntake() {
         var recorded by mutableStateOf(false)
         compose.setContent { MaterialTheme {

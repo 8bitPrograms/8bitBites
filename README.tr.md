@@ -7,7 +7,7 @@ ve Material 3 ile geliştirilir. Günlük kayıtları cihazda tutulur; temel tak
 [English](README.md) · [Derleme](docs/BUILDING.md) · [Veri tabanı](database/README.md)
 · [Gizlilik](docs/PRIVACY.md) · [Katkıda bulunma](CONTRIBUTING.md)
 
-**Geliştirme sürümü:** 0.6.0-dev. **Besin veri tabanı:** 0.4.0; 2.193 besin,
+**Geliştirme sürümü:** 0.6.1-dev. **Besin veri tabanı:** 0.4.0; 2.193 besin,
 bunların 260'ı ETİ ürünü. Android 9 ve üzeri gerekir. Fiziksel cihaz testleri
 henüz tamamlanmadı.
 
@@ -19,6 +19,9 @@ henüz tamamlanmadı.
   20 bardak görünür; **700 ml ve üzeri** birimler şişe olarak gösterilir.
 - Öğüne eklerken **This is a supplement** kutucuğu; takviye aynı öğünde kalır
   ve besin değerleri bir kez sayılır. Protein, protein tozu ve kreatin ayrıdır.
+- Takviye kartında günlük toplam ve her tüketim için yalnızca **protein,
+  karbonhidrat ve şeker** gramları görünür. Örneğin 30 g tozdan gelen 24 g protein
+  ayrı gösterilir. Eksik etiket değerleri sıfır kabul edilmez.
 - İsteğe bağlı hedefler. Protein, karbonhidrat ve yağ hedefleri varsayılan olarak
   kapalıdır. Su hedefi kullanıcı tarafından değiştirilebilir; öneri zorlanmaz.
 - Profil fotoğrafının altında günlük, takviyeler ve eğilimler. Katlanabilir

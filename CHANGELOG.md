@@ -2,6 +2,17 @@
 
 App versions and public food-catalogue versions are independent.
 
+## 0.6.1-dev — 2026-11-16
+
+- Show consumed protein, carbohydrates and sugars in the supplement card, with
+  daily, product and intake totals from the recorded meal snapshot.
+- Keep linked meals/intakes deduplicated and unreported nutrient values unknown.
+- Document protein-powder hydration evidence and the absence of a universal
+  extra-water dose equation.
+- Declare small resumable chunks to Android's download scheduler, distinguish
+  system deferral from network waiting and display the first received bytes.
+- Build and verify locally; APK publication remains deferred.
+
 ## 0.6.0-dev — 2026-11-16
 
 - Add an adjustable water-planning estimate based on age, sex, height and weight.

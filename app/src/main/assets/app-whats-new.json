@@ -1,38 +1,46 @@
 {
   "formatVersion": 1,
-  "versionCode": 8,
-  "versionName": "0.6.0-dev",
+  "versionCode": 9,
+  "versionName": "0.6.1-dev",
   "highlights": true,
   "notes": {
     "en": [
+      "Supplements show consumed protein, carbs and sugars, without counting linked meal records twice.",
       "Profile-based water planning, separate optional supplement-day extras and a new water widget.",
       "Improved daily widgets, one-tap water records and more reliable model download recovery."
     ],
     "tr": [
+      "Takviyelerde tüketilen protein, karbonhidrat ve şeker gösterilir; bağlantılı öğünler iki kez sayılmaz.",
       "Profile göre su planı, takviye günlerine özel ayrı ek hedefler ve yeni su widget’ı.",
       "Yenilenen günlük widget’lar, tek dokunuşla su kaydı ve iyileştirilen model indirme devamlılığı."
     ],
     "de": [
+      "Ergänzungen zeigen aufgenommenes Protein, Kohlenhydrate und Zucker ohne doppelte Erfassung.",
       "Wasserplanung nach Profil, optionale Ergänzungsziele und ein neues Wasser-Widget.",
       "Verbesserte Widgets und zuverlässigeres Fortsetzen von Modelldownloads."
     ],
     "fr": [
+      "Les compléments affichent protéines, glucides et sucres consommés sans doublons.",
       "Objectif d’eau selon le profil, ajouts facultatifs et nouveau widget d’eau.",
       "Widgets améliorés et reprise des téléchargements de modèles."
     ],
     "es": [
+      "Los suplementos muestran proteína, carbohidratos y azúcares consumidos sin duplicados.",
       "Plan de agua según el perfil, extras opcionales y nuevo widget de agua.",
       "Widgets mejorados y recuperación de descargas de modelos."
     ],
     "it": [
+      "Gli integratori mostrano proteine, carboidrati e zuccheri consumati senza duplicati.",
       "Piano acqua dal profilo, extra facoltativi e nuovo widget acqua.",
       "Widget migliorati e ripresa dei download dei modelli."
     ],
     "pt": [
+      "Suplementos mostram proteínas, carboidratos e açúcares consumidos sem duplicação.",
       "Plano de água pelo perfil, extras opcionais e novo widget de água.",
       "Widgets aprimorados e retomada de downloads de modelos."
     ],
     "ja": [
+      "サプリメントのたんぱく質、炭水化物、糖類を重複なく表示。",
       "プロフィールに応じた水分計画、任意の追加目標、新しい水分ウィジェット。",
       "ウィジェットとモデルダウンロードの再開を改善。"
     ]

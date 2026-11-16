@@ -69,6 +69,7 @@ class ModelTransfer(
                     connection.inputStream.use { input -> FileOutputStream(part, action == ResumeResponse.APPEND).use { output ->
                         val buffer = ByteArray(128 * 1024)
                         var checkpoint = System.nanoTime()
+                        var firstChunk = true
                         while (true) {
                             check()
                             val count = input.read(buffer)
@@ -77,8 +78,8 @@ class ModelTransfer(
                             if (offset + count > expectedEnd) throw ModelTransferException("The downloaded model exceeds the expected file range")
                             output.write(buffer, 0, count)
                             offset += count
-                            if (System.nanoTime() - checkpoint >= 500_000_000L) {
-                                progress(offset, false); checkpoint = System.nanoTime()
+                            if (firstChunk || System.nanoTime() - checkpoint >= 500_000_000L) {
+                                progress(offset, false); checkpoint = System.nanoTime(); firstChunk = false
                             }
                         }
                         output.fd.sync()

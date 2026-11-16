@@ -97,6 +97,7 @@ fun ModelBrowser(busy:Boolean,onClose:()->Unit) {
                             val phase=when(status.phase) {
                                 "queued"->ai("Starting download","İndirme başlatılıyor")
                                 "waiting_network"->if(status.unmetered) ai("Waiting for Wi-Fi or an unmetered network","Wi-Fi veya tarifesiz ağ bekleniyor") else ai("Waiting for a connection","Bağlantı bekleniyor")
+                                "waiting_system"->ai("Waiting for Android to allow the download","Android'in indirmeyi başlatması bekleniyor")
                                 "connecting"->ai("Connecting to model server","Model sunucusuna bağlanılıyor")
                                 "waiting"->ai("Waiting to resume","Devam etmek için bekleniyor")
                                 "verifying"->ai("Verifying model","Model doğrulanıyor")
@@ -104,7 +105,9 @@ fun ModelBrowser(busy:Boolean,onClose:()->Unit) {
                                 "failed"->ai("Download needs attention","İndirme kontrol gerektiriyor")
                                 else->ai("Downloading","İndiriliyor")
                             }
-                            Text("$phase · ${status.downloaded/(1024*1024)} / ${model.bytes/(1024*1024)} MB")
+                            Text("$phase · "+modelDownloadAmount(status.downloaded,model.bytes))
+                            if(status.phase=="waiting_system") Text(ai("Android is delaying this transfer. Check battery/background restrictions or tap Retry now while the app is open.",
+                                "Android bu indirmeyi bekletiyor. Pil/arka plan kısıtlamalarını kontrol et veya uygulama açıkken Şimdi yeniden dene'ye dokun."),style=MaterialTheme.typography.bodySmall)
                         }
                         if(status.error.isNotBlank()) BiteText(status.error,style=MaterialTheme.typography.bodySmall)
                         Row(horizontalArrangement=Arrangement.spacedBy(8.dp)) {
@@ -120,7 +123,7 @@ fun ModelBrowser(busy:Boolean,onClose:()->Unit) {
                                 }
                             }
                         }
-                        if(status.wanted && status.phase in setOf("queued","waiting","waiting_network")) {
+                        if(status.wanted && status.phase in setOf("queued","waiting","waiting_network","waiting_system")) {
                             Row(horizontalArrangement=Arrangement.spacedBy(8.dp)) {
                                 TextButton(onClick={restart(model.id)}) { Text(ai("Retry now","Şimdi yeniden dene")) }
                                 if(status.unmetered) TextButton(onClick={restart(model.id,true)}) { Text(ai("Allow mobile data","Mobil veriye izin ver")) }

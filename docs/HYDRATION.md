@@ -45,6 +45,25 @@ dose. The app does not convert that retained volume into a compulsory daily extr
   a small study of total dietary protein does not establish a powder-specific
   extra-litre rule.
 
+### Protein powder specifically
+
+Protein metabolism produces urea, whose renal excretion requires water. The
+macronutrients section of the Institute of Medicine chapter explains this
+physiology, but the theoretical excretion volume is not a universal extra-drink
+prescription. Ordinary dietary protein already contributes to that load, and a
+powder can either add to or replace another protein source.
+
+In the small 2006 crossover study above, five men consumed different total-protein
+diets. Fluid intake and fluid balance were unaffected, while some blood/urine
+markers changed. The sample is too small to establish a general dose equation,
+and it did not test a powder-specific extra-litre requirement. Consequently, the
+app does not turn powder weight, protein grams or a target into a compulsory
+extra-water dose. Optional personal extras remain adjustable and off by default.
+
+The supplement card shows actual recorded protein grams separately from powder
+weight, alongside carbohydrate and sugar grams. These use the meal's stored
+nutrition snapshot; they are not another addition to the food diary's totals.
+
 **Supplement-day extras default to zero.** A user who wants a personal extra plan
 can enter its volume alongside the corresponding daily gram target. For each day:
 

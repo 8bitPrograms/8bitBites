@@ -339,4 +339,6 @@ internal val translatedIds: Map<String,Int> = mapOf(
     "Not enough storage to continue the download" to R.string.mded0d98cde26,
     "Enter a Hugging Face read token for this model" to R.string.m38d7baa79faa,
     "Connection interrupted. The partial model is kept." to R.string.m816e2ffa223a,
+    "Sugars" to R.string.m50c793ae7135,
+    "Nutrients from supplements" to R.string.mc4d59ec08616,
 )

@@ -1,10 +1,17 @@
-# 8bitBites 0.6.0-dev — local verification
+# 8bitBites 0.6.1-dev — local verification
 
 Checked on **2026-11-16**. This version was built on the local Windows computer.
 GitHub Actions was not used; its workflow now runs only by manual dispatch.
 
 ## Changes verified
 
+- Supplement-card totals and individual intakes show only consumed protein,
+  carbohydrates and sugars. The stored meal snapshot counts once, and missing
+  values stay unknown. A Turkish render checks 30 g powder / 24 g protein,
+  3 g carbohydrate and 1 g sugar without adding nutrition a second time.
+- Resumable Android jobs declare a 64 KB minimum network chunk, capped by the
+  remaining size. Network waiting and system deferral are distinguished. The
+  first received bytes are reported immediately and displayed in B/KB/MB.
 - Profile-based, adjustable base water planning using age, sex, height and weight.
   The calculation is explicitly an estimate; see [HYDRATION.md](docs/HYDRATION.md).
 - User-selected supplement-day extras activate from actual known intake. Linked
@@ -20,13 +27,13 @@ GitHub Actions was not used; its workflow now runs only by manual dispatch.
 
 ## Local checks
 
-**67 tests passed, with no failures or skips:**
+**73 JVM/app host tests passed, with no failures or skips:**
 
 - 41 core JVM tests, including seven HTTP transfer/recovery tests.
-- 21 app host tests: three daily hydration/deduplication tests, seven
-  Room/preferences/migration tests, seven Compose interaction/render tests and
-  four RemoteViews/direct-water-write tests.
-- Five Python catalogue publisher tests.
+- 32 app host tests: three daily hydration/deduplication tests, seven
+  Room/preferences/migration tests, four supplement-nutrition tests, nine Compose
+  interaction/render tests, five download-start/progress tests and four
+  RemoteViews/direct-water-write tests.
 
 Debug assembly and Android lint succeeded with JDK 17, Android platform 36,
 build-tools 35.0.0 and Gradle 8.13. Lint has **0 errors and 76 warnings**.
@@ -39,32 +46,39 @@ rendered. Main new water/download text is available in English and Turkish;
 existing additional languages retain their translations and use English fallback
 for explanatory text not yet translated.
 
-The public catalogue is unchanged: version 0.4.0, schema 1, 2,193 foods. Integrity,
-size, SHA-256, metadata and allowed-table checks passed. Translation generation,
-relative documentation links and authored-file whitespace were checked.
+The public catalogue is unchanged: version 0.4.0, schema 1, 2,193 foods. The
+packaged catalogue SHA-256 matches the previously checked catalogue. Translation
+generation, relative documentation links and authored-file whitespace were checked.
+The unchanged Python publisher checks are recorded in the
+[0.6.0 report](docs/verification/0.6.0.md).
 
-A real public Qwen request returned HTTP 200, and a request resuming at byte
+A real public Qwen request in the preceding 0.6.0 work returned HTTP 200, and a request resuming at byte
 65,536 returned the exact expected HTTP 206 range. Only small samples were read.
 Gated Gemma endpoints returned the expected HTTP 401 without a token. Host transfer
 tests cover interruption/resume, ranged chunks, servers ignoring ranges, redirect
 token isolation, invalid ranges, bad hashes and gated/CDN error classification.
 
-## Distributed development APK
+## Local development APK — publication deferred
 
-- File: artifacts/8bitBites-0.6.0-dev.apk
+- File: artifacts/8bitBites-0.6.1-dev.apk
 - Application ID: org.eightbit.bite
-- Version: 0.6.0-dev, versionCode 8
-- Bytes: 94793727
-- SHA-256: 0ae1fdacea0333606fce7c332666463b837160eaee5f4e49d76f9571082a721a
+- Version: 0.6.1-dev, versionCode 9
+- Bytes: 96043007
+- SHA-256: 19824b0db59c469f8c0648507d560550b52b9b83361907e382ce54d29c63bb6a
 - Certificate SHA-256:
   8e73b40f0ab8b1bb784f8a7aa74d9930fb02ec77356b329e04a20b2a1e54560c
 - Bundled database SHA-256:
   1e73e8d5dc8759348d2796d45bec0d3ce85e2719fd7145b420d28cbcca30d10e
 
-The final distributable was re-signed with the recovered original development
+The local distributable was re-signed with the recovered original development
 identity. Android signature verification and 16 KB ZIP alignment passed. This
 certificate matches the historical 0.5.0 development APK. The keystore is outside
 the repository and is not included in source or release assets.
+ZIP integrity, packaged version notes and the bundled catalogue checksum passed.
+The 14 native libraries are byte-identical to the checked 0.6.0 artifact.
+
+No GitHub APK release was published. App-update metadata remains at the last
+published APK version until publication is requested.
 
 The standard Gradle debug output uses the local default key; it is not the
 distributed artifact listed above. The short-lived 0.5.1 verification build also

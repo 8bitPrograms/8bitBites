@@ -44,8 +44,10 @@ class ModelTransferTest {
         assertContentEquals(bytes, part.readBytes()); assertTrue(verifying); assertTrue(connections.single().closed)
     }
     @Test fun droppedConnectionKeepsBytesAndNextRunResumesExactly() = temp { part ->
-        assertFailsWith<IOException> { ModelTransfer({ Response(it, 200, bytes, failAfter = 777) }).download(spec(), part, "") }
+        val received = mutableListOf<Long>()
+        assertFailsWith<IOException> { ModelTransfer({ Response(it, 200, bytes, failAfter = 777) }).download(spec(), part, "", progress = { done, _ -> received += done }) }
         assertEquals(777L, part.length())
+        assertEquals(777L, received.last(), "The first bytes must be shown before the next read can stall")
         lateinit var resumed: Response
         ModelTransfer({ Response(it, 206, bytes.copyOfRange(777, bytes.size), "bytes 777-4095/4096").also { resumed = it } }).download(spec(), part, "")
         assertEquals("bytes=777-", resumed.getRequestProperty("Range"))

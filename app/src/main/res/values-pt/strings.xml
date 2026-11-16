@@ -336,4 +336,6 @@
     <string name="mded0d98cde26" formatted="false">Not enough storage to continue the download</string>
     <string name="m38d7baa79faa" formatted="false">Enter a Hugging Face read token for this model</string>
     <string name="m816e2ffa223a" formatted="false">Connection interrupted. The partial model is kept.</string>
+    <string name="m50c793ae7135" formatted="false">Açúcares</string>
+    <string name="mc4d59ec08616" formatted="false">Nutrientes dos suplementos</string>
 </resources>

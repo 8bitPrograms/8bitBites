@@ -335,5 +335,7 @@
   "Not enough storage for this model": "Bu model için yeterli depolama alanı yok",
   "Not enough storage to continue the download": "İndirmeyi sürdürmek için yeterli depolama alanı yok",
   "Enter a Hugging Face read token for this model": "Bu model için bir Hugging Face okuma anahtarı gir",
-  "Connection interrupted. The partial model is kept.": "Bağlantı kesildi. Modelin indirilen bölümü korundu."
+  "Connection interrupted. The partial model is kept.": "Bağlantı kesildi. Modelin indirilen bölümü korundu.",
+  "Sugars": "Şeker",
+  "Nutrients from supplements": "Takviyelerden gelen"
 }
