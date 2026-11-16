@@ -52,6 +52,11 @@ physical-device behaviour. The initial restricted-network build could not fetch
 an Android test dependency; the complete run succeeded after dependency access
 was available.
 
+The first GitHub workflow stopped before tests because the hosted image did not
+provide `sdkmanager` on its command path. The workflow now installs the Android
+command-line tools and required SDK packages explicitly with setup-android,
+rather than relying on tools preinstalled in the runner image.
+
 ## Locally built APK and signing
 
 - Path: `app/build/outputs/apk/debug/app-debug.apk`
