@@ -32,6 +32,10 @@ the model manager after a reboot or explicit task stop to resume if needed.
 
 ## Your API key
 
+Gemma's **Hugging Face download token** is independent of this API mode. It grants
+access to the gated model download; after installation the selected model runs
+locally. Qwen's listed public file requires no token.
+
 Choose OpenAI, Gemini or an HTTPS OpenAI-compatible base URL. Enter your own
 API key and model ID; photo recognition requires a vision-capable model. The
 key remains in memory and must be entered again in a later session. The chosen
@@ -83,3 +87,34 @@ and a read token authorised for that model.
 The desktop checked small real Qwen download/resume requests and host transfer
 tests. Complete download, background behaviour and inference still need phone
 validation.
+
+## Local execution and error details in 0.6.2
+
+Local inference runs in a private `:local_ai` bound-service process. The main
+process owns the diary and model-library lock. Only the selected local model path,
+meal text and a private temporary photo path cross the app's internal connection.
+The worker does not start diary, Health Connect or widget observers.
+
+One synchronous JNI request runs on the worker thread. The interface shows model
+loading, preparation and recognition separately. A Kotlin runtime error is returned
+as a controlled error; an unexpected worker death fails the request. Cancellation
+and the three-minute timeout end the dedicated worker instead of closing a native
+conversation that may still be processing. Neither event changes diary entries
+or removes the installed model. There is no automatic cloud fallback or retry.
+
+**Copy error details** includes the app/runtime version, device model, Android
+version, ABI, available/total memory at start, model identifier and last stage.
+Android's process-exit reason/status is included when available. The app stores
+one local diagnostic record; it excludes meal text, photos, generated responses,
+credentials and raw native exception text. Copying does not upload or send it.
+The temporary photo copy is deleted after the request or on recovery from an
+interrupted attempt.
+
+The upstream [Qwen template report](https://github.com/google-ai-edge/gallery/issues/1317)
+was resolved for its reporter with an updated model. Comparing the Hugging Face
+revision recommended there (`5e6e7a58d03777898b31330a15d2e0a5a9107de3`) with our
+pinned revision showed the same 1,597,922,856-byte file and SHA-256
+`c4a9b7289365ab80fe599b844b77ad253eb3c53fb0e5d963d699146a6f01255e`.
+That report therefore does not establish the cause of the reported Samsung S25
+failure. The model pin and download are unchanged. Host tests simulate runtime
+errors, worker death and cancellation; full S25 inference remains unverified.

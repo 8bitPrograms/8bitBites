@@ -1,45 +1,53 @@
 {
   "formatVersion": 1,
-  "versionCode": 9,
-  "versionName": "0.6.1-dev",
+  "versionCode": 10,
+  "versionName": "0.6.2-dev",
   "highlights": true,
   "notes": {
     "en": [
+      "Local AI runs separately from the diary, with controlled timeout/cancellation and copyable error details.",
       "Supplements show consumed protein, carbs and sugars, without counting linked meal records twice.",
       "Profile-based water planning, separate optional supplement-day extras and a new water widget.",
       "Improved daily widgets, one-tap water records and more reliable model download recovery."
     ],
     "tr": [
+      "Yerel AI günlükten ayrı çalışır; süre sınırı, iptal ve kopyalanabilir hata bilgisi eklendi.",
       "Takviyelerde tüketilen protein, karbonhidrat ve şeker gösterilir; bağlantılı öğünler iki kez sayılmaz.",
       "Profile göre su planı, takviye günlerine özel ayrı ek hedefler ve yeni su widget’ı.",
       "Yenilenen günlük widget’lar, tek dokunuşla su kaydı ve iyileştirilen model indirme devamlılığı."
     ],
     "de": [
+      "Lokale KI läuft getrennt vom Tagebuch, mit Zeitlimit, Abbruch und kopierbaren Fehlerdetails.",
       "Ergänzungen zeigen aufgenommenes Protein, Kohlenhydrate und Zucker ohne doppelte Erfassung.",
       "Wasserplanung nach Profil, optionale Ergänzungsziele und ein neues Wasser-Widget.",
       "Verbesserte Widgets und zuverlässigeres Fortsetzen von Modelldownloads."
     ],
     "fr": [
+      "L’IA locale fonctionne séparément du journal, avec délai limite, annulation et détails d’erreur copiables.",
       "Les compléments affichent protéines, glucides et sucres consommés sans doublons.",
       "Objectif d’eau selon le profil, ajouts facultatifs et nouveau widget d’eau.",
       "Widgets améliorés et reprise des téléchargements de modèles."
     ],
     "es": [
+      "La IA local se ejecuta separada del diario, con tiempo límite, cancelación y detalles de error copiables.",
       "Los suplementos muestran proteína, carbohidratos y azúcares consumidos sin duplicados.",
       "Plan de agua según el perfil, extras opcionales y nuevo widget de agua.",
       "Widgets mejorados y recuperación de descargas de modelos."
     ],
     "it": [
+      "L’IA locale è separata dal diario, con limite di tempo, annullamento e dettagli di errore copiabili.",
       "Gli integratori mostrano proteine, carboidrati e zuccheri consumati senza duplicati.",
       "Piano acqua dal profilo, extra facoltativi e nuovo widget acqua.",
       "Widget migliorati e ripresa dei download dei modelli."
     ],
     "pt": [
+      "A IA local funciona separada do diário, com limite de tempo, cancelamento e detalhes de erro copiáveis.",
       "Suplementos mostram proteínas, carboidratos e açúcares consumidos sem duplicação.",
       "Plano de água pelo perfil, extras opcionais e novo widget de água.",
       "Widgets aprimorados e retomada de downloads de modelos."
     ],
     "ja": [
+      "ローカルAIを日記とは別に実行し、タイムアウト、中止、エラー情報のコピーに対応。",
       "サプリメントのたんぱく質、炭水化物、糖類を重複なく表示。",
       "プロフィールに応じた水分計画、任意の追加目標、新しい水分ウィジェット。",
       "ウィジェットとモデルダウンロードの再開を改善。"

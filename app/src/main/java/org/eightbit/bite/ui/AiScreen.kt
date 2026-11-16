@@ -2,6 +2,8 @@
 package org.eightbit.bite.ui
 
 import android.content.Intent
+import android.content.ClipData
+import android.content.ClipboardManager
 import android.graphics.BitmapFactory
 import android.net.Uri
 import androidx.activity.compose.rememberLauncherForActivityResult
@@ -38,6 +40,7 @@ internal fun ai(en:String,tr:String)=if(LocalConfiguration.current.locales[0].la
 fun AiScreen(date:LocalDate,onClose:()->Unit,vm:AiViewModel=viewModel(),cameraRequest:Long=0,modelsRequest:Long=0,embedded:Boolean=false) {
     val state by vm.state.collectAsStateWithLifecycle()
     val context=LocalContext.current
+    val copiedMessage=ai("Error details copied","Hata bilgisi kopyalandı")
     val photo=rememberLauncherForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri -> if(uri!=null) vm.photo(uri) }
     val model=rememberLauncherForActivityResult(ActivityResultContracts.OpenDocument()) { uri -> if(uri!=null) vm.importModel(uri) }
     var meal by remember { mutableIntStateOf(vm.lastMeal) }
@@ -93,7 +96,13 @@ fun AiScreen(date:LocalDate,onClose:()->Unit,vm:AiViewModel=viewModel(),cameraRe
                         (if(state.api) state.key.isNotBlank() && state.model.isNotBlank() else state.modelName.isNotBlank()),modifier=Modifier.fillMaxWidth()) { Text(ai("Recognize meal","Öğünü tanı")) } }
                 }
                 if(state.busy) item { LinearProgressIndicator(Modifier.fillMaxWidth());Text(state.status);TextButton(onClick=vm::cancel) { Text(ai("Cancel","İptal")) } }
-                state.error?.let { error -> item { Text(error,color=MaterialTheme.colorScheme.error) } }
+                state.error?.let { error -> item { Column(verticalArrangement=Arrangement.spacedBy(8.dp)) {
+                    Text(error,color=MaterialTheme.colorScheme.error)
+                    if(!state.api) TextButton(onClick={
+                        context.getSystemService(ClipboardManager::class.java).setPrimaryClip(ClipData.newPlainText("8bitBites AI",vm.diagnosticDetails()))
+                        android.widget.Toast.makeText(context,copiedMessage,android.widget.Toast.LENGTH_SHORT).show()
+                    }) { Text(ai("Copy error details","Hata bilgisini kopyala")) }
+                } } }
                 if(state.saved) item { Card { Column(Modifier.padding(20.dp),verticalArrangement=Arrangement.spacedBy(12.dp)) {
                     Text(ai("Meal added to your diary","Öğün günlüğüne eklendi"),style=MaterialTheme.typography.titleLarge)
                     Button(onClick=onClose) { Text(ai("Back to diary","Günlüğe dön")) }

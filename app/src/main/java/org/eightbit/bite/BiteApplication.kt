@@ -26,6 +26,8 @@ class BiteApplication : Application() {
     @OptIn(kotlinx.coroutines.FlowPreview::class)
     override fun onCreate() {
         super.onCreate()
+        // The native model worker must not start diary, sync or widget observers.
+        if (Application.getProcessName() != packageName) return
         SyncScheduler.periodic(this, preferences.read().autoSync)
         preferences.listen(widgetPreferences)
         appScope.launch {

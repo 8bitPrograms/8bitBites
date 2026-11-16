@@ -7,7 +7,7 @@ ve Material 3 ile geliştirilir. Günlük kayıtları cihazda tutulur; temel tak
 [English](README.md) · [Derleme](docs/BUILDING.md) · [Veri tabanı](database/README.md)
 · [Gizlilik](docs/PRIVACY.md) · [Katkıda bulunma](CONTRIBUTING.md)
 
-**Geliştirme sürümü:** 0.6.1-dev. **Besin veri tabanı:** 0.4.0; 2.193 besin,
+**Geliştirme sürümü:** 0.6.2-dev. **Besin veri tabanı:** 0.4.0; 2.193 besin,
 bunların 260'ı ETİ ürünü. Android 9 ve üzeri gerekir. Fiziksel cihaz testleri
 henüz tamamlanmadı.
 
@@ -28,6 +28,8 @@ henüz tamamlanmadı.
   kartlar, sağ üstte ayarlar dişlisi ve alt menüde AI.
 - Cihazda desteklenen modelle veya kendi API anahtarınızla metin/fotoğraf
   tanıma, uygulama içi kamera ve arka planda model indirme.
+- Yerel modeli günlükten ayrı çalıştırma; iptal/süre sınırı ve kopyalanabilir
+  hata bilgisi. Qwen anahtar istemez; Gemma'nın Hugging Face anahtarı indirme erişimi içindir.
 - İsteğe bağlı Health Connect beslenme aktarımı; su, günlük özet ve hızlı ekleme widget'ları.
 - Material You ve sürüme yedi hızlı dokunuşla açılan tema paketi.
 - Varsayılan İngilizce; Türkçe, Almanca, Fransızca, İspanyolca, İtalyanca,

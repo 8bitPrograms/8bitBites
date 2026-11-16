@@ -1,96 +1,74 @@
-# 8bitBites 0.6.1-dev — local verification
+# 8bitBites 0.6.2-dev — local verification
 
-Checked on **2026-11-16**. This version was built on the local Windows computer.
-GitHub Actions was not used; its workflow now runs only by manual dispatch.
+Checked on **2026-11-16** on the local Windows computer. GitHub Actions was not
+used; the workflow remains manual-only. Previous behaviour and verification are
+recorded in the [0.6.1 report](docs/verification/0.6.1.md).
 
-## Changes verified
+## Local AI changes
 
-- Supplement-card totals and individual intakes show only consumed protein,
-  carbohydrates and sugars. The stored meal snapshot counts once, and missing
-  values stay unknown. A Turkish render checks 30 g powder / 24 g protein,
-  3 g carbohydrate and 1 g sugar without adding nutrition a second time.
-- Resumable Android jobs declare a 64 KB minimum network chunk, capped by the
-  remaining size. Network waiting and system deferral are distinguished. The
-  first received bytes are reported immediately and displayed in B/KB/MB.
-- Profile-based, adjustable base water planning using age, sex, height and weight.
-  The calculation is explicitly an estimate; see [HYDRATION.md](docs/HYDRATION.md).
-- User-selected supplement-day extras activate from actual known intake. Linked
-  meal/supplement records count once; unknown scoop weights add no invented grams.
-  Extras default to zero because research establishes no litres-per-gram rule.
-- Solid base vessels and separately labelled dashed extra bottles. Removing a
-  dose removes its planned extra without changing actual water history.
-- New direct-action water widget, improved daily/quick widgets, compact layouts,
-  refreshed water/supplement totals and date/time-zone refresh handling.
-- Streamed, verified model downloads with valid partial-chunk continuation,
-  pause/disconnect handling, assigned Android job networks, bounded retries and
-  explicit connection/network waiting states.
+- Native model execution moved to the private, non-exported `:local_ai` bound
+  service. The diary process receives results, controlled errors and worker-death
+  callbacks; the worker does not start diary/sync/widget observers.
+- One synchronous JNI request runs on the worker. Cancel/timeout ends that worker
+  instead of freeing a conversation while an asynchronous native call is active.
+- Loading, preparation and recognition stages are shown. Copyable diagnostics
+  record device, Android, ABI, memory, model and last stage, plus Android's process
+  exit reason when available. Prompt/photo/output/credentials are excluded.
+- An unfinished request is recovered without automatic retries. The selected
+  model and diary records are retained. Photos cross the binding as private cache
+  paths and are removed after completion/cancellation or interrupted recovery.
+- Gemma's Hugging Face token is labelled as download access. Qwen remains public.
 
-## Local checks
+## Checks
 
-**73 JVM/app host tests passed, with no failures or skips:**
+**82 JVM/app host tests passed, with no failures, errors or skips:** 41 core tests
+and 41 app tests. Nine new worker-client tests cover results/stages, runtime
+errors, process-death notification, cancellation, failed binding, timeout,
+private-photo handoff/cleanup, interrupted recovery and manifest process/export
+settings. They simulate the worker boundary and do not execute the native model.
+The existing diary, migration, hydration, supplement, widget and Compose tests
+also passed.
 
-- 41 core JVM tests, including seven HTTP transfer/recovery tests.
-- 32 app host tests: three daily hydration/deduplication tests, seven
-  Room/preferences/migration tests, four supplement-nutrition tests, nine Compose
-  interaction/render tests, five download-start/progress tests and four
-  RemoteViews/direct-water-write tests.
+Debug assembly and lint succeeded with JDK 17, Gradle 8.13, Android platform 36
+and build-tools 35.0.0. Lint has **0 errors and 76 warnings**; no baseline or
+suppression was introduced. Documentation links and authored-file whitespace
+were checked.
 
-Debug assembly and Android lint succeeded with JDK 17, Android platform 36,
-build-tools 35.0.0 and Gradle 8.13. Lint has **0 errors and 76 warnings**.
-No lint baseline or new suppression was introduced to make the run pass.
+Hugging Face metadata for the upstream template-fixed Qwen revision
+`5e6e7a58d03777898b31330a15d2e0a5a9107de3` and our pinned revision
+`2f23bacf8ec78b83dfcd7271c5cb25777b1be5e0` returned the same 1,597,922,856-byte
+file and SHA-256 `c4a9b7289365ab80fe599b844b77ad253eb3c53fb0e5d963d699146a6f01255e`.
+The [upstream template report](https://github.com/google-ai-edge/gallery/issues/1317)
+therefore does not establish the cause of the reported S25 termination. The model
+pin, native runtime version and native libraries are unchanged.
 
-The widget renders were inspected at normal and compact sizes. A clipped footer
-found in the first render was fixed; final tests also check absolute button bounds.
-The app dashboard, Japanese dashboard and active supplement-extra water view were
-rendered. Main new water/download text is available in English and Turkish;
-existing additional languages retain their translations and use English fallback
-for explanatory text not yet translated.
+## Local APK
 
-The public catalogue is unchanged: version 0.4.0, schema 1, 2,193 foods. The
-packaged catalogue SHA-256 matches the previously checked catalogue. Translation
-generation, relative documentation links and authored-file whitespace were checked.
-The unchanged Python publisher checks are recorded in the
-[0.6.0 report](docs/verification/0.6.0.md).
-
-A real public Qwen request in the preceding 0.6.0 work returned HTTP 200, and a request resuming at byte
-65,536 returned the exact expected HTTP 206 range. Only small samples were read.
-Gated Gemma endpoints returned the expected HTTP 401 without a token. Host transfer
-tests cover interruption/resume, ranged chunks, servers ignoring ranges, redirect
-token isolation, invalid ranges, bad hashes and gated/CDN error classification.
-
-## Local development APK — publication deferred
-
-- File: artifacts/8bitBites-0.6.1-dev.apk
+- File: artifacts/8bitBites-0.6.2-dev.apk
 - Application ID: org.eightbit.bite
-- Version: 0.6.1-dev, versionCode 9
-- Bytes: 96043007
-- SHA-256: 19824b0db59c469f8c0648507d560550b52b9b83361907e382ce54d29c63bb6a
+- Version: 0.6.2-dev, versionCode 10
+- Bytes: 96083967
+- SHA-256: b9451462e561c107bb2cdd7f8678d4657ad81a79364b341159bd690a9fbddb5d
 - Certificate SHA-256:
   8e73b40f0ab8b1bb784f8a7aa74d9930fb02ec77356b329e04a20b2a1e54560c
 - Bundled database SHA-256:
   1e73e8d5dc8759348d2796d45bec0d3ce85e2719fd7145b420d28cbcca30d10e
 
-The local distributable was re-signed with the recovered original development
-identity. Android signature verification and 16 KB ZIP alignment passed. This
-certificate matches the historical 0.5.0 development APK. The keystore is outside
-the repository and is not included in source or release assets.
-ZIP integrity, packaged version notes and the bundled catalogue checksum passed.
-The 14 native libraries are byte-identical to the checked 0.6.0 artifact.
+The artifact uses the original development signing identity, matching the
+previous 0.6.1 APK. Signature verification, 16 KB ZIP alignment, ZIP integrity,
+packaged version notes and catalogue checksum passed. The final packaged manifest
+has the private worker process and exported=false. All 14 native libraries are
+byte-identical to 0.6.1. The standard Gradle debug output still uses the local
+default debug key; use the artifact above for an in-place development update.
+Signing material is not included in the repository or release assets.
 
-No GitHub APK release was published. App-update metadata remains at the last
-published APK version until publication is requested.
+No APK release was uploaded to GitHub, and app-update metadata remains unchanged.
 
-The standard Gradle debug output uses the local default key; it is not the
-distributed artifact listed above. The short-lived 0.5.1 verification build also
-used that other key; see [its historical report](docs/verification/0.5.1.md).
+## Physical-device limit
 
-## Limits
-
-No Android device was connected. Matching certificate/package/version and host
-tests do not prove a real upgrade. Physical-phone installation, launcher actions,
-Android background scheduling, complete multi-GB model downloads, local inference,
-camera and Health Connect still need device validation.
-
-The download changes address concrete transport, waiting-state and recovery paths.
-Small live range requests and simulated interrupted transfers do not establish
-that a complete model has downloaded and run on a user's phone.
+The reported device is a Samsung S25; its exact Android version was not supplied.
+ADB found no connected phone. A successful Qwen generation, real worker crash
+isolation, Android process-death timing and an in-place upgrade on that phone
+remain unverified. Host tests and the matching signature do not establish those
+outcomes. The next phone run can report its exact Android version and failure
+stage with Copy error details, without sharing the meal description.

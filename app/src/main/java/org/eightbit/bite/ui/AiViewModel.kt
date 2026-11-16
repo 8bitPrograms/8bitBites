@@ -35,9 +35,10 @@ class AiViewModel(application: Application): AndroidViewModel(application) {
     val models=app.models
     private val modelFile=models.file("imported")
     private val settings=app.getSharedPreferences("ai-settings",0)
+    private val localDiagnostics=LocalAiDiagnostics(app)
     val lastMeal get() = app.preferences.read().lastMealType
     fun selectMeal(meal: Int) = app.preferences.mealSelected(meal)
-    val state=MutableStateFlow(AiState(modelName=models.active()?.name.orEmpty(),
+    val state=MutableStateFlow(AiState(error=localDiagnostics.recover()?.let { localAiError(app,it) },modelName=models.active()?.name.orEmpty(),
         api=settings.getBoolean("api",false),base=settings.getString("base","https://api.openai.com/v1").orEmpty(),
         model=settings.getString("model","").orEmpty()))
     private var job: Job?=null
@@ -62,6 +63,7 @@ class AiViewModel(application: Application): AndroidViewModel(application) {
         }
     }
     fun cancel() { job?.cancel() }
+    fun diagnosticDetails()=localDiagnostics.report()
     fun photo(uri:Uri,removeAfter:File?=null) {
         if(state.value.busy) { removeAfter?.delete();return }
         run("Preparing photo…") { try { val bytes=localJpeg(app,uri);state.update { it.copy(jpeg=bytes) } } finally { removeAfter?.delete() } }
@@ -104,7 +106,17 @@ class AiViewModel(application: Application): AndroidViewModel(application) {
                 else models.inferenceGate.withLock {
                     val model=models.active() ?: error("Download or import a local model first")
                     require(input.jpeg==null || model.vision!=false) { "This model supports text only. Choose a photo-capable model or an API vision model." }
-                    localMeal(app,model.file,input.text,input.jpeg)
+                    localMeal(app,model.file,input.text,input.jpeg,onStage={ stage ->
+                        val tr=app.resources.configuration.locales[0].language=="tr"
+                        val message=when(stage) {
+                            "loading" -> if(tr) "Model yükleniyor…" else "Loading model…"
+                            "preparing" -> if(tr) "Model hazırlanıyor…" else "Preparing model…"
+                            "generating" -> if(tr) "Öğün çözümleniyor…" else "Recognizing meal…"
+                            "closing" -> if(tr) "Sonuç hazırlanıyor…" else "Preparing result…"
+                            else -> if(tr) "Model başlatılıyor…" else "Starting model…"
+                        }
+                        state.update { it.copy(status=message) }
+                    })
                 }
             val mentions=AiMeals.parse(output,photo=input.jpeg!=null)
             require(mentions.isNotEmpty()) { "No foods identified. Add a more specific description." }

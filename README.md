@@ -8,7 +8,7 @@ Jetpack Compose and Material 3. Your diary works offline and stays on your devic
 [Türkçe](README.tr.md) · [Build](docs/BUILDING.md) · [AI](docs/AI.md) ·
 [Database](database/README.md) · [Privacy](docs/PRIVACY.md) · [Contribute](CONTRIBUTING.md)
 
-**Status:** early development. Current source: **0.6.1-dev**. Bundled food
+**Status:** early development. Current source: **0.6.2-dev**. Bundled food
 catalogue: **0.4.0** with **2,193 foods**, including 260 ETİ products. Android 9
 (API 28) or newer is required. Device testing is still in progress.
 
@@ -52,6 +52,8 @@ saving. Model-generated nutrient values are not written into your diary.
   inside the app, or import a compatible `.litertlm` file. Downloads support
   background progress, pause/resume and integrity checks. Photo recognition
   requires a compatible multimodal model and sufficient device memory.
+  Local model execution uses a separate process; errors have copyable diagnostic
+  details and a worker crash does not directly terminate the diary process.
 - **Your API key:** use OpenAI, Gemini or an HTTPS OpenAI-compatible endpoint.
   API keys remain in session memory. Only submitted text and selected photos are
   sent to the chosen provider; there is no automatic cloud fallback.

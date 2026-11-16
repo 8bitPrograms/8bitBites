@@ -26,6 +26,13 @@ silently falls back to a remote provider. API mode sends input only when the use
 submits recognition. Provider API keys and the USDA key stay in session memory;
 endpoint/model selections can persist without the key.
 
+The local model runs in a private worker process. One diagnostic record keeps
+device/runtime, available memory, model identifier, last stage and error category;
+it excludes meal text, photos, model output and credentials. It stays on the device.
+Copy error details places this information on the clipboard only when requested;
+the app does not automatically send it. A private resized photo copy used by the
+worker is deleted after completion/cancellation or interrupted-request recovery.
+
 Hugging Face tokens needed for background downloads are encrypted with Android
 Keystore, retained while a download is paused, and removed after completion or
 deletion. Tokens are not forwarded to file-delivery hosts. Model files are

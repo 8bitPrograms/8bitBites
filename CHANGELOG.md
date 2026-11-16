@@ -2,6 +2,19 @@
 
 App versions and public food-catalogue versions are independent.
 
+## 0.6.2-dev — 2026-11-16
+
+- Move native local-model execution into a private bound-service process so
+  worker failures can be reported without directly crashing the diary process.
+- Run one synchronous JNI request per worker and end the worker on timeout or
+  cancellation, avoiding cleanup while an asynchronous native request is active.
+- Show load/preparation/recognition stages and add copyable local diagnostics
+  with device, Android, memory, model and failure-stage information.
+- Recover unfinished requests without automatic retries. Meal text, photos,
+  responses and credentials are excluded from the diagnostic record.
+- Clarify that Gemma's Hugging Face token is for download access. The pinned
+  Qwen file already matches the upstream template-fixed artifact; it is unchanged.
+
 ## 0.6.1-dev — 2026-11-16
 
 - Show consumed protein, carbohydrates and sugars in the supplement card, with

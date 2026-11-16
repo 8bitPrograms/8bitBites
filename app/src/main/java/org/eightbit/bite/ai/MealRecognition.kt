@@ -1,12 +1,9 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 package org.eightbit.bite.ai
 
-import android.content.Context
-import com.google.ai.edge.litertlm.*
 import kotlinx.coroutines.*
 import org.eightbit.bite.core.AiMeals
 import java.io.ByteArrayOutputStream
-import java.io.File
 import java.net.HttpURLConnection
 
 /** No diary, profile or background requests are sent. Credentials stay in session memory. */
@@ -39,32 +36,4 @@ suspend fun apiMeal(base: String, key: String, model: String, text: String, jpeg
     } finally { connection.disconnect() } }
     // Closing the connection unblocks IO when the user cancels or leaves the screen.
     try { request.await() } finally { connection.disconnect() }
-}
-
-suspend fun localMeal(context: Context, model: File, text: String, jpeg: ByteArray?): String = withContext(Dispatchers.Default) {
-    require(model.isFile) { "Import a compatible .litertlm model first" }
-    val engine=Engine(EngineConfig(modelPath=model.absolutePath,backend=Backend.CPU(),
-        visionBackend=if(jpeg!=null) Backend.CPU() else null,
-        maxNumTokens=4096,cacheDir=File(context.cacheDir,"litert-lm").apply { mkdirs() }.absolutePath))
-    try {
-        Engine.setNativeMinLogSeverity(LogSeverity.ERROR)
-        engine.initialize()
-        currentCoroutineContext().ensureActive()
-        engine.createConversation(ConversationConfig(systemInstruction=Contents.of(AiMeals.instruction),maxOutputToken=1024)).use { conversation ->
-            val contents=Contents.of(buildList {
-                add(Content.Text(text.ifBlank { "Identify this meal." }))
-                if(jpeg!=null) add(Content.ImageBytes(jpeg))
-            })
-            val result=StringBuilder()
-            withTimeout(180000) {
-                conversation.sendMessageAsync(contents).collect { message ->
-                    result.append(message.toString())
-                    require(result.length<=32000) { "AI response is too long" }
-                }
-            }
-            result.toString()
-        }
-    } catch(error: LinkageError) {
-        throw IllegalStateException("On-device AI is unavailable on this device. Use a compatible device or API mode.",error)
-    } finally { if(engine.isInitialized()) engine.close() }
 }

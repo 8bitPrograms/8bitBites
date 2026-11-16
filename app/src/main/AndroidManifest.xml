@@ -19,6 +19,7 @@
         </service>
         <service android:name=".ai.ModelDownloadJob" android:permission="android.permission.BIND_JOB_SERVICE" android:exported="false"
             android:enabled="@bool/supports_uidt" xmlns:tools="http://schemas.android.com/tools" tools:targetApi="34" />
+        <service android:name=".ai.LocalAiService" android:exported="false" android:process=":local_ai" android:stopWithTask="true" />
         <service android:name="androidx.work.impl.foreground.SystemForegroundService" android:foregroundServiceType="dataSync" xmlns:tools="http://schemas.android.com/tools" tools:node="merge" />
         <receiver android:name=".ai.PauseModelDownload" android:exported="false" />
         <receiver android:name=".widgets.OverviewWidget" android:exported="false" android:label="@string/widget_overview_name">
