@@ -13,7 +13,7 @@ disabled in the manifest. User-controlled backup/restore is not yet implemented.
 | Install a catalogue update | Request for the selected public SQLite snapshot | GitHub raw content |
 | External food search | Entered query/barcode; USDA key when using USDA | Chosen food-data provider |
 | Download a local model | Pinned model-file request and, if required, an HF access token | Hugging Face and its file delivery hosts |
-| API meal recognition | Submitted meal text and selected resized photo, plus provider credentials | Chosen AI endpoint |
+| Remote AI chat | Submitted recent conversation and included resized photos, plus provider credentials | Chosen AI endpoint |
 | ChatGPT sign-in | OAuth registration/host identifier, browser consent, basic account identity and protected credentials | OpenAI authentication service |
 | ChatGPT plan chat | Submitted recent conversation and included photos, using the selected account's OAuth credential | OpenAI public Responses API |
 | Health Connect sync | Confirmed food nutrition records and their updates/deletions | Android Health Connect |
@@ -37,12 +37,27 @@ user's ChatGPT conversations or memories, and no browser cookies are imported.
 Sign-out attempts to revoke the renewable session and clears local tokens. If
 remote revocation cannot be confirmed, the app says so and directs the user to
 ChatGPT settings. The installation's opaque host ID and account mapping remain.
+Connection diagnostics contain only the current sign-in stage, HTTP status and
+bounded error category/class. They exclude authorization URLs, codes, tokens,
+account addresses, request bodies, chat text and photos. A temporary foreground
+notification keeps browser sign-in active until completion or cancellation.
 
-Chat messages and attached photos stay in app-session memory; they are cleared
-by New chat or process termination. Bounded recent context is sent only when
-the user submits to the selected provider. ChatGPT requests use `store:false`;
-this is an API storage setting, not a claim of zero provider retention. Confirmed
-diary entries are stored separately and are not removed by clearing chat.
+Sent chat messages, submitted resized photos, pending meal summaries and their
+provider/model/account binding are stored in the app's private local files.
+New chat retains the old conversation in history. Deleting a conversation removes
+its local record and photos; confirmed diary entries remain separate. Unsent
+photo attachments are temporary. API keys and OAuth tokens are not part of the
+chat-history files. Android backup remains disabled.
+
+Bounded recent context is sent only when the user submits to the selected
+provider. Restoring history is a local operation. ChatGPT requests use
+`store:false`; this is an API storage setting, not a claim of zero provider
+retention or a setting that disables the app's own local history. The app does
+not import conversations from the user's ChatGPT account.
+
+AI-estimated portions and nutrients are saved to the diary only after explicit
+approval, under a distinct AI-estimate source. Existing food labels and the
+public catalogue are not overwritten by generated values.
 
 The local model runs in a private worker process. One diagnostic record keeps
 device/runtime, available memory, model identifier, last stage and error category;

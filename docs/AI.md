@@ -7,15 +7,31 @@ provider's name and symbol: a local chip, remote server or the ChatGPT mark.
 
 The chat screen contains messages, a composer and photo/camera attachments.
 Describe a meal, ask questions or clarify an earlier amount. Conversation context
-is bounded before submission; switching providers or ChatGPT accounts starts a
-new chat. Chat history and unsaved drafts stay in memory and are lost on process
-death. **New chat** clears the current conversation.
+is bounded before submission; switching providers, server addresses or ChatGPT
+accounts starts a new chat. Messages, submitted photos and pending meal summaries
+are saved in app-private local storage. **New chat** starts a fresh conversation
+and keeps the old one in history. The history button reopens or deletes a saved
+conversation. Deleting a chat does not delete confirmed diary entries.
 
-An assistant can propose a meal, but it cannot write directly to the diary.
-Choose **Review meal**, select matching database foods, confirm grams and choose
-a meal. You can mark an item as a supplement during review. Only confirmed
-food-label nutrition is saved; AI-generated nutrients are not database facts.
-Photo portions are estimates, and an unspecified scoop weight stays unknown.
+The model interprets text/photos and estimates portions and nutrients itself.
+Choose **Review meal**, check the amounts and summary, then **Approve and add**.
+No catalogue match or manual food selection is needed. You can change grams,
+remove an item, choose its meal or mark it as a supplement. Nutrition scales with
+the reviewed grams. Only this explicit approval writes the diary.
+
+Generated values use a separate **AI estimate** source and separate private food
+IDs; existing labels and the bundled public catalogue are not overwritten.
+Nutrition uses validated values per 100 g; missing values stay null. Photo and
+ordinary household portions can be estimated, with assumptions shown. Unknown
+supplement-scoop weights require clarification. These estimates are not verified
+label measurements.
+
+History remembers its provider, model and ChatGPT account binding. Opening an old
+conversation does not send it anywhere. Continuing it uses bounded recent context
+and requires the original ChatGPT account; another account is not substituted.
+Remote credentials remain session-only. Stored image files load as needed instead
+of loading an entire photo history into memory. Earlier versions kept chats only
+in memory, so previously closed conversations cannot be recovered automatically.
 
 ## On-device models
 
@@ -74,6 +90,12 @@ models in Settings. The chat composer identifies ChatGPT plan usage and offers
 Plan-limit errors link to usage controls. The app does not silently switch to a
 paid API or another account.
 
+During sign-in, a temporary **Connecting to ChatGPT** notification keeps the
+loopback receiver running while the browser is foreground. Cancel from the
+notification or AI settings to end the attempt. The notification is removed when
+the attempt finishes; it does not keep chat running in the background. Settings
+distinguishes browser consent, connection verification and model loading.
+
 The implementation follows OpenAI's documented
 [open-source sign-in flow](https://developers.openai.com/siwc/token-sharing-open-source/sign-in),
 [profile/session rules](https://developers.openai.com/siwc/token-sharing-open-source/profiles-and-sessions)
@@ -91,10 +113,12 @@ No browser cookies, ChatGPT conversations or memories are imported. See
 [privacy details](PRIVACY.md) and OpenAI's
 [plan usage explanation](https://help.openai.com/en/articles/20001542-using-your-chatgpt-plan-in-other-apps-and-sites).
 
-Host tests verify protocol handling and render the screens. **Real-account browser
-sign-in, plan entitlement, live inference and the S25 return-to-app flow have not
-been verified on a physical phone.** The same applies to device memory use and
-local inference. A successful local build does not establish those outcomes.
+Host tests verify protocol handling and render the screens. Browser sign-in,
+model discovery and one text response were also checked with a real account on
+a Samsung S25 running Android 17. Chat layout was checked with and without the
+keyboard. This does not establish other accounts' eligibility, plan-limit
+behavior, every model's capabilities or long-running refresh/revocation behavior.
+Local model inference and device memory use still require phone validation.
 
 ## Download recovery
 

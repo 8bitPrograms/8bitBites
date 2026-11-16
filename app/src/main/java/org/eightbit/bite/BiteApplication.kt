@@ -23,6 +23,9 @@ class BiteApplication : Application() {
     val catalogue by lazy { CatalogueStore(this) }
     val updates by lazy { Updates(this, catalogue) }
     val models by lazy { org.eightbit.bite.ai.ModelLibrary(this) }
+    internal val chatGpt by lazy { org.eightbit.bite.ai.ChatGptConnection(this) }
+    internal val chatHistory by lazy { org.eightbit.bite.ai.ChatHistoryStore(this) }
+    internal fun persistChat(block:suspend ()->Unit)=appScope.launch(Dispatchers.IO) { block() }
     @OptIn(kotlinx.coroutines.FlowPreview::class)
     override fun onCreate() {
         super.onCreate()

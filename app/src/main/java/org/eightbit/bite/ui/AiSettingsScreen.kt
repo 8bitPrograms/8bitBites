@@ -131,7 +131,9 @@ internal data class AiSettingsActions(val choose:(AiProvider)->Unit={},val remot
                         ?: connection.profiles.lastOrNull { !it.connected }?.id,connection.connected)},enabled=enabled,modifier=Modifier.fillMaxWidth(),
                         colors=ButtonDefaults.buttonColors(containerColor=Color(0xFF0D0D0D),contentColor=Color.White)) {
                         AiProviderIcon(AiProvider.CHATGPT,Modifier.size(21.dp),color=Color.White);Spacer(Modifier.width(8.dp))
-                        Text(ai("Continue with ChatGPT","ChatGPT ile devam et"))
+                        Text(if(connection.connected) ai("Enable ChatGPT plan usage","ChatGPT plan kullanımını aç")
+                            else if(connection.email.isNotBlank()) ai("Reconnect ChatGPT","ChatGPT'ye yeniden bağlan")
+                            else ai("Continue with ChatGPT","ChatGPT ile devam et"))
                     }
                     if(connection.connected) TextButton(onClick=actions.disconnect,enabled=enabled) { Text(ai("Sign out","Çıkış yap")) }
                 } } }
@@ -151,7 +153,12 @@ internal data class AiSettingsActions(val choose:(AiProvider)->Unit={},val remot
                     TextButton(onClick={actions.connect(null,false)},enabled=enabled) { Text(ai("Add another account","Başka hesap ekle")) }
                     TextButton(onClick={context.startActivity(Intent(Intent.ACTION_VIEW,Uri.parse("https://chatgpt.com/#settings/Usage")))}) { Text(ai("Manage ChatGPT usage","ChatGPT kullanımını yönet")) }
                 } }
-                if(connection.busy) item { LinearProgressIndicator(Modifier.fillMaxWidth());Text(ai("Completing your connection…","Bağlantı tamamlanıyor…"))
+                if(connection.busy) item { LinearProgressIndicator(Modifier.fillMaxWidth());Text(when(connection.stage) {
+                    "browser" -> ai("Complete sign-in in your browser. This screen updates automatically.","Tarayıcıdaki girişi tamamla. Bu ekran otomatik güncellenir.")
+                    "exchange","identity" -> ai("Verifying your ChatGPT connection…","ChatGPT bağlantın doğrulanıyor…")
+                    "models" -> ai("Signed in. Loading your available models…","Giriş yapıldı. Kullanılabilen modellerin alınıyor…")
+                    else -> ai("Starting your ChatGPT connection…","ChatGPT bağlantısı başlatılıyor…")
+                })
                     TextButton(onClick=actions.cancel) { Text(ai("Cancel","İptal")) } }
                 connection.error?.let { code -> item { Text(chatGptError(context,code),color=MaterialTheme.colorScheme.error) } }
             }

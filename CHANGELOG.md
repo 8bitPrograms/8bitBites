@@ -2,6 +2,28 @@
 
 App versions and public food-catalogue versions are independent.
 
+## 0.8.0-dev — 2026-11-16
+
+- Let AI interpret meals/photos and estimate portions and nutrition. Approve the
+  summary to save directly, without database matching. Keep AI-estimate source
+  labels, unknown values, portion scaling and confirmation/retry deduplication.
+- Save local conversations, submitted photos and pending meal summaries. Reopen
+  or delete them from history; keep account/provider bindings when continuing.
+- Preserve confirmed diary entries when deleting chat history.
+
+## 0.7.1-dev — 2026-11-16
+
+- Apply the app-bar/navigation bounds to embedded chat and consume their insets;
+  keep the composer visible above navigation and the keyboard.
+- Keep browser sign-in in an app-owned session with a temporary foreground
+  connection notification; clean it up on success, cancellation and timeout.
+- Ignore idle/dropped browser callback connections instead of losing the pending
+  authorization. Show browser/verification/model-loading progress separately.
+- Reuse one account connection across screens and retain a verified identity when
+  loading the account's models fails. Add credential-free connection stage logs.
+- Add a mobile-sized browser return page with the app icon, localized text,
+  light/dark appearance and a large return button.
+
 ## 0.7.0-dev — 2026-11-16
 
 - Move all AI connection controls into Settings: on-device, OpenAI-compatible

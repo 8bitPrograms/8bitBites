@@ -8,7 +8,7 @@ Jetpack Compose and Material 3. Your diary works offline and stays on your devic
 [Türkçe](README.tr.md) · [Build](docs/BUILDING.md) · [AI](docs/AI.md) ·
 [Database](database/README.md) · [Privacy](docs/PRIVACY.md) · [Contribute](CONTRIBUTING.md)
 
-**Status:** early development. Current source: **0.7.0-dev**. Bundled food
+**Status:** early development. Current source: **0.8.0-dev**. Bundled food
 catalogue: **0.4.0** with **2,193 foods**, including 260 ETİ products. Android 9
 (API 28) or newer is required. Device testing is still in progress.
 
@@ -47,9 +47,14 @@ help searches; product names and external responses keep their source language.
 ## AI meal entry
 
 Choose a connection in **Settings > AI and chat**. The chat screen contains
-messages, photos and a composer. Continue the conversation to clarify amounts;
-use **Review meal** to choose matching database foods, check portions and confirm
-before saving. Model-generated nutrient values are not written into your diary.
+messages, photos and a composer. The model estimates portions, calories and
+nutrients from your description or photo. Use **Review meal**, check the summary,
+then **Approve and add** to save directly. No database-food selection is required.
+These entries remain labelled **AI estimate**; unknown values stay unknown.
+
+The history button reopens conversations saved on this phone, including submitted
+photos and pending meal summaries. **New chat** keeps the previous conversation
+in history. You can delete a conversation and its photos without deleting meals.
 
 - **On device:** download a supported, pinned LiteRT-LM model from Hugging Face
   inside the app, or import a compatible `.litertlm` file. Downloads support
@@ -63,8 +68,9 @@ before saving. Model-generated nutrient values are not written into your diary.
 - **Your ChatGPT account:** sign in through OpenAI's browser flow and separately
   approve ChatGPT plan usage. The app lists models available to that account and
   uses its allowance. Connections are protected with Android Keystore; chat
-  history stays in session memory. Account eligibility and real-phone sign-in
-  still need validation. No API key is needed for this connection.
+  history is saved in app-private local files. Browser sign-in, model discovery and a text
+  reply were checked on a Samsung S25 running Android 17. Other devices and
+  account/plan eligibility still need validation. No API key is needed here.
 
 No model is bundled. ChatGPT sign-in and conventional API-key access are separate
 connections. See [AI setup, model access and limitations](docs/AI.md).

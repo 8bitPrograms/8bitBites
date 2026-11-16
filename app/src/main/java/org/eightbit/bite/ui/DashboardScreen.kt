@@ -47,6 +47,7 @@ internal fun MealCard(entry: DiaryEntry, edit: () -> Unit, repeat: () -> Unit, d
             Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(4.dp)) {
                 BiteText(entry.name, style = MaterialTheme.typography.titleSmall, maxLines = 2, overflow = TextOverflow.Ellipsis)
                 Text("${entry.grams.display()} g · ${entry.kcal.nutrient("kcal")}", style = MaterialTheme.typography.bodyMedium)
+                if(entry.source==AI_ESTIMATE_SOURCE) Text(ai("AI estimate","AI tahmini"),style=MaterialTheme.typography.labelSmall)
                 if (entry.isSupplement) BiteText(SupplementKind.valueOf(entry.supplementKind).label, style = MaterialTheme.typography.labelSmall, maxLines = 1)
             }
             Box {

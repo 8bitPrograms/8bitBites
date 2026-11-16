@@ -1,48 +1,48 @@
 {
   "formatVersion": 1,
-  "versionCode": 11,
-  "versionName": "0.7.0-dev",
+  "versionCode": 13,
+  "versionName": "0.8.0-dev",
   "highlights": true,
   "notes": {
     "en": [
-      "ChatGPT account sign-in, on-device AI and OpenAI-compatible server settings.",
-      "Conversation view with meal corrections and review before saving.",
-      "Meals and favourites now live in Foods, with provider-specific icons."
+      "AI-estimated portions and nutrition, added directly after your approval.",
+      "Saved conversations and photos, with a history you can reopen.",
+      "ChatGPT sign-in, mobile return page and chat keyboard layout fixes."
     ],
     "tr": [
-      "ChatGPT hesabıyla giriş; yerel model ve OpenAI uyumlu sunucu seçenekleri Ayarlar’da.",
-      "Mesajlaşma arayüzü, öğün düzeltmeleri ve kaydetmeden önce kontrol.",
-      "Öğünler ve Favoriler artık Foods altında; simgeler seçilen AI’a göre değişir."
+      "AI porsiyon ve besin değerlerini tahmin eder; onayınla doğrudan günlüğe ekler.",
+      "Sohbetler ve fotoğraflar kaydedilir; geçmiş oturumları yeniden açabilirsin.",
+      "ChatGPT girişi, mobil geri dönüş sayfası ve sohbet klavye düzeni düzeltildi."
     ],
     "de": [
-      "ChatGPT-Anmeldung, lokale KI und OpenAI-kompatible Server in den Einstellungen.",
-      "Chat mit Mahlzeitkorrekturen und Prüfung vor dem Speichern.",
-      "Mahlzeiten und Favoriten unter Lebensmittel; Symbole je nach KI-Anbieter."
+      "KI schätzt Portionen und Nährwerte; nach Bestätigung direkt ins Tagebuch.",
+      "Gespeicherte Gespräche und Fotos im erneut aufrufbaren Verlauf.",
+      "Verbesserte ChatGPT-Anmeldung, mobile Rückkehrseite und Chat-Tastatur."
     ],
     "fr": [
-      "Connexion ChatGPT, IA locale et serveurs compatibles OpenAI dans les réglages.",
-      "Discussion avec corrections des repas et vérification avant enregistrement.",
-      "Repas et favoris dans Aliments, avec icônes selon le fournisseur IA."
+      "Portions et nutrition estimées par l’IA, ajoutées après votre validation.",
+      "Conversations et photos enregistrées, avec un historique consultable.",
+      "Connexion ChatGPT, page de retour mobile et clavier du chat corrigés."
     ],
     "es": [
-      "Inicio con ChatGPT, IA local y servidores compatibles con OpenAI en Ajustes.",
-      "Chat con correcciones de comidas y revisión antes de guardar.",
-      "Comidas y favoritos en Alimentos, con iconos según el proveedor de IA."
+      "Porciones y nutrientes estimados por IA, guardados tras tu aprobación.",
+      "Conversaciones y fotos guardadas con historial para retomarlas.",
+      "Mejoras en el acceso a ChatGPT, el regreso a la app y el teclado."
     ],
     "it": [
-      "Accesso ChatGPT, IA locale e server compatibili OpenAI nelle impostazioni.",
-      "Chat con correzioni dei pasti e verifica prima del salvataggio.",
-      "Pasti e preferiti in Alimenti, con icone del fornitore IA."
+      "Porzioni e nutrienti stimati dall’IA, aggiunti dopo la tua conferma.",
+      "Conversazioni e foto salvate in una cronologia riapribile.",
+      "Correzioni all’accesso ChatGPT, al ritorno mobile e alla tastiera."
     ],
     "pt": [
-      "Entrada com ChatGPT, IA local e servidores compatíveis OpenAI nas definições.",
-      "Conversa com correções de refeições e revisão antes de guardar.",
-      "Refeições e favoritos em Alimentos, com ícones do fornecedor de IA."
+      "Porções e nutrientes estimados por IA, adicionados após sua aprovação.",
+      "Conversas e fotos salvas com histórico que pode ser reaberto.",
+      "Correções no login ChatGPT, retorno ao app e teclado do chat."
     ],
     "ja": [
-      "ChatGPTログイン、端末内AI、OpenAI互換サーバーを設定に集約。",
-      "会話で食事を修正し、保存前に確認。",
-      "食事とお気に入りを食品タブへ移動。選択したAIに応じたアイコン。"
+      "AIが分量と栄養を推定し、確認後に日記へ直接追加します。",
+      "会話と写真を保存し、履歴から再開できます。",
+      "ChatGPTログイン、モバイル復帰画面、キーボード表示を修正しました。"
     ]
   }
 }

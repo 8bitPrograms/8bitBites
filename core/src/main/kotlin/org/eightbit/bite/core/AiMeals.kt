@@ -5,7 +5,8 @@ import com.google.gson.*
 import java.net.URI
 import java.util.Base64
 
-data class AiFoodMention(val name: String, val grams: Double?, val estimated: Boolean, val note: String)
+data class AiFoodMention(val name: String, val grams: Double?, val estimated: Boolean, val note: String,
+    val nutrition: Nutrients? = null)
 
 /** The model proposes names and quantities only. Nutrition always comes from a selected food. */
 object AiMeals {

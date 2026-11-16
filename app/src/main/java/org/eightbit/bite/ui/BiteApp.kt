@@ -146,7 +146,7 @@ fun BiteApp(vm: BiteViewModel = viewModel(), launchAction: String? = null, launc
                 if (tab == 0 || (tab==1 && foodSection==1)) { addingSupplement = false;foodSection=0;tab = 1 } else showFoodEditor = true
             }, icon = { Icon(Icons.Default.Add, null) }, text = { BiteText(if (tab == 0 || (tab==1 && foodSection==1)) "Add food" else "Create food") }) },
         ) { insets ->
-            val modifier = Modifier.fillMaxSize().padding(insets)
+            val modifier = Modifier.fillMaxSize().padding(insets).consumeWindowInsets(insets)
             if(settings && aiSettings) AiSettingsScreen(modifier,aiVm,modelsRequest)
             else if (settings) TrackerSettingsScreen(modifier, prefs, pending, vm::settings,
                 connect = ::connect, sync = { SyncScheduler.now(vm.app, manual = true) },
@@ -183,7 +183,7 @@ fun BiteApp(vm: BiteViewModel = viewModel(), launchAction: String? = null, launc
                     }
                 }
                 3 -> AiScreen(date, onClose = { tab = 0; cameraRequest = 0; modelsRequest = 0 },vm=aiVm,
-                    cameraRequest = cameraRequest, embedded = true,openSettings={settings=true;aiSettings=true})
+                    cameraRequest = cameraRequest, embedded = true,openSettings={settings=true;aiSettings=true},modifier=modifier)
             }
         }
         if (showFoodEditor) FoodEditor(onDismiss = { showFoodEditor = false }, save = { vm.saveFood(it); showFoodEditor = false })

@@ -4,6 +4,20 @@ import com.google.gson.JsonParser
 import kotlin.test.*
 
 class AiChatTest {
+    @Test fun estimatesCarryPerHundredGramNutritionAndKeepUnknownValuesUnknown() {
+        val food=AiChat.parse("""{"reply":"Tahmini öğünün hazır","foods":[{"name":"ekmek","grams":80,"estimated":true,"note":"2 dilim","nutrition_per_100g":{"kcal":250,"protein":9,"carbs":45,"fat":3,"sugar":null}}]}""",photo=true).foods.single()
+        assertTrue(food.estimated)
+        assertEquals(200.0,food.nutrition!!.portion(food.grams!!).kcal)
+        assertNull(food.nutrition!!.sugar)
+        val roundTrip=AiChat.parse("""{"foods":[${AiChat.foodJson(food)}]}""").foods.single()
+        assertEquals(food,roundTrip)
+    }
+    @Test fun malformedOrImpossibleEstimatesCannotReachDiaryApproval() {
+        for(value in listOf("-1","1001","\"250\"","1e999")) {
+            assertFailsWith<IllegalArgumentException> { AiChat.parse("""{"foods":[{"name":"food","grams":100,"nutrition_per_100g":{"kcal":$value}}]}""") }
+        }
+        assertFailsWith<IllegalArgumentException> { AiChat.parse("""{"foods":[{"name":"food","grams":100,"nutrition_per_100g":{"protein":101}}]}""") }
+    }
     @Test fun repliesAndRevisedMealListsRemainSeparateFromNutritionFacts() {
         val reply=AiChat.parse("""{"reply":"Peyniri 150 g olarak düzelttim; kaydetmeden önce kontrol et.","foods":[{"name":"peynir","grams":150,"estimated":false,"note":""}]}""")
         assertEquals(150.0,reply.foods.single().grams)

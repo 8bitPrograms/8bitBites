@@ -2,6 +2,7 @@
 package org.eightbit.bite.ai
 
 import kotlinx.coroutines.*
+import android.util.Log
 import org.eightbit.bite.core.*
 import org.json.JSONObject
 import java.io.ByteArrayOutputStream
@@ -29,6 +30,7 @@ internal class ChatGptTransport {
                 connection.outputStream.use { it.write(bytes) }
             }
             val code=connection.responseCode
+            Log.i("BiteChatGpt","http endpoint=${URI(url).path.substringAfterLast('/')} status=$code")
             val body=(if(code in 200..299) connection.inputStream else connection.errorStream)?.use { input ->
                 val result=ByteArrayOutputStream();val buffer=ByteArray(8192)
                 while(true) { currentCoroutineContext().ensureActive();val count=input.read(buffer);if(count<0) break

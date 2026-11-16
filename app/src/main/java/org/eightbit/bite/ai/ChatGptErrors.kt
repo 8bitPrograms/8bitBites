@@ -16,6 +16,8 @@ internal fun chatGptError(context:Context,code:String):String {
         "stream_interrupted","response_incomplete" -> "The reply did not finish. Nothing was added to the diary. You can retry." to "Yanıt tamamlanamadı. Günlüğe kayıt eklenmedi. Yeniden deneyebilirsin."
         "login_timeout" -> "Sign-in timed out. Start again in Settings." to "Giriş süresi doldu. Ayarlar'dan yeniden başlat."
         "credential_storage_unavailable" -> "Protected connection storage is unavailable. Reconnect your account." to "Korunan bağlantı bilgisi açılamadı. Hesabını yeniden bağla."
+        "invalid_token_response" -> "ChatGPT returned an incomplete session. Reconnect your account." to "ChatGPT eksik oturum bilgisi döndürdü. Hesabını yeniden bağla."
+        "http_403" -> "ChatGPT did not allow this connection. Check the app's access in ChatGPT settings." to "ChatGPT bu bağlantıya erişim vermedi. ChatGPT ayarlarından uygulama iznini kontrol et."
         else -> "ChatGPT could not complete this request. Check your connection and account access." to "ChatGPT bu isteği tamamlayamadı. Bağlantını ve hesap erişimini kontrol et."
     }
     return if(tr) text.second else text.first

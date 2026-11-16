@@ -7,9 +7,12 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalView
+import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.test.*
 import androidx.compose.ui.test.junit4.createComposeRule
 import org.eightbit.bite.ai.*
+import org.eightbit.bite.BiteApplication
 import org.eightbit.bite.core.*
 import org.eightbit.bite.data.*
 import org.junit.Assert.*
@@ -17,6 +20,7 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
+import org.robolectric.RuntimeEnvironment
 import org.robolectric.annotation.Config
 import org.robolectric.annotation.GraphicsMode
 import java.io.File
@@ -27,6 +31,24 @@ import java.time.ZoneId
 @Config(sdk=[34],application=Application::class,qualifiers="w393dp-h852dp-xxhdpi")
 @GraphicsMode(GraphicsMode.Mode.NATIVE)
 class AiUiTest {
+    @Test fun anAiEstimateCanBeApprovedWithoutDatabaseMatching() {
+        var approved=false
+        val mention=AiFoodMention("Cheese",150.0,true,"Estimated portion",Nutrients(300.0,20.0,2.0,24.0))
+        compose.setContent { MaterialTheme { AiEstimateReview(LocalDate.now(),AiState(draft=listOf(AiReview(mention=mention))),1,{_,_->},{},{},{approved=true}) } }
+        compose.onNodeWithText("Find the matching food").assertDoesNotExist()
+        compose.onNodeWithText("Create food from label").assertDoesNotExist()
+        compose.onNodeWithTag("approve-ai-meal").performScrollTo().assertIsEnabled().performClick()
+        assertTrue(approved)
+    }
+    @Test fun historyCanOpenAConversationAndConfirmsDeletion() {
+        var opened="";var deleted=""
+        val row=ChatSummary("conversation","Breakfast",AiProvider.CHATGPT,"model",1000,4)
+        compose.setContent { MaterialTheme { AiHistorySheet(listOf(row),false,false,null,"",{}, {opened=it},{deleted=it}) } }
+        compose.onNodeWithText("Breakfast").performClick();assertEquals("conversation",opened)
+        compose.onNodeWithContentDescription("Delete conversation").performClick()
+        assertEquals("",deleted)
+        compose.onNodeWithText("Delete",useUnmergedTree=true).performClick();assertEquals("conversation",deleted)
+    }
     @get:Rule val compose=createComposeRule()
     private lateinit var root:android.view.View
     private fun capture(name:String)=compose.runOnIdle {
@@ -65,6 +87,26 @@ class AiUiTest {
         assertTrue(settings)
         compose.onNodeWithContentDescription("Send message").assertIsNotEnabled()
         compose.onNodeWithTag("chat-composer").assertExists()
+    }
+    @OptIn(ExperimentalMaterial3Api::class)
+    @Test fun embeddedChatStaysBetweenTheAppBars() {
+        val application=BiteApplication()
+        Application::class.java.getDeclaredMethod("attach",android.content.Context::class.java).apply { isAccessible=true }
+            .invoke(application,RuntimeEnvironment.getApplication())
+        val vm=AiViewModel(application)
+        compose.setContent { MaterialTheme {
+            Scaffold(topBar={ Box(Modifier.fillMaxWidth().height(80.dp).testTag("app-top")) },
+                bottomBar={ Box(Modifier.fillMaxWidth().height(96.dp).testTag("app-bottom")) }) { insets ->
+                AiScreen(LocalDate.now(),{},vm=vm,embedded=true,
+                    modifier=Modifier.fillMaxSize().padding(insets).consumeWindowInsets(insets))
+            }
+        } }
+        val top=compose.onNodeWithTag("app-top").getUnclippedBoundsInRoot()
+        val bottom=compose.onNodeWithTag("app-bottom").getUnclippedBoundsInRoot()
+        val header=compose.onNodeWithText("Choose a model in Settings").getUnclippedBoundsInRoot()
+        val composer=compose.onNodeWithTag("chat-composer").getUnclippedBoundsInRoot()
+        assertTrue("Chat header must clear the app bar",header.top>=top.bottom)
+        assertTrue("Composer must clear bottom navigation",composer.bottom<=bottom.top)
     }
     @Test @Config(qualifiers="tr-w393dp-h852dp-xxhdpi") fun turkishConversationShowsCorrectionsAndRequiresMealReview() {
         val food=AiFoodMention("Peynir",150.0,false,"")
@@ -106,6 +148,15 @@ class AiUiTest {
         } }
         compose.onNodeWithText("Continue with ChatGPT").performScrollTo().performClick()
         assertEquals("pending-profile",selected)
+    }
+    @Test fun aVerifiedAccountRemainsSignedInWhenModelLoadingFails() {
+        compose.setContent { MaterialTheme {
+            AiSettingsContent(Modifier.fillMaxSize(),AiState(provider=AiProvider.CHATGPT),
+                ChatGptState(connected=true,sharing=true,email="test@example.com",error="http_403"),AiSettingsActions())
+        } }
+        compose.onNodeWithText("Connected").performScrollTo().assertIsDisplayed()
+        compose.onNodeWithText("Continue with ChatGPT").assertDoesNotExist()
+        compose.onNodeWithText("Sign out").assertExists()
     }
     @Test fun aPlanLimitOffersUsageManagementInsteadOfRetryingTheSameRequest() {
         var managed=false

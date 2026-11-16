@@ -20,10 +20,19 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import org.eightbit.bite.R
 import org.eightbit.bite.core.AiProvider
+import org.eightbit.bite.ai.AiChatMessage
+import org.eightbit.bite.core.total
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
 @Composable internal fun AiPhoto(bytes:ByteArray,modifier:Modifier=Modifier) {
     val bitmap=remember(bytes) { BitmapFactory.decodeByteArray(bytes,0,bytes.size) }
     if(bitmap!=null) Image(bitmap.asImageBitmap(),ai("Meal photo","Öğün fotoğrafı"),modifier.heightIn(max=190.dp))
+}
+
+@Composable internal fun AiSavedPhoto(path:String,modifier:Modifier=Modifier) {
+    val bitmap by produceState<android.graphics.Bitmap?>(null,path) { value=withContext(Dispatchers.IO) { BitmapFactory.decodeFile(path) } }
+    bitmap?.let { Image(it.asImageBitmap(),ai("Meal photo","Öğün fotoğrafı"),modifier.heightIn(max=190.dp)) }
 }
 
 @Composable internal fun AiChatBubble(message:AiChatMessage,provider:AiProvider,review:Boolean,saved:Boolean,onReview:()->Unit) {
@@ -36,9 +45,12 @@ import org.eightbit.bite.core.AiProvider
                     AiProviderIcon(provider,Modifier.size(18.dp));Text(aiProviderName(provider),style=MaterialTheme.typography.labelMedium)
                 }
                 message.photo?.let { AiPhoto(it,Modifier.fillMaxWidth()) }
+                if(message.photo==null) message.photoPath?.let { AiSavedPhoto(it,Modifier.fillMaxWidth()) }
                 if(message.text.isNotBlank()) Text(message.text,style=MaterialTheme.typography.bodyLarge)
                 if(message.foods.isNotEmpty()) {
-                    message.foods.take(4).forEach { food -> Text(food.name+food.grams?.let { " · ${it.display()} g" }.orEmpty(),style=MaterialTheme.typography.bodySmall) }
+                    message.foods.take(4).forEach { food -> Text(food.name+food.grams?.let { " · ${it.display()} g" }.orEmpty()+
+                        food.grams?.let { grams -> food.nutrition?.portion(grams)?.kcal?.let { " · ~${it.display()} kcal" } }.orEmpty(),style=MaterialTheme.typography.bodySmall) }
+                    if(message.foods.any { it.nutrition!=null }) Text(ai("AI nutrition estimate","AI besin değeri tahmini"),style=MaterialTheme.typography.labelSmall)
                     if(message.foods.size>4) Text("+${message.foods.size-4}",style=MaterialTheme.typography.labelSmall)
                 }
                 if(review) FilledTonalButton(onClick=onReview) { Text(ai("Review meal","Öğünü incele")) }
@@ -50,10 +62,10 @@ import org.eightbit.bite.core.AiProvider
 
 @Composable internal fun AiChatContent(modifier:Modifier,state:AiState,providerDetail:String,ready:Boolean,
     edit:(String)->Unit,send:()->Unit,cancel:()->Unit,newChat:()->Unit,photo:()->Unit,camera:()->Unit,removePhoto:()->Unit,
-    review:()->Unit,retry:()->Unit,settings:()->Unit,copyError:()->Unit,manageUsage:()->Unit={}) {
+    review:()->Unit,retry:()->Unit,settings:()->Unit,copyError:()->Unit,manageUsage:()->Unit={},history:()->Unit={}) {
     val list=rememberLazyListState()
     val example=ai("100 g cheese and 2 slices of bread","100 g peynir ve 2 dilim ekmek")
-    LaunchedEffect(state.messages.size,state.busy,state.error) { if(state.messages.isNotEmpty() || state.busy || state.error!=null) list.animateScrollToItem(state.messages.size+4) }
+    LaunchedEffect(state.sessionId,state.messages.size,state.busy,state.error) { if(state.messages.isNotEmpty() || state.busy || state.error!=null) list.animateScrollToItem(state.messages.size+4) }
     Column(modifier.imePadding()) {
         Row(Modifier.fillMaxWidth().padding(horizontal=18.dp,vertical=10.dp),verticalAlignment=Alignment.CenterVertically,horizontalArrangement=Arrangement.spacedBy(10.dp)) {
             AiProviderIcon(state.provider,Modifier.size(28.dp))
@@ -61,6 +73,7 @@ import org.eightbit.bite.core.AiProvider
                 Text(aiProviderName(state.provider),style=MaterialTheme.typography.titleMedium)
                 Text(providerDetail,maxLines=1,overflow=TextOverflow.Ellipsis,style=MaterialTheme.typography.bodySmall,color=MaterialTheme.colorScheme.onSurfaceVariant)
             }
+            IconButton(onClick=history,enabled=!state.busy) { Icon(painterResource(R.drawable.ic_chat_history),ai("Chat history","Sohbet geçmişi")) }
             IconButton(onClick=newChat,enabled=!state.busy) { Icon(Icons.Default.Add,ai("New chat","Yeni sohbet")) }
         }
         HorizontalDivider(color=MaterialTheme.colorScheme.outlineVariant)
@@ -117,7 +130,7 @@ import org.eightbit.bite.core.AiProvider
                 IconButton(onClick=camera,enabled=!state.busy) { Icon(painterResource(R.drawable.ic_chat_camera),ai("Take photo","Fotoğraf çek")) }
                 IconButton(onClick=photo,enabled=!state.busy) { Icon(painterResource(R.drawable.ic_chat_photo),ai("Attach photo","Fotoğraf ekle")) }
                 Spacer(Modifier.weight(1f))
-                Text(ai("Session-only chat","Sohbet bu oturumda tutulur"),style=MaterialTheme.typography.labelSmall,color=MaterialTheme.colorScheme.onSurfaceVariant)
+                Text(ai("Saved on this phone","Bu telefonda saklanır"),style=MaterialTheme.typography.labelSmall,color=MaterialTheme.colorScheme.onSurfaceVariant)
             }
         } }
     }

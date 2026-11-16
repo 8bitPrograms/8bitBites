@@ -1,89 +1,86 @@
-# 8bitBites 0.7.0-dev — local verification
+# 8bitBites 0.8.0-dev — local and phone verification
 
-Checked on **2026-11-16** on the local Windows computer. GitHub Actions was not
-used; the workflow remains manual-only. Previous local-AI work and its limits
-are recorded in the [0.6.2 report](docs/verification/0.6.2.md).
+Checked on **2026-11-16** using the local Windows build tools and the connected
+Samsung S25 (SM-S931B), running **Android 17 / API 37**. GitHub Actions was not
+used; the workflow remains manual-only. The previous source verification is
+archived in the [0.7.0 report](docs/verification/0.7.0.md).
 
-## Changes checked
+## Resulting behavior
 
-- Settings owns the on-device, OpenAI-compatible remote-server and ChatGPT
-  connection controls. The chat screen contains conversation and meal-review
-  actions. Provider names and distinct icons appear in navigation and the quick
-  widget.
-- Multi-turn text/photo chat supports amount corrections. A food proposal needs
-  explicit review and confirmation before the diary changes. Nutrition comes
-  from the selected database food, not generated nutrient values.
-- ChatGPT uses the documented open-source browser authorization flow, PKCE,
-  state/nonce checks, verified RS256 identity, separate plan-usage permission,
-  per-account model discovery and public streaming Responses API.
-- OAuth credentials use encrypted Keystore-backed storage. Refresh rotation is
-  serialized, local sign-out clears credentials and attempts remote revocation.
-  Partial/failed response streams are rejected; plan-limit errors offer usage
-  management. Account/provider changes clear chat context.
-- Meals and Favorites are sections inside Foods. You retains daily overview,
-  water, supplements and trends. Existing meal edit/repeat/delete actions remain.
+- Embedded chat now uses and consumes the app's top/bottom insets. The composer
+  stays above navigation and remains usable with the phone keyboard open.
+- Browser authorization has an app-owned lifetime and a temporary foreground
+  connection service. Idle or dropped loopback browser connections do not
+  discard a valid authorization. Progress distinguishes the browser, identity
+  verification and account-model discovery; sensitive credentials are not logged.
+- The browser return page uses a mobile viewport, the app icon, readable localized
+  text, light/dark colors and a large return button. Its HTML contains no reflected
+  authorization code or state and requests no external assets.
+- AI estimates portions and nutrition from text/photos. Approval writes a separate
+  AI-estimate food/diary snapshot without catalogue selection. Existing labels
+  and the public catalogue are not overwritten. Unknown nutrients stay null.
+- Local history retains sent messages, submitted photos, pending review edits and
+  approval markers. Restoring a conversation retains its provider/account binding.
+  Photos load from private files as needed. Deleting chat does not delete meals.
 
-## Checks and evidence
+## Automated checks
 
-**104 JVM/app host tests passed, with no failures, errors or skips:** 51 core
-tests and 53 app tests. The 22 additional tests cover chat request/context and
-stream parsing, PKCE/callback/identity/model rules, legacy provider migration,
-account permission state, Compose provider/chat/meal controls and the widget's
-selected provider. Callback tests send real localhost HTTP requests to the
-callback receiver, including an invalid-state request before a valid return and
-a denied permission response. They do not contact an actual user's account.
+**118 host tests passed: 53 core and 65 app tests. No failures, errors or skips.**
+Coverage includes numeric estimate validation and per-100-g scaling, direct Room
+writes without a label selection, confirmation/retry deduplication, supplement
+deduplication, history restart/photo/deletion behavior, account binding and the
+existing diary, hydration, download, worker, widget and Compose checks.
 
-The command `:core:test :app:testDebugUnitTest :app:assembleDebug :app:lintDebug`
-succeeded locally with JDK 17, Gradle 8.13, Android platform 36 and build-tools
-35.0.0. Lint reports **0 errors and 82 warnings**; no baseline or suppression was
-introduced.
+Debug assembly succeeded with JDK 17, Gradle 8.13, Android platform 36 and
+build-tools 35.0.0. Lint completed separately with **0 errors and 84 warnings**.
+A transient Kotlin analysis failure was resolved by clearing generated lint
+caches and running checks serially. No lint baseline, exclusion or suppression
+was added. Core/app tests and APK assembly were rerun for the final source.
 
-Robolectric native rendering was inspected for the ChatGPT connection screen,
-a Turkish multi-turn meal correction/review conversation and the quick widget.
-These use synthetic test data, not a successful live ChatGPT exchange. The
-screenshots are generated under `app/build/reports/ui/`.
+## Physical-device checks
 
-The public OpenID discovery document and its RSA signing keys were checked.
-Protocol behavior was compared with OpenAI's official
-[sign-in](https://developers.openai.com/siwc/token-sharing-open-source/sign-in),
-[session](https://developers.openai.com/siwc/token-sharing-open-source/profiles-and-sessions),
-[inference](https://developers.openai.com/siwc/token-sharing-open-source/models-and-inference)
-and [UI guidance](https://developers.openai.com/siwc/ui-ux-guidelines).
-The authentication implementation is independent; the devkit runtime is not
-included. The separately attributed ChatGPT mark identifies this connection.
+- Browser account sign-in completed, followed by verified identity, granted plan
+  access and account model discovery. The temporary sign-in service stopped on
+  completion. Real text responses were observed with the user's account.
+- The connection stayed available through in-place updates to 0.8.0 and a cold
+  application restart. No uninstall or application-data reset was used.
+- The former hidden composer and keyboard overlap were checked on the phone.
+- A real meal conversation produced an AI nutrition proposal. The user approved
+  it; the application showed its saved acknowledgment and persisted approval
+  marker. The agent did not approve an invented meal.
+- Two messages and a pending proposal from the previously memory-only active
+  conversation were retained during this device's update. The new conversation,
+  estimate and approval survived process restart and were reopened from History.
+- The mobile return HTML was previewed in Brave at the phone's real viewport;
+  its button returned to the app. The temporary preview server and port forwards
+  were stopped, and the original screen-off timeout was restored.
+
+Phone screenshots, conversation snapshots and diagnostics stay in ignored local
+artifacts. They are not included in the repository.
 
 ## Local APK
 
-- File: artifacts/8bitBites-0.7.0-dev.apk
+- File: artifacts/8bitBites-0.8.0-dev.apk
 - Application ID: org.eightbit.bite
-- Version: 0.7.0-dev, versionCode 11
-- Bytes: 95183379
-- SHA-256: ebf45915b5b2d748a4ab56fd7d9d9ef44725b343bb7d5eafa855e16ec02b7376
+- Version: 0.8.0-dev, versionCode 13
+- Bytes: 95314529
+- SHA-256: ad40c71a8c4e1f0be937c8119706d16e054ecc90235651754bc9c1a3f158f910
 - Certificate SHA-256:
   8e73b40f0ab8b1bb784f8a7aa74d9930fb02ec77356b329e04a20b2a1e54560c
-- Bundled database SHA-256:
+- Bundled catalogue SHA-256:
   1e73e8d5dc8759348d2796d45bec0d3ce85e2719fd7145b420d28cbcca30d10e
 
-The artifact uses the original development signing identity, matching 0.6.2.
-Signature verification, 16 KB ZIP alignment, ZIP integrity, packaged version
-notes and catalogue checksum passed. The packaged manifest retains disabled
-backup and the private, non-exported local worker, and includes the settings
-return link. All 14 native libraries are byte-identical to 0.6.2. The ordinary
-Gradle debug output uses the local default debug key; use the artifact above
-for an in-place development update. Signing material is not distributed.
+The artifact uses the original development signing identity. Signature, 16 KB
+ZIP alignment, ZIP integrity, packaged version notes and catalogue checksum were
+verified. All 14 native libraries are unchanged from 0.7.0; the Room diary schema
+remains version 2. Signing material is not distributed. No APK release was
+uploaded to GitHub, and app-update metadata remains unchanged.
 
-No APK release was uploaded to GitHub; app-update metadata remains unchanged.
+## Remaining limits
 
-## Physical-device and live-account limits
-
-The reported phone is a Samsung S25; its exact Android version is unknown.
-Real-account browser consent, return to the Android app, account entitlement,
-live model responses and usage-limit behavior have not been exercised on that
-phone. A valid protocol implementation and passing host tests do not prove
-provider eligibility or end-to-end account access.
-
-A successful Qwen generation, actual worker crash isolation, background download
-behavior and an in-place update on the S25 also remain unverified. The new chat
-preserves local error diagnostics so a phone failure can be reported without
-sharing meal text, photos or credentials. No phone diary was erased or migrated
-to another package.
+The checks establish this account/device's browser sign-in and text flow. They
+do not prove every plan/model, long-lived refresh/revocation, real meal-photo
+inference, a full local Qwen generation or every Android background policy.
+Host photo/history tests do not substitute for those device checks. Nutritional
+estimates remain estimates even after confirmation. Conversations closed in
+older versions were never saved and cannot be recovered automatically.
