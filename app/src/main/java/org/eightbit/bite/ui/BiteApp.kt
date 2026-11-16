@@ -45,7 +45,7 @@ internal fun String.numeric() = replace(',', '.').toDoubleOrNull()?.takeIf { it.
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun BiteApp(vm: BiteViewModel = viewModel(), launchAction: String? = null, launchId: Long = 0) {
+fun BiteApp(vm: BiteViewModel = viewModel(), launchAction: String? = null, launchId: Long = 0, aiVm:AiViewModel=viewModel()) {
     val prefs by vm.preferences.collectAsStateWithLifecycle()
     val favorites by vm.favoriteFoods.collectAsStateWithLifecycle()
     val entries by vm.entries.collectAsStateWithLifecycle()
@@ -58,6 +58,7 @@ fun BiteApp(vm: BiteViewModel = viewModel(), launchAction: String? = null, launc
     val updates by vm.updateState.collectAsStateWithLifecycle()
     val query by vm.foodQuery.collectAsStateWithLifecycle()
     val externalBusy by vm.externalBusy.collectAsStateWithLifecycle()
+    val aiState by aiVm.state.collectAsStateWithLifecycle()
     val context = androidx.compose.ui.platform.LocalContext.current
     val language = androidx.compose.ui.platform.LocalConfiguration.current.locales[0].language
     LaunchedEffect(language) {
@@ -77,6 +78,8 @@ fun BiteApp(vm: BiteViewModel = viewModel(), launchAction: String? = null, launc
     var tab by rememberSaveable { mutableIntStateOf(0) }
     var favoriteQuery by rememberSaveable { mutableStateOf("") }
     var settings by rememberSaveable { mutableStateOf(false) }
+    var aiSettings by rememberSaveable { mutableStateOf(false) }
+    var foodSection by rememberSaveable { mutableIntStateOf(0) }
     var selectedDate by rememberSaveable { mutableStateOf(LocalDate.now().toString()) }
     val date = LocalDate.parse(selectedDate)
     var showFoodEditor by remember { mutableStateOf(false) }
@@ -91,15 +94,17 @@ fun BiteApp(vm: BiteViewModel = viewModel(), launchAction: String? = null, launc
     var modelsRequest by remember { mutableLongStateOf(0) }
     var waterRequest by remember { mutableLongStateOf(0) }
     var consumedLaunch by rememberSaveable { mutableLongStateOf(-1) }
-    BackHandler(settings) { settings = false }
+    BackHandler(settings) { if(aiSettings) aiSettings=false else settings=false }
+    LaunchedEffect(tab) { if(tab==2) { foodSection=2;tab=1 } }
     LaunchedEffect(launchId) {
         if (consumedLaunch == launchId) return@LaunchedEffect
         consumedLaunch = launchId
         settings = false
         if (launchAction in setOf("today", "water", "foods", "ai", "camera")) selectedDate = LocalDate.now().toString()
         when (launchAction) {
-            "ai", "camera", "models" -> { tab = 3; if (launchAction == "camera") cameraRequest = launchId; if (launchAction == "models") modelsRequest = launchId }
-            "foods" -> tab = 1
+            "ai", "camera" -> { tab = 3; if (launchAction == "camera") cameraRequest = launchId }
+            "models", "ai-settings" -> { settings=true;aiSettings=true;if(launchAction=="models") modelsRequest=launchId }
+            "foods" -> { tab=1;foodSection=0 }
             "profile", "today" -> tab = 0
             "water" -> { tab = 0; waterRequest = launchId }
         }
@@ -123,33 +128,38 @@ fun BiteApp(vm: BiteViewModel = viewModel(), launchAction: String? = null, launc
     }
     BiteTheme(prefs) {
         Scaffold(
-            topBar = { TopAppBar(title = { BiteText(if (settings) "Settings" else listOf("You", "Foods", "Favorites", "AI")[tab]) },
-                navigationIcon = { if (settings) IconButton(onClick = { settings = false }) { Icon(Icons.AutoMirrored.Filled.ArrowBack, t("Back")) } },
-                actions = { if (!settings) IconButton(onClick = { cameraRequest = 0; modelsRequest = 0; settings = true }) { Icon(Icons.Default.Settings, t("Settings")) } }) },
+            topBar = { TopAppBar(title = { if(settings && aiSettings) Text(ai("AI settings","AI ayarları")) else if(!settings && tab==3) Text(ai("Chat","Sohbet")) else BiteText(if(settings) "Settings" else if(tab==0) "You" else "Foods") },
+                navigationIcon = { if (settings) IconButton(onClick = { if(aiSettings) aiSettings=false else settings=false }) { Icon(Icons.AutoMirrored.Filled.ArrowBack, t("Back")) } },
+                actions = { if (!settings) IconButton(onClick = { cameraRequest = 0; modelsRequest = 0; aiSettings=tab==3;settings = true }) { Icon(Icons.Default.Settings, t("Settings")) } }) },
             snackbarHost = { SnackbarHost(snackbar) },
             bottomBar = { NavigationBar {
-                val labels = listOf("You", "Foods", "Favorites", "AI")
-                labels.forEachIndexed { index, label -> NavigationBarItem(selected = !settings && tab == index,
+                listOf(0,1,3).forEach { index -> val label=when(index) { 0->t("You");1->t("Foods");else->aiProviderName(aiState.provider) }
+                    NavigationBarItem(selected = !settings && tab == index,
                     onClick = { settings = false; tab = index; cameraRequest = 0; modelsRequest = 0; waterRequest = 0; if (index == 0 || index == 3) addingSupplement = false },
                     icon = { when (index) {
                         0 -> ProfileAvatar(prefs, Modifier.size(28.dp))
                         1 -> Icon(Icons.AutoMirrored.Filled.List, t(label))
-                        2 -> Icon(Icons.Default.Star, t(label))
-                        else -> Text("AI", style = MaterialTheme.typography.titleSmall)
-                    } }, label = { BiteText(label) }) }
+                        else -> AiProviderIcon(aiState.provider,Modifier.size(24.dp),label)
+                    } }, label = { Text(label) }) }
             } },
             floatingActionButton = { if (!settings && tab != 3) ExtendedFloatingActionButton(onClick = {
-                if (tab == 0) { addingSupplement = false; tab = 1 } else showFoodEditor = true
-            }, icon = { Icon(Icons.Default.Add, null) }, text = { BiteText(if (tab == 0) "Add food" else "Create food") }) },
+                if (tab == 0 || (tab==1 && foodSection==1)) { addingSupplement = false;foodSection=0;tab = 1 } else showFoodEditor = true
+            }, icon = { Icon(Icons.Default.Add, null) }, text = { BiteText(if (tab == 0 || (tab==1 && foodSection==1)) "Add food" else "Create food") }) },
         ) { insets ->
             val modifier = Modifier.fillMaxSize().padding(insets)
-            if (settings) TrackerSettingsScreen(modifier, prefs, pending, vm::settings,
+            if(settings && aiSettings) AiSettingsScreen(modifier,aiVm,modelsRequest)
+            else if (settings) TrackerSettingsScreen(modifier, prefs, pending, vm::settings,
                 connect = ::connect, sync = { SyncScheduler.now(vm.app, manual = true) },
-                updates = { UpdatesPanel(vm, updates, catalogue) }, profile = { ProfilePhoto(vm, prefs) }, about = { privacy = true })
+                updates = { UpdatesPanel(vm, updates, catalogue) }, profile = { ProfilePhoto(vm, prefs) }, about = { privacy = true },
+                aiSettings={ OutlinedCard(onClick={aiSettings=true},modifier=Modifier.fillMaxWidth()) {
+                    Row(Modifier.padding(16.dp),verticalAlignment=Alignment.CenterVertically,horizontalArrangement=Arrangement.spacedBy(12.dp)) {
+                        AiProviderIcon(aiState.provider,Modifier.size(28.dp));Column { Text(ai("AI and chat","AI ve sohbet"),style=MaterialTheme.typography.titleMedium);Text(aiProviderName(aiState.provider),style=MaterialTheme.typography.bodySmall) }
+                    }
+                } })
             else when (tab) {
                 0 -> DashboardScreen(modifier, date, entries, water, supplements, intakes, prefs,
-                    changeDate = { selectedDate = it.toString() }, add = { addingSupplement = false; tab = 1 },
-                    addSupplement = { addingSupplement = true; tab = 1 }, delete = vm::delete,
+                    changeDate = { selectedDate = it.toString() }, add = { addingSupplement = false;foodSection=0; tab = 1 },
+                    addSupplement = { addingSupplement = true;foodSection=0; tab = 1 }, delete = vm::delete,
                     repeat = { vm.repeat(it, date) }, edit = ::edit,
                     addWater = { vm.addWater(it, date) }, deleteWater = vm::deleteWater, undoWater = vm::undoWater,
                     canUndoWater = water.any { it.id == lastWaterId && Instant.ofEpochMilli(it.time).atZone(ZoneId.systemDefault()).toLocalDate() == date },
@@ -157,16 +167,23 @@ fun BiteApp(vm: BiteViewModel = viewModel(), launchAction: String? = null, launc
                     dose = { doseProduct = it }, editDose = { dose -> supplements.find { it.id == dose.productId }?.let { doseProduct = it; editingDose = dose } },
                     deleteDose = vm::deleteSupplementIntake, editTarget = { targetProduct = it }, waterRequest = waterRequest)
                 1, 2 -> {
-                    val activeQuery = if (tab == 2) favoriteQuery else query
-                    val matches = if (tab == 2) favorites.filter { food -> vm.app.catalogue.translator.alternatives(activeQuery)
+                    val activeQuery = if (foodSection == 2) favoriteQuery else query
+                    val matches = if (foodSection == 2) favorites.filter { food -> vm.app.catalogue.translator.alternatives(activeQuery)
                         .any { foldFoodText("${food.name} ${food.brand}").contains(it) } } else vm.foods.collectAsStateWithLifecycle().value
-                    FoodScreen(modifier, matches, favorites.map { it.id }.toSet(), tab == 2, vm::favorite,
-                        query = activeQuery, queryChange = { if (tab == 2) favoriteQuery = it else { vm.foodQuery.value = it; vm.clearExternal() } }, busy = externalBusy,
+                    Column(modifier) {
+                        SecondaryTabRow(selectedTabIndex=foodSection) { listOf("Foods","Meals","Favorites").forEachIndexed { index,label ->
+                            Tab(selected=foodSection==index,onClick={foodSection=index},text={BiteText(label)})
+                        } }
+                        if(foodSection==1) MealsScreen(Modifier.fillMaxWidth().weight(1f),date,entries,{selectedDate=it.toString()},
+                            {addingSupplement=false;foodSection=0},::edit,{vm.repeat(it,date)},vm::delete)
+                        else FoodScreen(Modifier.fillMaxWidth().weight(1f), matches, favorites.map { it.id }.toSet(), foodSection == 2, vm::favorite,
+                        query = activeQuery, queryChange = { if (foodSection == 2) favoriteQuery = it else { vm.foodQuery.value = it; vm.clearExternal() } }, busy = externalBusy,
                         external = { provider, key -> vm.externalSearch(provider, key) }, translator = vm.app.catalogue.translator,
                         add = { addingFood = it }, create = { showFoodEditor = true }, import = { import.launch(arrayOf("application/json", "text/plain")) })
+                    }
                 }
-                3 -> AiScreen(date, onClose = { tab = 0; cameraRequest = 0; modelsRequest = 0 },
-                    cameraRequest = cameraRequest, modelsRequest = modelsRequest, embedded = true)
+                3 -> AiScreen(date, onClose = { tab = 0; cameraRequest = 0; modelsRequest = 0 },vm=aiVm,
+                    cameraRequest = cameraRequest, embedded = true,openSettings={settings=true;aiSettings=true})
             }
         }
         if (showFoodEditor) FoodEditor(onDismiss = { showFoodEditor = false }, save = { vm.saveFood(it); showFoodEditor = false })
@@ -291,6 +308,7 @@ private fun PrivacyDialog(vm: BiteViewModel, onDismiss: () -> Unit) {
             item { BiteText("Open source · GPL-3.0-or-later. Themes retain their original license notices.") }
             item { TextButton(onClick = { credits = vm.app.assets.open("themes/NOTICES.md").bufferedReader().use { it.readText() } }) { BiteText("Theme credits") } }
             item { TextButton(onClick = { credits = vm.app.assets.open("licenses/litert-lm.txt").bufferedReader().use { it.readText() } }) { Text(ai("AI runtime license","AI çalışma ortamı lisansı")) } }
+            item { TextButton(onClick = { credits = vm.app.assets.open("licenses/chatgpt-brand.txt").bufferedReader().use { it.readText() } }) { Text(ai("ChatGPT mark attribution","ChatGPT simgesi hakkında")) } }
             credits?.let { item { BiteText(it, style = MaterialTheme.typography.bodySmall) } }
         }
     }, confirmButton = { TextButton(onClick = onDismiss) { BiteText("Close") } })

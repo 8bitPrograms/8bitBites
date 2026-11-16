@@ -10,7 +10,7 @@
     </LinearLayout>
     <LinearLayout android:layout_width="match_parent" android:layout_height="48dp" android:layout_marginTop="6dp">
         <TextView android:id="@+id/widget_add" style="@style/WidgetDrinkButton" android:text="@string/widget_add"/>
-        <TextView android:id="@+id/widget_ai" style="@style/WidgetDrinkButton" android:text="AI"/>
+        <TextView android:id="@+id/widget_ai" style="@style/WidgetDrinkButton" android:textSize="10sp" android:maxLines="1" android:drawableTop="@drawable/ic_ai_local" android:text="@string/widget_ai"/>
         <TextView android:id="@+id/widget_camera" style="@style/WidgetDrinkButton" android:text="@string/widget_camera"/>
     </LinearLayout>
 </LinearLayout>

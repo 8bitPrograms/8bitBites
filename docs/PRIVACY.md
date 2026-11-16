@@ -14,6 +14,8 @@ disabled in the manifest. User-controlled backup/restore is not yet implemented.
 | External food search | Entered query/barcode; USDA key when using USDA | Chosen food-data provider |
 | Download a local model | Pinned model-file request and, if required, an HF access token | Hugging Face and its file delivery hosts |
 | API meal recognition | Submitted meal text and selected resized photo, plus provider credentials | Chosen AI endpoint |
+| ChatGPT sign-in | OAuth registration/host identifier, browser consent, basic account identity and protected credentials | OpenAI authentication service |
+| ChatGPT plan chat | Submitted recent conversation and included photos, using the selected account's OAuth credential | OpenAI public Responses API |
 | Health Connect sync | Confirmed food nutrition records and their updates/deletions | Android Health Connect |
 
 Network services can observe ordinary connection metadata such as the requester's
@@ -25,6 +27,22 @@ Local inference runs on the device and does not upload meal input. It never
 silently falls back to a remote provider. API mode sends input only when the user
 submits recognition. Provider API keys and the USDA key stay in session memory;
 endpoint/model selections can persist without the key.
+
+ChatGPT account connections use OpenAI's browser authorization. Account/client
+mapping, identity, permissions, rotating tokens and expiry are encrypted in
+private Android storage using Keystore. The app can keep separate account
+registrations; switching account or AI provider starts a new conversation.
+Signing in alone does not grant plan usage. This connection does not read the
+user's ChatGPT conversations or memories, and no browser cookies are imported.
+Sign-out attempts to revoke the renewable session and clears local tokens. If
+remote revocation cannot be confirmed, the app says so and directs the user to
+ChatGPT settings. The installation's opaque host ID and account mapping remain.
+
+Chat messages and attached photos stay in app-session memory; they are cleared
+by New chat or process termination. Bounded recent context is sent only when
+the user submits to the selected provider. ChatGPT requests use `store:false`;
+this is an API storage setting, not a claim of zero provider retention. Confirmed
+diary entries are stored separately and are not removed by clearing chat.
 
 The local model runs in a private worker process. One diagnostic record keeps
 device/runtime, available memory, model identifier, last stage and error category;

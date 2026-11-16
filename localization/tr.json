@@ -337,5 +337,10 @@
   "Enter a Hugging Face read token for this model": "Bu model için bir Hugging Face okuma anahtarı gir",
   "Connection interrupted. The partial model is kept.": "Bağlantı kesildi. Modelin indirilen bölümü korundu.",
   "Sugars": "Şeker",
-  "Nutrients from supplements": "Takviyelerden gelen"
+  "Nutrients from supplements": "Takviyelerden gelen",
+  "On-device AI": "Yerel AI",
+  "Remote server": "Uzak sunucu",
+  "Chat": "Sohbet",
+  "AI settings": "AI ayarları",
+  "AI and chat": "AI ve sohbet"
 }

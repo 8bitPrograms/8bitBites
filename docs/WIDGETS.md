@@ -7,7 +7,9 @@ Add widgets from Settings > Home screen widgets or the Android launcher's widget
   uses the serving selected in Settings. Buttons log water without opening the app.
 - **Daily nutrition:** energy progress, macros and optional targets, water progress,
   a quick-water button and food/AI/camera shortcuts.
-- **Quick add:** profile, food, AI and camera shortcuts in a compact card.
+- **Quick add:** profile, food, chat and camera shortcuts in a compact card. The
+  chat shortcut uses the selected AI provider's name and icon, including the
+  ChatGPT mark, a local chip or a remote-server symbol.
 
 Widgets adapt to resizing, support light/dark system colours, and use the selected
 app language. Compact cards hide illustration/details to retain the action buttons.

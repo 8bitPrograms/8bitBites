@@ -1,14 +1,26 @@
-# AI meal entry
+# AI connections and chat
 
-Open **AI** in bottom navigation. Type a meal description, choose a photo, or
-take one with the embedded camera. Recognition returns a review draft. For each
-item, select a matching database food, confirm grams and choose a meal. You can
-mark an item as a supplement during review. Only confirmed food-label nutrition
-is saved; AI-generated nutrient values are not used as database facts.
+Choose **Settings > AI and chat** to select **On-device AI**, an HTTPS
+**Remote server**, or **ChatGPT**. Connection details and local model management
+live in Settings. The bottom navigation and quick widget use the selected
+provider's name and symbol: a local chip, remote server or the ChatGPT mark.
+
+The chat screen contains messages, a composer and photo/camera attachments.
+Describe a meal, ask questions or clarify an earlier amount. Conversation context
+is bounded before submission; switching providers or ChatGPT accounts starts a
+new chat. Chat history and unsaved drafts stay in memory and are lost on process
+death. **New chat** clears the current conversation.
+
+An assistant can propose a meal, but it cannot write directly to the diary.
+Choose **Review meal**, select matching database foods, confirm grams and choose
+a meal. You can mark an item as a supplement during review. Only confirmed
+food-label nutrition is saved; AI-generated nutrients are not database facts.
+Photo portions are estimates, and an unspecified scoop weight stays unknown.
 
 ## On-device models
 
-Choose **Browse & download models** or import a compatible `.litertlm` file.
+In **Settings > AI and chat > On-device AI**, choose **Browse & download models**
+or import a compatible `.litertlm` file.
 The bundled catalogue describes three pinned model conversions:
 
 | Model | Approximate download | Input | Access |
@@ -30,28 +42,59 @@ match their pinned revision, byte count and SHA-256 before use. Android can
 delay work because of network, battery, memory or thermal restrictions. Reopen
 the model manager after a reboot or explicit task stop to resume if needed.
 
-## Your API key
+## OpenAI-compatible remote server
 
 Gemma's **Hugging Face download token** is independent of this API mode. It grants
 access to the gated model download; after installation the selected model runs
 locally. Qwen's listed public file requires no token.
 
-Choose OpenAI, Gemini or an HTTPS OpenAI-compatible base URL. Enter your own
-API key and model ID; photo recognition requires a vision-capable model. The
-key remains in memory and must be entered again in a later session. The chosen
-endpoint and model ID can be remembered.
+Choose **Remote server** in AI settings. OpenAI and Gemini presets are provided;
+you can also enter an HTTPS OpenAI-compatible base URL and model ID. Supply your
+own API key if the server requires one. The key remains in memory and must be
+entered again in a later session. Endpoint and model ID can be remembered.
+Photo recognition requires a vision-capable model. Billing, quotas and data
+policies are those of the selected provider.
 
-ChatGPT subscriptions and free ChatGPT accounts are not used as API credentials.
-Provider billing, quotas and data policies apply separately. The app does not
-offer ChatGPT account login or borrow another person's subscription.
+Recent submitted conversation turns and included resized photos go to the chosen
+endpoint. The connection does not follow redirects with the authorization
+header. A failed local request is never automatically uploaded.
 
-Only submitted text and a selected resized photo go to the endpoint. API mode
-does not follow redirects with the authorization header, and local mode does
-not automatically upload input after an inference failure.
+## Your ChatGPT account
 
-Photo portions are estimates. A scoop with no known weight stays unspecified.
-Review drafts are kept in memory and can be lost after process death. Inference,
-device memory use and live provider calls still require physical-device testing.
+Choose **ChatGPT**, then **Continue with ChatGPT**. OpenAI's browser page handles
+the account sign-in and the separate permission to use your ChatGPT plan. Each
+person connects their own account. This route does not require an API key or
+share the developer's subscription. Account/plan eligibility, provider limits and
+availability apply; an identity-only sign-in does not enable plan inference.
+
+After browser consent, use **Return to 8bitBites** if Android has not already
+returned to the app. Refresh or select a model from the account's available
+models in Settings. The chat composer identifies ChatGPT plan usage and offers
+**Manage ChatGPT usage**; the first use also explains how allowance is consumed.
+Plan-limit errors link to usage controls. The app does not silently switch to a
+paid API or another account.
+
+The implementation follows OpenAI's documented
+[open-source sign-in flow](https://developers.openai.com/siwc/token-sharing-open-source/sign-in),
+[profile/session rules](https://developers.openai.com/siwc/token-sharing-open-source/profiles-and-sessions)
+and [model/inference contract](https://developers.openai.com/siwc/token-sharing-open-source/models-and-inference).
+It uses authorization-code PKCE, random state/nonce, a temporary loopback
+callback, verified ID tokens and account-specific model discovery. Calls use
+OpenAI's public Responses API, with streaming and `store:false`. A partial stream
+is never accepted as a completed assistant response or meal draft.
+
+OAuth connections are encrypted with Android Keystore in app-private storage
+and excluded from backup. Refresh-token rotation is serialized and persisted;
+sign-out attempts remote revocation and removes local credentials. If revocation
+cannot be confirmed, the app tells you to revoke access in ChatGPT settings.
+No browser cookies, ChatGPT conversations or memories are imported. See
+[privacy details](PRIVACY.md) and OpenAI's
+[plan usage explanation](https://help.openai.com/en/articles/20001542-using-your-chatgpt-plan-in-other-apps-and-sites).
+
+Host tests verify protocol handling and render the screens. **Real-account browser
+sign-in, plan entitlement, live inference and the S25 return-to-app flow have not
+been verified on a physical phone.** The same applies to device memory use and
+local inference. A successful local build does not establish those outcomes.
 
 ## Download recovery
 
@@ -88,7 +131,7 @@ The desktop checked small real Qwen download/resume requests and host transfer
 tests. Complete download, background behaviour and inference still need phone
 validation.
 
-## Local execution and error details in 0.6.2
+## Local execution and error details
 
 Local inference runs in a private `:local_ai` bound-service process. The main
 process owns the diary and model-library lock. Only the selected local model path,

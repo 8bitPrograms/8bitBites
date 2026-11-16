@@ -341,4 +341,9 @@ internal val translatedIds: Map<String,Int> = mapOf(
     "Connection interrupted. The partial model is kept." to R.string.m816e2ffa223a,
     "Sugars" to R.string.m50c793ae7135,
     "Nutrients from supplements" to R.string.mc4d59ec08616,
+    "On-device AI" to R.string.m05782b5104fb,
+    "Remote server" to R.string.m16c93be495a1,
+    "Chat" to R.string.m2ced57f12591,
+    "AI settings" to R.string.m6dcf51d7630d,
+    "AI and chat" to R.string.me7cd879032d4,
 )

@@ -8,7 +8,7 @@ Jetpack Compose and Material 3. Your diary works offline and stays on your devic
 [Türkçe](README.tr.md) · [Build](docs/BUILDING.md) · [AI](docs/AI.md) ·
 [Database](database/README.md) · [Privacy](docs/PRIVACY.md) · [Contribute](CONTRIBUTING.md)
 
-**Status:** early development. Current source: **0.6.2-dev**. Bundled food
+**Status:** early development. Current source: **0.7.0-dev**. Bundled food
 catalogue: **0.4.0** with **2,193 foods**, including 260 ETİ products. Android 9
 (API 28) or newer is required. Device testing is still in progress.
 
@@ -16,6 +16,7 @@ catalogue: **0.4.0** with **2,193 foods**, including 260 ETİ products. Android 
 
 - **Food:** search the bundled Turkish catalogue, create personal foods, save
   favourites, or explicitly search Open Food Facts and USDA FoodData Central.
+  Foods contains the catalogue, recorded meals and favourites as separate sections.
   Portions use grams; missing nutrients stay unknown. The last meal you select
   is remembered for the next entry.
 - **Water:** choose a target and custom ml/L serving. The plus button records
@@ -32,10 +33,11 @@ catalogue: **0.4.0** with **2,193 foods**, including 260 ETİ products. Android 
 - **Targets:** energy and water goals, optional protein/carbohydrate/fat goals
   (off by default), and user-defined protein-powder/creatine amount targets.
 
-Tap the bottom-left profile photo for your diary, supplements and seven-day
+Tap the bottom-left profile photo for your daily overview, supplements and seven-day
 trends. Optional cards collapse and can be hidden in settings. The top-right
-gear opens settings; **Foods**, **Favorites** and **AI** have bottom navigation
-tabs. Choose a profile photo, use Material You colours, or unlock the included
+gear opens settings. **Foods** contains meals and favourites; the third navigation
+item opens chat with the selected provider's name and icon. Choose a profile photo,
+use Material You colours, or unlock the included
 theme pack with seven quick taps on the version label.
 
 English is the default UI language. Turkish, German, French, Spanish, Italian,
@@ -44,9 +46,10 @@ help searches; product names and external responses keep their source language.
 
 ## AI meal entry
 
-Describe a meal, select a photo or take one inside the app. Recognition produces
-a draft: choose matching database foods, check the portions and confirm before
-saving. Model-generated nutrient values are not written into your diary.
+Choose a connection in **Settings > AI and chat**. The chat screen contains
+messages, photos and a composer. Continue the conversation to clarify amounts;
+use **Review meal** to choose matching database foods, check portions and confirm
+before saving. Model-generated nutrient values are not written into your diary.
 
 - **On device:** download a supported, pinned LiteRT-LM model from Hugging Face
   inside the app, or import a compatible `.litertlm` file. Downloads support
@@ -57,9 +60,14 @@ saving. Model-generated nutrient values are not written into your diary.
 - **Your API key:** use OpenAI, Gemini or an HTTPS OpenAI-compatible endpoint.
   API keys remain in session memory. Only submitted text and selected photos are
   sent to the chosen provider; there is no automatic cloud fallback.
+- **Your ChatGPT account:** sign in through OpenAI's browser flow and separately
+  approve ChatGPT plan usage. The app lists models available to that account and
+  uses its allowance. Connections are protected with Android Keystore; chat
+  history stays in session memory. Account eligibility and real-phone sign-in
+  still need validation. No API key is needed for this connection.
 
-No model is bundled. A ChatGPT subscription or free ChatGPT account is not an
-API credential. See [AI setup, model access and limitations](docs/AI.md).
+No model is bundled. ChatGPT sign-in and conventional API-key access are separate
+connections. See [AI setup, model access and limitations](docs/AI.md).
 
 ## Health Connect and widgets
 
@@ -113,5 +121,6 @@ camera barcode scanning, recipes, backup/restore and expanded Health Connect
 controls. These are not implemented features.
 
 The application code is **GPL-3.0-or-later**; see [LICENSE](LICENSE). Model,
-theme and external database licenses remain separate. Theme attribution and
-runtime license notices are included in the app assets.
+theme and external database licenses remain separate. OpenAI retains rights to
+the ChatGPT mark; it does not imply endorsement. Attribution and runtime license
+notices are included in the app assets.

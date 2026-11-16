@@ -12,8 +12,8 @@ android {
         applicationId = "org.eightbit.bite"
         minSdk = 28
         targetSdk = 36
-        versionCode = 10
-        versionName = "0.6.2-dev"
+        versionCode = 11
+        versionName = "0.7.0-dev"
         val repository = providers.gradleProperty("bite.repository").getOrElse("8bitPrograms/8bitBites")
         require(Regex("[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+").matches(repository))
         buildConfigField("String", "UPDATE_REPOSITORY", "\"$repository\"")

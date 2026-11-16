@@ -7,7 +7,7 @@ ve Material 3 ile geliştirilir. Günlük kayıtları cihazda tutulur; temel tak
 [English](README.md) · [Derleme](docs/BUILDING.md) · [Veri tabanı](database/README.md)
 · [Gizlilik](docs/PRIVACY.md) · [Katkıda bulunma](CONTRIBUTING.md)
 
-**Geliştirme sürümü:** 0.6.2-dev. **Besin veri tabanı:** 0.4.0; 2.193 besin,
+**Geliştirme sürümü:** 0.7.0-dev. **Besin veri tabanı:** 0.4.0; 2.193 besin,
 bunların 260'ı ETİ ürünü. Android 9 ve üzeri gerekir. Fiziksel cihaz testleri
 henüz tamamlanmadı.
 
@@ -24,8 +24,14 @@ henüz tamamlanmadı.
   ayrı gösterilir. Eksik etiket değerleri sıfır kabul edilmez.
 - İsteğe bağlı hedefler. Protein, karbonhidrat ve yağ hedefleri varsayılan olarak
   kapalıdır. Su hedefi kullanıcı tarafından değiştirilebilir; öneri zorlanmaz.
-- Profil fotoğrafının altında günlük, takviyeler ve eğilimler. Katlanabilir
-  kartlar, sağ üstte ayarlar dişlisi ve alt menüde AI.
+- Profil fotoğrafının altında günlük özet, su, takviyeler ve eğilimler.
+  Öğünler ve Favoriler, Foods içindeki ayrı bölümlere taşındı.
+- AI ayarlarında yerel model, OpenAI uyumlu uzak sunucu veya ChatGPT hesabı seçimi.
+  Alt menüde seçilen bağlantının simgesi ve adı; AI ekranında yalnızca sohbet.
+- Metin/fotoğraf mesajları, önceki öğünü düzeltme ve kaydetmeden önce öğünü inceleme.
+- Resmî tarayıcı akışıyla kendi ChatGPT hesabını bağlama ve plan kullanım izni.
+  Kullanılabilen modeller hesaptan alınır; bağlantı Android Keystore ile korunur.
+  Gerçek hesapla S25 üzerinde giriş ve yanıt henüz doğrulanmadı.
 - Cihazda desteklenen modelle veya kendi API anahtarınızla metin/fotoğraf
   tanıma, uygulama içi kamera ve arka planda model indirme.
 - Yerel modeli günlükten ayrı çalıştırma; iptal/süre sınırı ve kopyalanabilir
@@ -40,8 +46,10 @@ Takviye günlerine özel ek su hedefleri isteğe bağlıdır ve varsayılan olar
 kreatin/protein tozu için kanıtlanmış bir ek litre katsayısı yoktur. Ekler yalnızca
 o gün kaydedilen takviye miktarıyla, ayrı kesik çizgili şişeler olarak gösterilir.
 Su widget'ındaki düğmeler uygulamayı açmadan su kaydeder.
-AI sonuçları kaydetmeden önce kullanıcı tarafından incelenir. ChatGPT aboneliği
-API anahtarı yerine geçmez. Hatırlatıcılar, tarifler ve genişletilmiş Health
+AI sonuçları kaydetmeden önce kullanıcı tarafından incelenir. ChatGPT hesabıyla
+bağlantı için API anahtarı gerekmez; uygun plan ve kullanım izni gerekir.
+Uzak sunucunun API anahtarı ayrı bir bağlantıdır. Sohbet geçmişi oturumda tutulur.
+Hatırlatıcılar, tarifler ve genişletilmiş Health
 Connect kontrolleri planlanan işlerdir.
 
 Veriler gönüllü katkılarla derlenmiştir. Değerler hatalı olabilir; lütfen ürünün

@@ -82,4 +82,13 @@ class WidgetTest {
             assertTrue(db.dao().dailyWater(2000, 3000).isEmpty())
         } finally { db.close() }
     }
+    @Test fun quickWidgetUsesTheSelectedProviderLabelAndAnActualIcon() {
+        val context=RuntimeEnvironment.getApplication() as android.content.Context
+        context.getSharedPreferences("ai-settings",0).edit().putString("provider","CHATGPT").commit()
+        val view=render(QuickAddWidget::class.java,540,300,"widget-quick-chatgpt")
+        val button=view.findViewById<TextView>(R.id.widget_ai)
+        assertEquals("ChatGPT",button.text.toString())
+        assertNotNull(button.compoundDrawables[1])
+        assertFits(view,R.id.widget_ai)
+    }
 }

@@ -65,7 +65,8 @@ private fun LanguagePicker() {
 
 @Composable
 internal fun TrackerSettingsScreen(modifier: Modifier, prefs: Preferences, pending: Int, save: (Preferences) -> Unit,
-    connect: () -> Unit, sync: () -> Unit, updates: @Composable () -> Unit, profile: @Composable () -> Unit, about: () -> Unit) {
+    connect: () -> Unit, sync: () -> Unit, updates: @Composable () -> Unit, profile: @Composable () -> Unit, about: () -> Unit,
+    aiSettings:@Composable ()->Unit={}) {
     var name by rememberSaveable(prefs.name) { mutableStateOf(prefs.name) }
     var calories by rememberSaveable(prefs.calorieGoal) { mutableStateOf(prefs.calorieGoal.toString()) }
     var age by rememberSaveable(prefs.age) { mutableStateOf(prefs.age?.toString().orEmpty()) }
@@ -100,6 +101,7 @@ internal fun TrackerSettingsScreen(modifier: Modifier, prefs: Preferences, pendi
     val reference = profileWaterEstimateMl(age.toIntOrNull(), sex, weight.numeric(), height.numeric())
     val validExtraWater = listOf(powderWater, creatineWater).all { it.numeric()?.let { n -> n in 0.0..5000.0 } == true }
     LazyColumn(modifier.imePadding(), contentPadding = PaddingValues(20.dp, 8.dp, 20.dp, 32.dp), verticalArrangement = Arrangement.spacedBy(16.dp)) {
+        item { aiSettings() }
         item { BiteText("Personal details", style = MaterialTheme.typography.titleLarge) }
         item { profile() }
         item { OutlinedTextField(name, { name = it.take(80) }, label = { BiteText("Display name (optional)") }, singleLine = true, modifier = Modifier.fillMaxWidth()) }

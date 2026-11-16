@@ -338,4 +338,9 @@
     <string name="m816e2ffa223a" formatted="false">Connection interrupted. The partial model is kept.</string>
     <string name="m50c793ae7135" formatted="false">糖類</string>
     <string name="mc4d59ec08616" formatted="false">サプリメント由来の栄養</string>
+    <string name="m05782b5104fb" formatted="false">端末内AI</string>
+    <string name="m16c93be495a1" formatted="false">リモートサーバー</string>
+    <string name="m2ced57f12591" formatted="false">チャット</string>
+    <string name="m6dcf51d7630d" formatted="false">AI設定</string>
+    <string name="me7cd879032d4" formatted="false">AIとチャット</string>
 </resources>

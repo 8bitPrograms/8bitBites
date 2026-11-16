@@ -17,6 +17,8 @@ import org.eightbit.bite.R
 import org.eightbit.bite.core.*
 import org.eightbit.bite.data.*
 import org.eightbit.bite.ui.localized
+import org.eightbit.bite.ui.aiProviderDrawable
+import org.eightbit.bite.ai.selectedAiProvider
 import java.time.*
 import java.time.format.DateTimeFormatter
 import java.util.Locale
@@ -167,7 +169,9 @@ internal fun renderWidget(context: Context, provider: Class<*>, day: WidgetDay, 
     } else {
         view.setTextViewText(R.id.widget_add, label("Food"))
         view.setTextViewText(R.id.widget_camera, label("Photo"))
-        view.setTextViewText(R.id.widget_ai, "AI")
+        val provider=selectedAiProvider(context)
+        view.setTextViewText(R.id.widget_ai,when(provider) { AiProvider.CHATGPT -> "ChatGPT";AiProvider.REMOTE -> label("Remote server");AiProvider.LOCAL -> label("On-device AI") })
+        view.setTextViewCompoundDrawables(R.id.widget_ai,0,aiProviderDrawable(provider),0,0)
         view.setContentDescription(R.id.widget_ai, label("Describe a meal with AI"))
         view.setContentDescription(R.id.widget_avatar, label("Open your profile"))
         listOf(R.id.widget_add to "foods", R.id.widget_ai to "ai", R.id.widget_camera to "camera", R.id.widget_avatar to "profile").forEach { (target, screen) -> open(target, screen) }

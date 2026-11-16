@@ -9,6 +9,7 @@ import android.os.Message
 import com.google.ai.edge.litertlm.*
 import kotlinx.coroutines.*
 import org.eightbit.bite.core.AiMeals
+import org.eightbit.bite.core.AiChat
 import java.io.File
 
 /** Native code lives only in :local_ai. This service is private and only bound for one request. */
@@ -47,14 +48,15 @@ class LocalAiService:Service() {
                 val model=File(request.getString("model").orEmpty()).canonicalFile
                 require(model.parentFile==models && model.extension=="litertlm" && model.isFile)
                 val text=request.getString("text").orEmpty()
-                require(text.length<=4000)
+                val chat=request.getBoolean("chat")
+                require(text.length<=(if(chat) 8000 else 4000))
                 val photoPath=request.getString("photo")
                 val jpeg=photoPath?.let { path ->
                     val file=File(path).canonicalFile
                     require(file.parentFile==File(cacheDir,"local-ai-input").canonicalFile && file.isFile && file.length()<=LocalAiProtocol.MAX_PHOTO_BYTES)
                     file.readBytes()
                 }
-                val output=runModel(model,text,jpeg) { stage -> send(LocalAiProtocol.STAGE) { putString("stage",stage) } }
+                val output=runModel(model,text,jpeg,chat) { stage -> send(LocalAiProtocol.STAGE) { putString("stage",stage) } }
                 send(LocalAiProtocol.RESULT) { putString("output",output) }
             } catch(error:Throwable) {
                 if(error is VirtualMachineError && error !is OutOfMemoryError) throw error
@@ -68,7 +70,7 @@ class LocalAiService:Service() {
             }
         }
     }
-    private fun runModel(model:File,text:String,jpeg:ByteArray?,stage:(String)->Unit):String {
+    private fun runModel(model:File,text:String,jpeg:ByteArray?,chat:Boolean,stage:(String)->Unit):String {
         stage("loading")
         Engine.setNativeMinLogSeverity(LogSeverity.ERROR)
         val engine=Engine(EngineConfig(modelPath=model.absolutePath,backend=Backend.CPU(),
@@ -77,7 +79,7 @@ class LocalAiService:Service() {
         try {
             engine.initialize()
             stage("preparing")
-            engine.createConversation(ConversationConfig(systemInstruction=Contents.of(AiMeals.instruction),
+            engine.createConversation(ConversationConfig(systemInstruction=Contents.of(if(chat) AiChat.instruction else AiMeals.instruction),
                 automaticToolCalling=false,maxOutputToken=1024)).use { conversation ->
                 val contents=Contents.of(buildList {
                     add(Content.Text(text.ifBlank { "Identify this meal." }))

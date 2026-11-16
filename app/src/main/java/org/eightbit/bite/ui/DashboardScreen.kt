@@ -40,7 +40,7 @@ private fun GoalProgress(label: String, actual: Double, target: Double?, unit: S
 }
 
 @Composable
-private fun MealCard(entry: DiaryEntry, edit: () -> Unit, repeat: () -> Unit, delete: () -> Unit) {
+internal fun MealCard(entry: DiaryEntry, edit: () -> Unit, repeat: () -> Unit, delete: () -> Unit) {
     var menu by remember { mutableStateOf(false) }
     Card(Modifier.fillMaxWidth()) {
         Row(Modifier.padding(start = 14.dp, top = 10.dp, bottom = 10.dp, end = 4.dp), verticalAlignment = Alignment.CenterVertically) {
@@ -188,15 +188,5 @@ internal fun DashboardScreen(modifier: Modifier, date: LocalDate, entries: List<
                 }
             }
         } }
-        item { BiteText("Meals", style = MaterialTheme.typography.titleLarge) }
-        if (daily.isEmpty()) item { BiteText("Your diary is empty. Add a food from your catalogue or create a personal entry.")
-            TextButton(onClick = add) { BiteText("Browse foods") } }
-        meals.forEach { (meal, label) ->
-            val group = daily.filter { it.mealType == meal }
-            if (group.isNotEmpty()) {
-                item { BiteText(label, style = MaterialTheme.typography.titleMedium) }
-                items(group, key = { it.id }) { entry -> MealCard(entry, { edit(entry) }, { repeat(entry) }, { delete(entry) }) }
-            }
-        }
     }
 }

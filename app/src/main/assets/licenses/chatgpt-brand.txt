@@ -1,0 +1,10 @@
+The ChatGPT mark identifies the optional Sign in with ChatGPT connection.
+Copyright and trademark rights belong to OpenAI. It is not covered by the
+application's GPL license and does not indicate endorsement of 8bitBites.
+
+Source: openai/sign-in-with-chatgpt-devkit, assets/brand/chatgpt-card-24.svg
+https://github.com/openai/sign-in-with-chatgpt-devkit
+Usage: https://developers.openai.com/siwc/ui-ux-guidelines
+
+The authentication implementation is independently authored against OpenAI's
+documented public protocol. The devkit runtime is not included or linked.

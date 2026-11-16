@@ -139,6 +139,7 @@ class TrackerUiTest {
         compose.onNodeWithText("Water").assertExists()
         compose.onNodeWithText("Supplements").assertExists()
         compose.onNodeWithText("Last seven days").assertExists()
+        compose.onNodeWithText("Meals").assertDoesNotExist()
         capture("dashboard")
     }
     @Test @Config(qualifiers = "ja-w393dp-h852dp-xxhdpi") fun japaneseDashboardUsesLocalizedLabels() {

@@ -20,9 +20,9 @@ internal object LocalAiProtocol {
 
 /** A dead native worker fails this request instead of terminating the diary process. */
 internal suspend fun localMeal(context:Context,model:File,text:String,jpeg:ByteArray?,
-    onStage:(String)->Unit={},timeoutMs:Long=180000):String {
+    onStage:(String)->Unit={},timeoutMs:Long=180000,chat:Boolean=false):String {
     require(model.isFile) { "Import a compatible .litertlm model first" }
-    require(text.length<=4000 && (text.isNotBlank() || jpeg!=null)) { "Describe a meal or select a photo" }
+    require(text.length<=(if(chat) 8000 else 4000) && (text.isNotBlank() || jpeg!=null)) { "Describe a meal or select a photo" }
     require(jpeg==null || jpeg.size<=LocalAiProtocol.MAX_PHOTO_BYTES) { "Photo is too large" }
     val id=UUID.randomUUID().toString()
     val diagnostics=LocalAiDiagnostics(context)
@@ -70,7 +70,7 @@ internal suspend fun localMeal(context:Context,model:File,text:String,jpeg:ByteA
                             try { worker!!.send(Message.obtain(null,LocalAiProtocol.RUN).apply {
                                 replyTo=reply
                                 data=Bundle().apply { putString("id",id);putString("model",model.absolutePath)
-                                    putString("text",text);putString("photo",photo?.absolutePath) }
+                                    putString("text",text);putString("photo",photo?.absolutePath);putBoolean("chat",chat) }
                             }) } catch(_:RemoteException) { fail(LocalAiFailure.CRASH) }
                         }
                         override fun onServiceDisconnected(name:ComponentName)=fail(LocalAiFailure.CRASH)

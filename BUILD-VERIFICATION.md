@@ -1,74 +1,89 @@
-# 8bitBites 0.6.2-dev — local verification
+# 8bitBites 0.7.0-dev — local verification
 
 Checked on **2026-11-16** on the local Windows computer. GitHub Actions was not
-used; the workflow remains manual-only. Previous behaviour and verification are
-recorded in the [0.6.1 report](docs/verification/0.6.1.md).
+used; the workflow remains manual-only. Previous local-AI work and its limits
+are recorded in the [0.6.2 report](docs/verification/0.6.2.md).
 
-## Local AI changes
+## Changes checked
 
-- Native model execution moved to the private, non-exported `:local_ai` bound
-  service. The diary process receives results, controlled errors and worker-death
-  callbacks; the worker does not start diary/sync/widget observers.
-- One synchronous JNI request runs on the worker. Cancel/timeout ends that worker
-  instead of freeing a conversation while an asynchronous native call is active.
-- Loading, preparation and recognition stages are shown. Copyable diagnostics
-  record device, Android, ABI, memory, model and last stage, plus Android's process
-  exit reason when available. Prompt/photo/output/credentials are excluded.
-- An unfinished request is recovered without automatic retries. The selected
-  model and diary records are retained. Photos cross the binding as private cache
-  paths and are removed after completion/cancellation or interrupted recovery.
-- Gemma's Hugging Face token is labelled as download access. Qwen remains public.
+- Settings owns the on-device, OpenAI-compatible remote-server and ChatGPT
+  connection controls. The chat screen contains conversation and meal-review
+  actions. Provider names and distinct icons appear in navigation and the quick
+  widget.
+- Multi-turn text/photo chat supports amount corrections. A food proposal needs
+  explicit review and confirmation before the diary changes. Nutrition comes
+  from the selected database food, not generated nutrient values.
+- ChatGPT uses the documented open-source browser authorization flow, PKCE,
+  state/nonce checks, verified RS256 identity, separate plan-usage permission,
+  per-account model discovery and public streaming Responses API.
+- OAuth credentials use encrypted Keystore-backed storage. Refresh rotation is
+  serialized, local sign-out clears credentials and attempts remote revocation.
+  Partial/failed response streams are rejected; plan-limit errors offer usage
+  management. Account/provider changes clear chat context.
+- Meals and Favorites are sections inside Foods. You retains daily overview,
+  water, supplements and trends. Existing meal edit/repeat/delete actions remain.
 
-## Checks
+## Checks and evidence
 
-**82 JVM/app host tests passed, with no failures, errors or skips:** 41 core tests
-and 41 app tests. Nine new worker-client tests cover results/stages, runtime
-errors, process-death notification, cancellation, failed binding, timeout,
-private-photo handoff/cleanup, interrupted recovery and manifest process/export
-settings. They simulate the worker boundary and do not execute the native model.
-The existing diary, migration, hydration, supplement, widget and Compose tests
-also passed.
+**104 JVM/app host tests passed, with no failures, errors or skips:** 51 core
+tests and 53 app tests. The 22 additional tests cover chat request/context and
+stream parsing, PKCE/callback/identity/model rules, legacy provider migration,
+account permission state, Compose provider/chat/meal controls and the widget's
+selected provider. Callback tests send real localhost HTTP requests to the
+callback receiver, including an invalid-state request before a valid return and
+a denied permission response. They do not contact an actual user's account.
 
-Debug assembly and lint succeeded with JDK 17, Gradle 8.13, Android platform 36
-and build-tools 35.0.0. Lint has **0 errors and 76 warnings**; no baseline or
-suppression was introduced. Documentation links and authored-file whitespace
-were checked.
+The command `:core:test :app:testDebugUnitTest :app:assembleDebug :app:lintDebug`
+succeeded locally with JDK 17, Gradle 8.13, Android platform 36 and build-tools
+35.0.0. Lint reports **0 errors and 82 warnings**; no baseline or suppression was
+introduced.
 
-Hugging Face metadata for the upstream template-fixed Qwen revision
-`5e6e7a58d03777898b31330a15d2e0a5a9107de3` and our pinned revision
-`2f23bacf8ec78b83dfcd7271c5cb25777b1be5e0` returned the same 1,597,922,856-byte
-file and SHA-256 `c4a9b7289365ab80fe599b844b77ad253eb3c53fb0e5d963d699146a6f01255e`.
-The [upstream template report](https://github.com/google-ai-edge/gallery/issues/1317)
-therefore does not establish the cause of the reported S25 termination. The model
-pin, native runtime version and native libraries are unchanged.
+Robolectric native rendering was inspected for the ChatGPT connection screen,
+a Turkish multi-turn meal correction/review conversation and the quick widget.
+These use synthetic test data, not a successful live ChatGPT exchange. The
+screenshots are generated under `app/build/reports/ui/`.
+
+The public OpenID discovery document and its RSA signing keys were checked.
+Protocol behavior was compared with OpenAI's official
+[sign-in](https://developers.openai.com/siwc/token-sharing-open-source/sign-in),
+[session](https://developers.openai.com/siwc/token-sharing-open-source/profiles-and-sessions),
+[inference](https://developers.openai.com/siwc/token-sharing-open-source/models-and-inference)
+and [UI guidance](https://developers.openai.com/siwc/ui-ux-guidelines).
+The authentication implementation is independent; the devkit runtime is not
+included. The separately attributed ChatGPT mark identifies this connection.
 
 ## Local APK
 
-- File: artifacts/8bitBites-0.6.2-dev.apk
+- File: artifacts/8bitBites-0.7.0-dev.apk
 - Application ID: org.eightbit.bite
-- Version: 0.6.2-dev, versionCode 10
-- Bytes: 96083967
-- SHA-256: b9451462e561c107bb2cdd7f8678d4657ad81a79364b341159bd690a9fbddb5d
+- Version: 0.7.0-dev, versionCode 11
+- Bytes: 95183379
+- SHA-256: ebf45915b5b2d748a4ab56fd7d9d9ef44725b343bb7d5eafa855e16ec02b7376
 - Certificate SHA-256:
   8e73b40f0ab8b1bb784f8a7aa74d9930fb02ec77356b329e04a20b2a1e54560c
 - Bundled database SHA-256:
   1e73e8d5dc8759348d2796d45bec0d3ce85e2719fd7145b420d28cbcca30d10e
 
-The artifact uses the original development signing identity, matching the
-previous 0.6.1 APK. Signature verification, 16 KB ZIP alignment, ZIP integrity,
-packaged version notes and catalogue checksum passed. The final packaged manifest
-has the private worker process and exported=false. All 14 native libraries are
-byte-identical to 0.6.1. The standard Gradle debug output still uses the local
-default debug key; use the artifact above for an in-place development update.
-Signing material is not included in the repository or release assets.
+The artifact uses the original development signing identity, matching 0.6.2.
+Signature verification, 16 KB ZIP alignment, ZIP integrity, packaged version
+notes and catalogue checksum passed. The packaged manifest retains disabled
+backup and the private, non-exported local worker, and includes the settings
+return link. All 14 native libraries are byte-identical to 0.6.2. The ordinary
+Gradle debug output uses the local default debug key; use the artifact above
+for an in-place development update. Signing material is not distributed.
 
-No APK release was uploaded to GitHub, and app-update metadata remains unchanged.
+No APK release was uploaded to GitHub; app-update metadata remains unchanged.
 
-## Physical-device limit
+## Physical-device and live-account limits
 
-The reported device is a Samsung S25; its exact Android version was not supplied.
-ADB found no connected phone. A successful Qwen generation, real worker crash
-isolation, Android process-death timing and an in-place upgrade on that phone
-remain unverified. Host tests and the matching signature do not establish those
-outcomes. The next phone run can report its exact Android version and failure
-stage with Copy error details, without sharing the meal description.
+The reported phone is a Samsung S25; its exact Android version is unknown.
+Real-account browser consent, return to the Android app, account entitlement,
+live model responses and usage-limit behavior have not been exercised on that
+phone. A valid protocol implementation and passing host tests do not prove
+provider eligibility or end-to-end account access.
+
+A successful Qwen generation, actual worker crash isolation, background download
+behavior and an in-place update on the S25 also remain unverified. The new chat
+preserves local error diagnostics so a phone failure can be reported without
+sharing meal text, photos or credentials. No phone diary was erased or migrated
+to another package.

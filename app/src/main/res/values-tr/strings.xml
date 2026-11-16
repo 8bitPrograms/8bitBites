@@ -338,4 +338,9 @@
     <string name="m816e2ffa223a" formatted="false">Bağlantı kesildi. Modelin indirilen bölümü korundu.</string>
     <string name="m50c793ae7135" formatted="false">Şeker</string>
     <string name="mc4d59ec08616" formatted="false">Takviyelerden gelen</string>
+    <string name="m05782b5104fb" formatted="false">Yerel AI</string>
+    <string name="m16c93be495a1" formatted="false">Uzak sunucu</string>
+    <string name="m2ced57f12591" formatted="false">Sohbet</string>
+    <string name="m6dcf51d7630d" formatted="false">AI ayarları</string>
+    <string name="me7cd879032d4" formatted="false">AI ve sohbet</string>
 </resources>

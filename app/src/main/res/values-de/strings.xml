@@ -338,4 +338,9 @@
     <string name="m816e2ffa223a" formatted="false">Connection interrupted. The partial model is kept.</string>
     <string name="m50c793ae7135" formatted="false">Zucker</string>
     <string name="mc4d59ec08616" formatted="false">Nährstoffe aus Ergänzungsmitteln</string>
+    <string name="m05782b5104fb" formatted="false">Lokale KI</string>
+    <string name="m16c93be495a1" formatted="false">Entfernter Server</string>
+    <string name="m2ced57f12591" formatted="false">Chat</string>
+    <string name="m6dcf51d7630d" formatted="false">KI-Einstellungen</string>
+    <string name="me7cd879032d4" formatted="false">KI und Chat</string>
 </resources>

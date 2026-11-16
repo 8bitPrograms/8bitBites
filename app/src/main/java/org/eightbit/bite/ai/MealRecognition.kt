@@ -3,21 +3,23 @@ package org.eightbit.bite.ai
 
 import kotlinx.coroutines.*
 import org.eightbit.bite.core.AiMeals
+import org.eightbit.bite.core.AiChat
+import org.eightbit.bite.core.AiChatTurn
 import java.io.ByteArrayOutputStream
 import java.net.HttpURLConnection
 
 /** No diary, profile or background requests are sent. Credentials stay in session memory. */
-suspend fun apiMeal(base: String, key: String, model: String, text: String, jpeg: ByteArray?): String = coroutineScope {
-    require(key.isNotBlank() && key.length <= 4096 && key.none { it=='\r' || it=='\n' }) { "Enter your API key" }
+suspend fun apiMeal(base: String, key: String, model: String, text: String, jpeg: ByteArray?,turns:List<AiChatTurn>?=null): String = coroutineScope {
+    require(key.length <= 4096 && key.none { it=='\r' || it=='\n' }) { "Invalid API key" }
     val connection=AiMeals.endpoint(base).toURL().openConnection() as HttpURLConnection
     val request=async(Dispatchers.IO) { try {
         connection.requestMethod="POST"
         connection.instanceFollowRedirects=false // Never forward an authorization header to another host.
         connection.connectTimeout=20000;connection.readTimeout=90000
         connection.doOutput=true
-        connection.setRequestProperty("Authorization","Bearer ${key.trim()}")
+        if(key.isNotBlank()) connection.setRequestProperty("Authorization","Bearer ${key.trim()}")
         connection.setRequestProperty("Content-Type","application/json")
-        val bytes=AiMeals.request(model,text,jpeg).toByteArray(Charsets.UTF_8)
+        val bytes=(if(turns==null) AiMeals.request(model,text,jpeg) else AiChat.compatibleRequest(model,turns)).toByteArray(Charsets.UTF_8)
         connection.setFixedLengthStreamingMode(bytes.size)
         connection.outputStream.use { it.write(bytes) }
         val status=connection.responseCode

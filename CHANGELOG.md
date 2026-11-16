@@ -2,6 +2,20 @@
 
 App versions and public food-catalogue versions are independent.
 
+## 0.7.0-dev — 2026-11-16
+
+- Move all AI connection controls into Settings: on-device, OpenAI-compatible
+  HTTPS server and ChatGPT account/plan access.
+- Add the documented open-source ChatGPT sign-in flow with browser authorization,
+  PKCE/state/nonce checks, verified identity, protected account storage, refresh,
+  sign-out, account-specific model discovery and completed Responses streams.
+- Add conversation bubbles, photo attachments, meal corrections and a separate
+  review sheet. Diary nutrition still comes only from confirmed database foods.
+- Use the selected provider's icon/name in navigation and the quick widget.
+- Move recorded Meals and Favorites into sections under Foods; retain the You
+  overview, water, supplements and trends. Existing diary/model data is unchanged.
+- Build and check locally. Real-account sign-in and S25 inference remain pending.
+
 ## 0.6.2-dev — 2026-11-16
 
 - Move native local-model execution into a private bound-service process so
