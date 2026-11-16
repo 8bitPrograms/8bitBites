@@ -17,7 +17,7 @@ import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
-import org.eightbit.bite.core.adultWaterReferenceMl
+import org.eightbit.bite.core.profileWaterEstimateMl
 import org.eightbit.bite.data.Preferences
 import java.time.*
 import java.time.format.DateTimeFormatter
@@ -82,6 +82,9 @@ internal fun TrackerSettingsScreen(modifier: Modifier, prefs: Preferences, pendi
     var powder by rememberSaveable(prefs.powderGoal) { mutableStateOf(prefs.powderGoal?.inputNumber().orEmpty()) }
     var creatine by rememberSaveable(prefs.creatineGoal) { mutableStateOf(prefs.creatineGoal?.inputNumber().orEmpty()) }
     var waterGoal by rememberSaveable(prefs.waterGoalMl) { mutableStateOf(prefs.waterGoalMl.inputNumber()) }
+    var autoBase by rememberSaveable(prefs.waterAutoBase) { mutableStateOf(prefs.waterAutoBase) }
+    var powderWater by rememberSaveable(prefs.powderWaterMl) { mutableStateOf(prefs.powderWaterMl.inputNumber()) }
+    var creatineWater by rememberSaveable(prefs.creatineWaterMl) { mutableStateOf(prefs.creatineWaterMl.inputNumber()) }
     var waterUnitDialog by remember { mutableStateOf(false) }
     var waterDetails by rememberSaveable { mutableStateOf(false) }
     val context = LocalContext.current
@@ -94,7 +97,8 @@ internal fun TrackerSettingsScreen(modifier: Modifier, prefs: Preferences, pendi
     val validGoals = listOf(pEnabled to protein, cEnabled to carbs, fEnabled to fat).all { (enabled, number) ->
         if (enabled) number.numeric()?.let { it in 0.001..100000.0 } == true else true
     } && optional(powder, 0.001, 100000.0) && optional(creatine, 0.001, 100000.0)
-    val reference = adultWaterReferenceMl(age.toIntOrNull(), sex)
+    val reference = profileWaterEstimateMl(age.toIntOrNull(), sex, weight.numeric(), height.numeric())
+    val validExtraWater = listOf(powderWater, creatineWater).all { it.numeric()?.let { n -> n in 0.0..5000.0 } == true }
     LazyColumn(modifier.imePadding(), contentPadding = PaddingValues(20.dp, 8.dp, 20.dp, 32.dp), verticalArrangement = Arrangement.spacedBy(16.dp)) {
         item { BiteText("Personal details", style = MaterialTheme.typography.titleLarge) }
         item { profile() }
@@ -126,24 +130,36 @@ internal fun TrackerSettingsScreen(modifier: Modifier, prefs: Preferences, pendi
             powderGoal = powder.numeric(), creatineGoal = creatine.numeric())) }) { BiteText("Save goals") } }
         item { HorizontalDivider(); BiteText("Water", style = MaterialTheme.typography.titleLarge) }
         item { SettingSwitch("Show water tracker", prefs.waterEnabled) { save(prefs.copy(waterEnabled = it)) } }
-        item { NumberField(waterGoal, { waterGoal = it }, "Daily water goal · ml", waterGoal.numeric()?.let { it in 1.0..100000.0 } == true) }
+        item { SettingSwitch("Adjust base goal with my profile", autoBase, { autoBase = it }) }
+        if (!autoBase || reference == null) item { NumberField(waterGoal, { waterGoal = it }, "Base water goal · ml", waterGoal.numeric()?.let { it in 1.0..100000.0 } == true) }
         item { if (reference != null) {
             BiteText("Suggested starting goal", style = MaterialTheme.typography.titleSmall)
-            Text(volume(reference.toDouble(), prefs.waterInLiters), style = MaterialTheme.typography.titleLarge)
-            TextButton(onClick = { waterGoal = reference.toString() }) { BiteText("Use suggested goal") }
-        } else BiteText("Enter age and sex for an adult water reference. A custom goal is always available.", style = MaterialTheme.typography.bodySmall) }
+            Text(volume(reference, prefs.waterInLiters), style = MaterialTheme.typography.titleLarge)
+            if (!autoBase) TextButton(onClick = { waterGoal = reference.inputNumber() }) { BiteText("Use suggested goal") }
+            BiteText("A rough planning estimate for low activity. Heat, exercise and health can change your needs.", style = MaterialTheme.typography.bodySmall)
+        } else BiteText("Complete an adult profile with age, sex, height and weight for an estimate. Your custom base goal is used otherwise.", style = MaterialTheme.typography.bodySmall) }
+        item { BiteText("Supplement-day extras", style = MaterialTheme.typography.titleSmall)
+            BiteText("Optional personal targets, not an established water requirement. Zero keeps them off. Only supplements actually recorded for that day activate the extra.", style = MaterialTheme.typography.bodySmall) }
+        item { NumberField(powderWater, { powderWater = it }, "Extra at protein powder target · ml", powderWater.numeric()?.let { it in 0.0..5000.0 } == true) }
+        item { NumberField(creatineWater, { creatineWater = it }, "Extra at creatine target · ml", creatineWater.numeric()?.let { it in 0.0..5000.0 } == true)
+            BiteText("Set the matching supplement target in grams above. Half the target adds half your chosen extra, up to the full daily extra. No supplement today means no extra bottles.", style = MaterialTheme.typography.bodySmall) }
         item { Row(verticalAlignment = Alignment.CenterVertically) {
             BiteText("About this suggestion", Modifier.weight(1f))
             SectionToggle(waterDetails) { waterDetails = !waterDetails }
         }
             if (waterDetails) {
-                BiteText("Adult reference: 2.0 L for men or 1.6 L for women as drinks, estimated from EFSA total-water references with 20% from food. This is a starting reference, not an individual prescription.", style = MaterialTheme.typography.bodySmall)
-                BiteText("Weight, height, calories and supplement grams alone cannot determine a personal water requirement. There is no automatic extra-water dose for creatine or protein powder. Log water mixed into a shake by its actual volume.", style = MaterialTheme.typography.bodySmall)
-                TextButton(onClick = { context.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("https://www.efsa.europa.eu/en/efsajournal/pub/1459"))) }) { BiteText("Source") }
+                BiteText("The profile estimate uses age, sex, height and weight to estimate resting energy, assumes low activity and 20% water from food, then rounds to 50 ml. It is an adjustable planning aid, not a measured requirement.", style = MaterialTheme.typography.bodySmall)
+                BiteText("Research does not establish extra litres per gram of creatine or protein powder. Dashed bottles represent only the extra you choose. They never record water as already drunk.", style = MaterialTheme.typography.bodySmall)
+                TextButton(onClick = { context.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("https://www.nationalacademies.org/read/10925/chapter/6"))) }) { BiteText("Source") }
+                TextButton(onClick = { context.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("https://pmc.ncbi.nlm.nih.gov/articles/PMC5469049/"))) }) { BiteText("Creatine and hydration research") }
             }
         }
         item { Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-            Button(enabled = waterGoal.numeric()?.let { it in 1.0..100000.0 } == true, onClick = { save(prefs.copy(waterGoalMl = waterGoal.numeric()!!)) }) { BiteText("Save water goal") }
+            Button(enabled = validProfile && validExtraWater && waterGoal.numeric()?.let { it in 1.0..100000.0 } == true, onClick = {
+                save(prefs.copy(waterGoalMl = waterGoal.numeric()!!, waterAutoBase = autoBase,
+                    powderWaterMl = powderWater.numeric()!!, creatineWaterMl = creatineWater.numeric()!!,
+                    age = age.toIntOrNull(), weightKg = weight.numeric(), heightCm = height.numeric(), sex = sex))
+            }) { BiteText("Save water goal") }
             OutlinedButton(onClick = { waterUnitDialog = true }) { Text(volume(prefs.waterUnitMl, prefs.waterInLiters)) }
         }
             BiteText("Your chosen goal stays in control. Reaching it never blocks another drink.", style = MaterialTheme.typography.bodySmall)

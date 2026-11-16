@@ -19,7 +19,7 @@ import javax.crypto.KeyGenerator
 import javax.crypto.SecretKey
 import javax.crypto.spec.GCMParameterSpec
 
-data class ModelStatus(val phase:String="available",val downloaded:Long=0,val error:String="",val generation:String="",val wanted:Boolean=false,val unmetered:Boolean=true)
+data class ModelStatus(val phase:String="available",val downloaded:Long=0,val error:String="",val generation:String="",val wanted:Boolean=false,val unmetered:Boolean=true,val attempts:Int=0)
 data class LocalModel(val id:String,val name:String,val file:File,val vision:Boolean?)
 data class ModelLibraryState(val selected:String="",val states:Map<String,ModelStatus> = emptyMap(),val importedName:String="")
 
@@ -35,6 +35,10 @@ class ModelLibrary(private val context:Context) {
     private val prefs=context.getSharedPreferences("model-library",Context.MODE_PRIVATE)
     private val tokens=DownloadTokens(context)
     private val locks=mutableMapOf<String,Mutex>()
+    private val connections=java.util.concurrent.ConcurrentHashMap<String,java.net.HttpURLConnection>()
+    private val disconnectScope=CoroutineScope(SupervisorJob()+Dispatchers.IO)
+    fun connection(id:String,connection:java.net.HttpURLConnection?) { if(connection==null) connections.remove(id) else connections[id]=connection }
+    fun interrupt(id:String) { connections[id]?.let { connection -> disconnectScope.launch { connection.disconnect() } } }
     val inferenceGate=Mutex()
     val state=MutableStateFlow(read())
     private val listener=android.content.SharedPreferences.OnSharedPreferenceChangeListener { _,_->state.value=read() }
@@ -50,7 +54,7 @@ class ModelLibrary(private val context:Context) {
         val json=JSONObject(prefs.getString("status:$id","{}").orEmpty())
         val ready=file(id).isFile && (id=="imported" || (json.optString("phase")=="ready" && file(id).length()==spec(id).bytes))
         return ModelStatus(if(ready) "ready" else json.optString("phase","available").let { if(it=="ready") "available" else it },
-            json.optLong("downloaded"),json.optString("error"),json.optString("generation"),json.optBoolean("wanted"),json.optBoolean("unmetered",true))
+            json.optLong("downloaded"),json.optString("error"),json.optString("generation"),json.optBoolean("wanted"),json.optBoolean("unmetered",true),json.optInt("attempts"))
     }
     private fun read():ModelLibraryState {
         val imported=file("imported").isFile
@@ -61,7 +65,7 @@ class ModelLibrary(private val context:Context) {
     @Synchronized fun status(id:String,change:(ModelStatus)->ModelStatus) {
         val next=change(current(id))
         val json=JSONObject().put("phase",next.phase).put("downloaded",next.downloaded).put("error",next.error)
-            .put("generation",next.generation).put("wanted",next.wanted).put("unmetered",next.unmetered)
+            .put("generation",next.generation).put("wanted",next.wanted).put("unmetered",next.unmetered).put("attempts",next.attempts)
         check(prefs.edit().putString("status:$id",json.toString()).commit()) { "Could not store model download state" }
     }
     fun desired(id:String,generation:String)=current(id).let { it.generation==generation && it.wanted }

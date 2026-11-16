@@ -48,3 +48,21 @@ not automatically upload input after an inference failure.
 Photo portions are estimates. A scoop with no known weight stays unspecified.
 Review drafts are kept in memory and can be lost after process death. Inference,
 device memory use and live provider calls still require physical-device testing.
+
+## Download recovery in 0.6.0
+
+The public Qwen model appears first. Gemma entries require Hugging Face access
+and an authorised read token; a free account alone does not grant gated access.
+Connecting, waiting for Wi-Fi, transferring and verifying are shown separately.
+Use Retry now for a queued/interrupted transfer, or explicitly allow mobile data
+for that download. Turning off Wi-Fi-only does not silently change other jobs.
+
+Paused connections are interrupted and keep their partial file. Valid partial
+HTTP ranges continue immediately; ignored ranges restart safely. Android 14+
+transfers use the network assigned to the job. Repeated connection failures stop
+after five consecutive attempts without progress, with a manual resume option.
+Size and SHA-256 verification remain mandatory before a model becomes usable.
+
+The desktop checked small real Qwen download/resume requests and host transfer
+tests. Complete download, background behaviour and inference still need phone
+validation.

@@ -1,32 +1,40 @@
 {
   "formatVersion": 1,
-  "versionCode": 7,
-  "versionName": "0.5.1-dev",
-  "highlights": false,
+  "versionCode": 8,
+  "versionName": "0.6.0-dev",
+  "highlights": true,
   "notes": {
     "en": [
-      "The app is now called 8bitBites. Updates use the official 8bitPrograms/8bitBites repository."
+      "Profile-based water planning, separate optional supplement-day extras and a new water widget.",
+      "Improved daily widgets, one-tap water records and more reliable model download recovery."
     ],
     "tr": [
-      "Uygulamanın adı artık 8bitBites. Güncellemeler resmi 8bitPrograms/8bitBites deposunu kullanır."
+      "Profile göre su planı, takviye günlerine özel ayrı ek hedefler ve yeni su widget’ı.",
+      "Yenilenen günlük widget’lar, tek dokunuşla su kaydı ve iyileştirilen model indirme devamlılığı."
     ],
     "de": [
-      "Die App heißt jetzt 8bitBites. Updates verwenden das offizielle Repository 8bitPrograms/8bitBites."
+      "Wasserplanung nach Profil, optionale Ergänzungsziele und ein neues Wasser-Widget.",
+      "Verbesserte Widgets und zuverlässigeres Fortsetzen von Modelldownloads."
     ],
     "fr": [
-      "L’application s’appelle désormais 8bitBites. Les mises à jour utilisent le dépôt officiel 8bitPrograms/8bitBites."
+      "Objectif d’eau selon le profil, ajouts facultatifs et nouveau widget d’eau.",
+      "Widgets améliorés et reprise des téléchargements de modèles."
     ],
     "es": [
-      "La aplicación ahora se llama 8bitBites. Las actualizaciones usan el repositorio oficial 8bitPrograms/8bitBites."
+      "Plan de agua según el perfil, extras opcionales y nuevo widget de agua.",
+      "Widgets mejorados y recuperación de descargas de modelos."
     ],
     "it": [
-      "L’app ora si chiama 8bitBites. Gli aggiornamenti usano il repository ufficiale 8bitPrograms/8bitBites."
+      "Piano acqua dal profilo, extra facoltativi e nuovo widget acqua.",
+      "Widget migliorati e ripresa dei download dei modelli."
     ],
     "pt": [
-      "O aplicativo agora se chama 8bitBites. As atualizações usam o repositório oficial 8bitPrograms/8bitBites."
+      "Plano de água pelo perfil, extras opcionais e novo widget de água.",
+      "Widgets aprimorados e retomada de downloads de modelos."
     ],
     "ja": [
-      "アプリ名が8bitBitesになりました。更新には公式の8bitPrograms/8bitBitesリポジトリを使用します。"
+      "プロフィールに応じた水分計画、任意の追加目標、新しい水分ウィジェット。",
+      "ウィジェットとモデルダウンロードの再開を改善。"
     ]
   }
 }

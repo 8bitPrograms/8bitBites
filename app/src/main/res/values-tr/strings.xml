@@ -307,4 +307,33 @@
     <string name="m70c97e49902d" formatted="false">Seçtiğin hedef geçerlidir. Hedefe ulaşmak yeni içim eklemeni engellemez.</string>
     <string name="m6cca7b494136" formatted="false">Yetişkin referansı: EFSA toplam su değerlerinden, %20\'sinin besinlerden geldiği varsayılarak içecekler için erkeklerde 2,0 L, kadınlarda 1,6 L. Bu kişisel reçete değil, başlangıç referansıdır.</string>
     <string name="m3d86af08cf5c" formatted="false">Kilo, boy, kalori ve takviye gramı tek başına kişisel su ihtiyacını belirleyemez. Kreatin veya protein tozu için otomatik ek su miktarı uygulanmaz. Shake\'e katılan suyu gerçek hacmiyle kaydet.</string>
+    <string name="m5ed029043c65" formatted="false">Temel hedefi profilime göre güncelle</string>
+    <string name="m8886b682c249" formatted="false">Düşük hareket düzeyi için yaklaşık bir başlangıç hedefidir. Sıcaklık, egzersiz ve sağlık durumu ihtiyacı değiştirebilir.</string>
+    <string name="m182ec4b8dc60" formatted="false">Tahmin için yetişkin profilinde yaş, cinsiyet, boy ve kiloyu tamamla. Diğer durumlarda kendi temel hedefin kullanılır.</string>
+    <string name="mc5a588cb7f12" formatted="false">Takviye günlerine özel ekler</string>
+    <string name="me70bccd1d729" formatted="false">Bunlar isteğe bağlı kişisel hedeflerdir; kanıtlanmış bir ek su gereksinimi değildir. Sıfır seçilirse kapalı kalır. Ekler yalnızca o gün gerçekten kaydedilen takviyelerle etkinleşir.</string>
+    <string name="m7ffd031e07a9" formatted="false">Yukarıda ilgili takviyenin gram hedefini belirle. Hedefin yarısı, seçtiğin ek suyun yarısını ekler; günlük ek miktar aşılmaz. O gün takviye yoksa ek şişe görünmez.</string>
+    <string name="md72fc8ed45e3" formatted="false">Profil tahmini yaş, cinsiyet, boy ve kilodan dinlenme enerjisini hesaplar; düşük hareket düzeyi ve suyun %20’sinin yiyeceklerden geldiğini varsayarak 50 ml’ye yuvarlar. Değiştirilebilir bir planlama aracıdır; ölçülmüş ihtiyaç değildir.</string>
+    <string name="mb24ae688b9d8" formatted="false">Araştırmalar kreatin veya protein tozunun gramı başına ek litre gereksinimi belirlemiyor. Kesik çizgili şişeler yalnızca senin seçtiğin ek hedefi gösterir; içilmiş su olarak kaydedilmez.</string>
+    <string name="m22b8ceb31cb1" formatted="false">Kreatin ve su dengesi araştırması</string>
+    <string name="m1b56aeba0a52" formatted="false">Temel hedef</string>
+    <string name="m18cf1acca4cb" formatted="false">Temel su hedefi · ml</string>
+    <string name="m8210c5fbae7b" formatted="false">Protein tozu hedefine ulaşınca ek su · ml</string>
+    <string name="m83629ad99505" formatted="false">Kreatin hedefine ulaşınca ek su · ml</string>
+    <string name="m9d9b358fdb10" formatted="false">Kesik çizgili şişeler planladığın eklerdir. İçtiğin suyu ayrıca kaydet.</string>
+    <string name="m55da47dad0e5" formatted="false">Günlük hedef</string>
+    <string name="m35b259290ec3" formatted="false">Besin</string>
+    <string name="md01d900383e4" formatted="false">Fotoğraf</string>
+    <string name="mc37287702169" formatted="false">Hızlı ekle</string>
+    <string name="m5c4cfbc97062" formatted="false">Öğünü AI ile tarif et</string>
+    <string name="me660626080f9" formatted="false">Profilini aç</string>
+    <string name="mc398cec5a11d" formatted="false">Hugging Face erişimi reddetti. Model koşullarını kabul edip yetkili bir okuma anahtarı kullan.</string>
+    <string name="m0e67e87685aa" formatted="false">Model doğrulaması başarısız. Yeniden indir.</string>
+    <string name="m5644cdb05c8e" formatted="false">Geçici indirme bağlantısı sona erdi. Hugging Face üzerinden yeniden deneniyor.</string>
+    <string name="m6684b1ff670b">Bağlantı kesildi. İndirilen bölüm korundu. Deneme %1$s/5. %2$s</string>
+    <string name="mbe44e0bb1fb0" formatted="false">Android aktarımı duraklattı. Şimdi yeniden deneyebilirsin; indirilen bölüm korundu.</string>
+    <string name="me1d50d1beb12" formatted="false">Bu model için yeterli depolama alanı yok</string>
+    <string name="mded0d98cde26" formatted="false">İndirmeyi sürdürmek için yeterli depolama alanı yok</string>
+    <string name="m38d7baa79faa" formatted="false">Bu model için bir Hugging Face okuma anahtarı gir</string>
+    <string name="m816e2ffa223a" formatted="false">Bağlantı kesildi. Modelin indirilen bölümü korundu.</string>
 </resources>

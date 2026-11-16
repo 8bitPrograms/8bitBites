@@ -19,6 +19,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Path
+import androidx.compose.ui.graphics.PathEffect
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.drawscope.clipPath
 import androidx.compose.ui.semantics.contentDescription
@@ -35,7 +36,7 @@ internal fun volume(ml: Double, liters: Boolean = false): String =
     if (liters) "${java.math.BigDecimal.valueOf(ml / 1000).setScale(3, java.math.RoundingMode.HALF_UP).stripTrailingZeros().toPlainString()} L" else "${ml.display()} ml"
 
 @Composable
-internal fun WaterVesselIcon(vessel: WaterVessel, fill: Float, modifier: Modifier = Modifier, label: String = "") {
+internal fun WaterVesselIcon(vessel: WaterVessel, fill: Float, modifier: Modifier = Modifier, label: String = "", dashed: Boolean = false) {
     val outline = MaterialTheme.colorScheme.primary
     val water = MaterialTheme.colorScheme.primary.copy(alpha = .65f)
     val background = MaterialTheme.colorScheme.surfaceVariant
@@ -55,7 +56,7 @@ internal fun WaterVesselIcon(vessel: WaterVessel, fill: Float, modifier: Modifie
         }
         drawPath(shape, background)
         clipPath(shape) { drawRect(water, Offset(0f, h * (1 - fill.coerceIn(0f, 1f))), Size(w, h)) }
-        drawPath(shape, outline, style = Stroke(1.7.dp.toPx()))
+        drawPath(shape, outline, style = Stroke(1.7.dp.toPx(), pathEffect = if (dashed) PathEffect.dashPathEffect(floatArrayOf(4.dp.toPx(), 3.dp.toPx())) else null))
     }
 }
 
@@ -89,18 +90,20 @@ internal fun WaterAmountDialog(title: String, initialMl: Double, initialLiters: 
 
 @Composable
 internal fun WaterCard(entries: List<WaterEntry>, prefs: Preferences, add: (Double) -> Unit,
-    delete: (String) -> Unit, undo: () -> Unit, canUndo: Boolean, save: (Preferences) -> Unit) {
+    delete: (String) -> Unit, undo: () -> Unit, canUndo: Boolean, save: (Preferences) -> Unit,
+    goal: DailyWaterGoal = prefs.dailyWaterGoal(), expandRequest: Long = 0) {
     var expanded by rememberSaveable { mutableStateOf(false) }
     var unitDialog by remember { mutableStateOf(false) }
     var amountDialog by remember { mutableStateOf(false) }
     val total = entries.sumOf { it.amountMl }
-    val plan = HydrationPlan(prefs.waterGoalMl, prefs.waterUnitMl)
+    val plan = HydrationPlan(goal.baseMl, prefs.waterUnitMl)
+    LaunchedEffect(expandRequest) { if (expandRequest != 0L) expanded = true }
     Card(Modifier.fillMaxWidth()) {
         Column(Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Column(Modifier.weight(1f)) {
                     BiteText("Water", style = MaterialTheme.typography.titleMedium)
-                    Text("${volume(total, prefs.waterInLiters)} / ${volume(prefs.waterGoalMl, prefs.waterInLiters)}", style = MaterialTheme.typography.bodyMedium)
+                    Text("${volume(total, prefs.waterInLiters)} / ${volume(goal.totalMl, prefs.waterInLiters)}", style = MaterialTheme.typography.bodyMedium)
                 }
                 FilledTonalButton(onClick = { add(prefs.waterUnitMl) }, contentPadding = PaddingValues(horizontal = 10.dp, vertical = 6.dp)) {
                     Icon(Icons.Default.Add, t("Add water") + " " + volume(prefs.waterUnitMl, prefs.waterInLiters), Modifier.size(18.dp))
@@ -109,7 +112,12 @@ internal fun WaterCard(entries: List<WaterEntry>, prefs: Preferences, add: (Doub
                 }
                 SectionToggle(expanded) { expanded = !expanded }
             }
-            LinearProgressIndicator(progress = { (total / prefs.waterGoalMl).toFloat().coerceIn(0f, 1f) }, modifier = Modifier.fillMaxWidth())
+            LinearProgressIndicator(progress = { (total / goal.totalMl).toFloat().coerceIn(0f, 1f) }, modifier = Modifier.fillMaxWidth())
+            Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                BiteText("Base goal", style = MaterialTheme.typography.labelMedium)
+                Text(volume(goal.baseMl, prefs.waterInLiters), style = MaterialTheme.typography.labelMedium)
+                if (goal.powderMl + goal.creatineMl > 0) Text("+ " + volume(goal.powderMl + goal.creatineMl, prefs.waterInLiters), style = MaterialTheme.typography.labelMedium)
+            }
             if (expanded) {
                 Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                     WaterVesselIcon(plan.vessel, .5f, Modifier.size(24.dp, 32.dp))
@@ -122,7 +130,21 @@ internal fun WaterCard(entries: List<WaterEntry>, prefs: Preferences, add: (Doub
                         WaterVesselIcon(plan.vessel, plan.fill(index, total), Modifier.size(30.dp, 38.dp), " ${index + 1} / ${plan.count}")
                     } }
                 }
-                if (total >= prefs.waterGoalMl) BiteText("Goal reached", style = MaterialTheme.typography.labelLarge)
+                var extraStart = goal.baseMl
+                listOf("Protein powder" to goal.powderMl, "Creatine" to goal.creatineMl).forEach { (name, extraMl) ->
+                    if (extraMl > 0) {
+                        Text("${t(name)} · +${volume(extraMl, prefs.waterInLiters)}", style = MaterialTheme.typography.labelLarge)
+                        val extra = HydrationPlan(extraMl, 1000.0)
+                        val consumed = (total - extraStart).coerceAtLeast(0.0)
+                        Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
+                            repeat(extra.count) { index -> WaterVesselIcon(WaterVessel.BOTTLE,
+                                extra.fill(index, consumed), Modifier.size(30.dp, 38.dp), " · ${t(name)} · ${volume(minOf(1000.0, extraMl - index * 1000), true)}", dashed = true) }
+                        }
+                        extraStart += extraMl
+                    }
+                }
+                if (goal.powderMl + goal.creatineMl > 0) BiteText("Dashed bottles are your planned extras. Log drinks separately.", style = MaterialTheme.typography.bodySmall)
+                if (total >= goal.totalMl) BiteText("Goal reached", style = MaterialTheme.typography.labelLarge)
                 Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                     TextButton(onClick = { amountDialog = true }) { BiteText("Custom amount") }
                     TextButton(onClick = undo, enabled = canUndo) { BiteText("Undo last drink") }

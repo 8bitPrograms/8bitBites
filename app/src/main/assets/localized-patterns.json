@@ -130,5 +130,9 @@
   {
     "source": "%1$s ml · %2$s",
     "pattern": "^(.+?)\\ ml\\ ·\\ (.+?)$"
+  },
+  {
+    "source": "Connection interrupted. Partial file kept. Retry %1$s/5. %2$s",
+    "pattern": "^Connection\\ interrupted\\.\\ Partial\\ file\\ kept\\.\\ Retry\\ (.+?)/5\\.\\ (.+?)$"
   }
 ]

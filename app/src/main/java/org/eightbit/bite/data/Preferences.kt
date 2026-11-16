@@ -21,6 +21,9 @@ data class Preferences(
     val waterGoalMl: Double = 2000.0,
     val waterUnitMl: Double = 100.0,
     val waterInLiters: Boolean = false,
+    val waterAutoBase: Boolean = true,
+    val powderWaterMl: Double = 0.0,
+    val creatineWaterMl: Double = 0.0,
     val proteinGoalEnabled: Boolean = false,
     val proteinGoal: Double? = null,
     val carbGoalEnabled: Boolean = false,
@@ -53,6 +56,9 @@ class PreferenceStore(context: Context) {
         waterGoalMl = number("waterGoalMl") ?: 2000.0,
         waterUnitMl = number("waterUnitMl") ?: 100.0,
         waterInLiters = store.getBoolean("waterInLiters", false),
+        waterAutoBase = store.getBoolean("waterAutoBase", !store.contains("waterGoalMl")),
+        powderWaterMl = number("powderWaterMl") ?: 0.0,
+        creatineWaterMl = number("creatineWaterMl") ?: 0.0,
         proteinGoalEnabled = store.getBoolean("proteinGoalEnabled", false), proteinGoal = number("proteinGoal"),
         carbGoalEnabled = store.getBoolean("carbGoalEnabled", false), carbGoal = number("carbGoal"),
         fatGoalEnabled = store.getBoolean("fatGoalEnabled", false), fatGoal = number("fatGoal"),
@@ -71,6 +77,7 @@ class PreferenceStore(context: Context) {
         require(value.sex in setOf("", "female", "male"))
         require(value.waterGoalMl.isFinite() && value.waterGoalMl in 1.0..100000.0)
         require(value.waterUnitMl.isFinite() && value.waterUnitMl in 1.0..100000.0)
+        require(listOf(value.powderWaterMl, value.creatineWaterMl).all { it.isFinite() && it in 0.0..5000.0 })
         for (goal in listOf(value.proteinGoal, value.carbGoal, value.fatGoal, value.powderGoal, value.creatineGoal))
             require(goal == null || goal.isFinite() && goal in 0.001..100000.0)
         require(!value.proteinGoalEnabled || value.proteinGoal != null)
@@ -84,6 +91,8 @@ class PreferenceStore(context: Context) {
             .putString("heightCm", value.heightCm?.toString()).putString("sex", value.sex)
             .putBoolean("waterEnabled", value.waterEnabled).putString("waterGoalMl", value.waterGoalMl.toString())
             .putString("waterUnitMl", value.waterUnitMl.toString()).putBoolean("waterInLiters", value.waterInLiters)
+            .putBoolean("waterAutoBase", value.waterAutoBase)
+            .putString("powderWaterMl", value.powderWaterMl.toString()).putString("creatineWaterMl", value.creatineWaterMl.toString())
             .putBoolean("proteinGoalEnabled", value.proteinGoalEnabled).putString("proteinGoal", value.proteinGoal?.toString())
             .putBoolean("carbGoalEnabled", value.carbGoalEnabled).putString("carbGoal", value.carbGoal?.toString())
             .putBoolean("fatGoalEnabled", value.fatGoalEnabled).putString("fatGoal", value.fatGoal?.toString())

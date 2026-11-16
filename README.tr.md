@@ -7,7 +7,7 @@ ve Material 3 ile geliştirilir. Günlük kayıtları cihazda tutulur; temel tak
 [English](README.md) · [Derleme](docs/BUILDING.md) · [Veri tabanı](database/README.md)
 · [Gizlilik](docs/PRIVACY.md) · [Katkıda bulunma](CONTRIBUTING.md)
 
-**Geliştirme sürümü:** 0.5.1-dev. **Besin veri tabanı:** 0.4.0; 2.193 besin,
+**Geliştirme sürümü:** 0.6.0-dev. **Besin veri tabanı:** 0.4.0; 2.193 besin,
 bunların 260'ı ETİ ürünü. Android 9 ve üzeri gerekir. Fiziksel cihaz testleri
 henüz tamamlanmadı.
 
@@ -25,13 +25,16 @@ henüz tamamlanmadı.
   kartlar, sağ üstte ayarlar dişlisi ve alt menüde AI.
 - Cihazda desteklenen modelle veya kendi API anahtarınızla metin/fotoğraf
   tanıma, uygulama içi kamera ve arka planda model indirme.
-- İsteğe bağlı Health Connect beslenme aktarımı ve iki ana ekran widget'ı.
+- İsteğe bağlı Health Connect beslenme aktarımı; su, günlük özet ve hızlı ekleme widget'ları.
 - Material You ve sürüme yedi hızlı dokunuşla açılan tema paketi.
 - Varsayılan İngilizce; Türkçe, Almanca, Fransızca, İspanyolca, İtalyanca,
   Portekizce ve Japonca arayüz seçenekleri.
 
-Su kayıtları bu sürümde cihazda kalır. Su önerisi yetişkinler için yaş/cinsiyet
-referansına dayanır; kilo veya takviye miktarına göre kişiselleştirilmez.
+Su kayıtları bu sürümde cihazda kalır. Temel su tahmini yetişkin profilindeki yaş, cinsiyet, boy ve kiloya göre değişir.
+Takviye günlerine özel ek su hedefleri isteğe bağlıdır ve varsayılan olarak sıfırdır;
+kreatin/protein tozu için kanıtlanmış bir ek litre katsayısı yoktur. Ekler yalnızca
+o gün kaydedilen takviye miktarıyla, ayrı kesik çizgili şişeler olarak gösterilir.
+Su widget'ındaki düğmeler uygulamayı açmadan su kaydeder.
 AI sonuçları kaydetmeden önce kullanıcı tarafından incelenir. ChatGPT aboneliği
 API anahtarı yerine geçmez. Hatırlatıcılar, tarifler ve genişletilmiş Health
 Connect kontrolleri planlanan işlerdir.

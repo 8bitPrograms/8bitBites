@@ -43,7 +43,8 @@ The APK is `app/build/outputs/apk/debug/app-debug.apk`. App test reports are in
 The first test run downloads Robolectric Android artifacts and requires network
 access. App tests use Robolectric SDK 34; production compile/targetSdk is 36.
 
-CI runs the same checks on Ubuntu and retains the debug APK and reports as
+GitHub Actions is manual-only to conserve hosted minutes. When explicitly
+dispatched, it runs the same checks on Ubuntu and retains the debug APK and reports as
 short-lived workflow artifacts. These artifacts use a CI development signing
 key; they are not a stable signed release channel.
 

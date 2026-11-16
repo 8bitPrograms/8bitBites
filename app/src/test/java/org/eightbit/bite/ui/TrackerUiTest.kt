@@ -66,6 +66,23 @@ class TrackerUiTest {
         compose.onNodeWithText("Save").performClick()
         assertEquals(10.0, saved, .0001)
     }
+    @Test fun dashedSupplementBottlesAppearOnlyOnDaysWithRecordedIntake() {
+        var recorded by mutableStateOf(false)
+        compose.setContent { MaterialTheme {
+            rootView = LocalView.current
+            val prefs = Preferences(powderGoal = 30.0, creatineGoal = 5.0, powderWaterMl = 1000.0, creatineWaterMl = 1000.0)
+            WaterCard(listOf(WaterEntry("sample", 2250.0, 1)), prefs, {}, {}, {}, false, {}, prefs.dailyWaterGoal(if (recorded) 30.0 else 0.0, if (recorded) 5.0 else 0.0))
+        } }
+        compose.onNodeWithContentDescription("Expand").performClick()
+        compose.onNodeWithText("Protein powder · +1000 ml").assertDoesNotExist()
+        compose.runOnIdle { recorded = true }
+        compose.onNodeWithText("Protein powder · +1000 ml").assertExists()
+        compose.onNodeWithText("Creatine · +1000 ml").assertExists()
+        compose.onNodeWithText("Goal reached").assertDoesNotExist()
+        capture("water-supplement-extras")
+        compose.runOnIdle { recorded = false }
+        compose.onNodeWithText("Creatine · +1000 ml").assertDoesNotExist()
+    }
     private lateinit var rootView: android.view.View
     private fun dashboard() {
         compose.setContent { BiteTheme(Preferences()) { Surface(Modifier.fillMaxSize()) {

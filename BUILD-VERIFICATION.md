@@ -1,90 +1,82 @@
-# 8bitBites 0.5.1-dev — verification
+# 8bitBites 0.6.0-dev — local verification
 
-Checked on **2026-11-16**, after recovering the 0.5.0 development source and
-preparing the official `8bitPrograms/8bitBites` repository.
+Checked on **2026-11-16**. This version was built on the local Windows computer.
+GitHub Actions was not used; its workflow now runs only by manual dispatch.
 
-## Scope
+## Changes verified
 
-The application label, widgets, project name, update endpoints and documentation
-use **8bitBites**. The Android package remains `org.eightbit.bite`; private
-storage names, Room migrations and stable food IDs are retained. The public
-catalogue is still version **0.4.0**, SQLite schema **1**.
+- Profile-based, adjustable base water planning using age, sex, height and weight.
+  The calculation is explicitly an estimate; see [HYDRATION.md](docs/HYDRATION.md).
+- User-selected supplement-day extras activate from actual known intake. Linked
+  meal/supplement records count once; unknown scoop weights add no invented grams.
+  Extras default to zero because research establishes no litres-per-gram rule.
+- Solid base vessels and separately labelled dashed extra bottles. Removing a
+  dose removes its planned extra without changing actual water history.
+- New direct-action water widget, improved daily/quick widgets, compact layouts,
+  refreshed water/supplement totals and date/time-zone refresh handling.
+- Streamed, verified model downloads with valid partial-chunk continuation,
+  pause/disconnect handling, assigned Android job networks, bounded retries and
+  explicit connection/network waiting states.
 
-The source is versionCode **7**, versionName **0.5.1-dev**. Bundled patch notes
-have `highlights=false`. The remote app manifest remains at the previously
-packaged 0.5.0-dev (code 6); this publication does not claim a signed APK release.
+## Local checks
 
-## Checks completed
+**67 tests passed, with no failures or skips:**
 
-On Windows, with JDK 17, Android SDK platform 36, build-tools 35.0.0 and the
-included Gradle 8.13 wrapper:
+- 41 core JVM tests, including seven HTTP transfer/recovery tests.
+- 21 app host tests: three daily hydration/deduplication tests, seven
+  Room/preferences/migration tests, seven Compose interaction/render tests and
+  four RemoteViews/direct-water-write tests.
+- Five Python catalogue publisher tests.
 
-```sh
-./gradlew :core:test :app:testDebugUnitTest :app:assembleDebug :app:lintDebug
-python3 scripts/check_catalogue.py
-python3 -m unittest discover -s scripts -p 'test_*.py' -v
-python3 scripts/build_localizations.py
-```
+Debug assembly and Android lint succeeded with JDK 17, Android platform 36,
+build-tools 35.0.0 and Gradle 8.13. Lint has **0 errors and 76 warnings**.
+No lint baseline or new suppression was introduced to make the run pass.
 
-- **50 tests passed, with no failures or skips:** 32 core JVM tests, seven
-  Room/preferences/migration tests, six Compose interaction/render tests, and
-  five Python catalogue publisher tests.
-- Debug assembly and lint succeeded. Lint reports **0 errors and 63 warnings**;
-  the remaining warnings are not represented as fixed.
-- Translation regeneration produced no changes to the staged resources or
-  lookup files. All eight UI languages are included.
-- Catalogue checksum, size, schema, release metadata, row count and allowed
-  tables passed validation: **2,193 foods**, including 260 ETİ entries.
-- The convenience copy and immutable 0.4.0 snapshot match. The APK bundles those
-  exact SQLite bytes. Earlier 0.1.0 and 0.2.0 snapshots are included unchanged.
-- APK ZIP integrity, package/version/SDK metadata, the **8bitBites** application
-  label and version-7 bundled release notes passed inspection.
-- Android `apksigner verify` and `zipalign -c -P 16 4` passed. All 14 packaged
-  native libraries have ELF LOAD alignment of at least 16 KB; LiteRT-LM itself
-  is available for arm64-v8a and x86_64.
-- Relative documentation links resolve. Authored files pass the staged
-  whitespace check; original third-party license notices retain upstream
-  whitespace. Credentials, private keys, local SDK configuration, APKs and
-  build caches are excluded from the published source.
+The widget renders were inspected at normal and compact sizes. A clipped footer
+found in the first render was fixed; final tests also check absolute button bounds.
+The app dashboard, Japanese dashboard and active supplement-extra water view were
+rendered. Main new water/download text is available in English and Turkish;
+existing additional languages retain their translations and use English fallback
+for explanatory text not yet translated.
 
-The app tests use Robolectric SDK 34 on the host. They do not establish
-physical-device behaviour. The initial restricted-network build could not fetch
-an Android test dependency; the complete run succeeded after dependency access
-was available.
+The public catalogue is unchanged: version 0.4.0, schema 1, 2,193 foods. Integrity,
+size, SHA-256, metadata and allowed-table checks passed. Translation generation,
+relative documentation links and authored-file whitespace were checked.
 
-The first GitHub workflow stopped before tests because the hosted image did not
-provide `sdkmanager` on its command path. The workflow now installs the Android
-command-line tools and required SDK packages explicitly with setup-android,
-rather than relying on tools preinstalled in the runner image.
+A real public Qwen request returned HTTP 200, and a request resuming at byte
+65,536 returned the exact expected HTTP 206 range. Only small samples were read.
+Gated Gemma endpoints returned the expected HTTP 401 without a token. Host transfer
+tests cover interruption/resume, ranged chunks, servers ignoring ranges, redirect
+token isolation, invalid ranges, bad hashes and gated/CDN error classification.
 
-## Locally built APK and signing
+## Distributed development APK
 
-- Path: `app/build/outputs/apk/debug/app-debug.apk`
-- Bytes: `94624243`
-- SHA-256: `80fa25c1ce3d889517de4a53fe67bbb5f1cad2c806e2a733f7eb46befce58af4`
+- File: artifacts/8bitBites-0.6.0-dev.apk
+- Application ID: org.eightbit.bite
+- Version: 0.6.0-dev, versionCode 8
+- Bytes: 94793727
+- SHA-256: 0ae1fdacea0333606fce7c332666463b837160eaee5f4e49d76f9571082a721a
 - Certificate SHA-256:
-  `6d8f32f359514de208eed8170437b0702ee50147bc68cd36602a3024f03eb53c`
+  8e73b40f0ab8b1bb784f8a7aa74d9930fb02ec77356b329e04a20b2a1e54560c
 - Bundled database SHA-256:
-  `1e73e8d5dc8759348d2796d45bec0d3ce85e2719fd7145b420d28cbcca30d10e`
+  1e73e8d5dc8759348d2796d45bec0d3ce85e2719fd7145b420d28cbcca30d10e
 
-This APK uses the local Android development key. Its certificate differs from
-the 0.5.0 development artifact recorded in
-[the historical report](docs/verification/0.5.0.md). It is therefore **not an
-in-place upgrade for that artifact**. Keeping the same package name preserves
-the upgrade path only when the APK is also signed with the existing key.
-Do not uninstall an existing app to bypass this mismatch: uninstalling removes
-its private diary. The original signing identity is needed for a distributable
-upgrade; it is not part of the repository.
+The final distributable was re-signed with the recovered original development
+identity. Android signature verification and 16 KB ZIP alignment passed. This
+certificate matches the historical 0.5.0 development APK. The keystore is outside
+the repository and is not included in source or release assets.
 
-## Remaining validation
+The standard Gradle debug output uses the local default key; it is not the
+distributed artifact listed above. The short-lived 0.5.1 verification build also
+used that other key; see [its historical report](docs/verification/0.5.1.md).
 
-No physical phone or emulator was used for this publication. Upgrade
-installation, camera, AI inference, live provider requests, background model
-downloads, launcher widgets and Health Connect still require device testing.
-The food catalogue, host tests and a successfully built APK do not establish
-those results.
+## Limits
 
-App and catalogue update URLs now target the official repository. A signed APK
-release remains separate from publishing the source and public catalogue.
-See [the release guide](docs/RELEASING.md) and
-[the historical verification records](docs/verification).
+No Android device was connected. Matching certificate/package/version and host
+tests do not prove a real upgrade. Physical-phone installation, launcher actions,
+Android background scheduling, complete multi-GB model downloads, local inference,
+camera and Health Connect still need device validation.
+
+The download changes address concrete transport, waiting-state and recovery paths.
+Small live range requests and simulated interrupted transfers do not establish
+that a complete model has downloaded and run on a user's phone.

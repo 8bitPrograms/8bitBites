@@ -17,6 +17,7 @@ fun WidgetSettings() {
         Text(ai("Home screen widgets","Ana ekran widget’ları"),style=MaterialTheme.typography.titleMedium)
         Text(ai("Add a daily summary or a shortcut to food entry, AI and the camera.","Günlük özet veya yiyecek ekleme, AI ve kamera kısayolları ekle."))
         if(manager.isRequestPinAppWidgetSupported) {
+            OutlinedButton(onClick={manager.requestPinAppWidget(ComponentName(context,WaterWidget::class.java),null,null)}) { Text(ai("Add water tracker widget","Su takibi widget’ı ekle")) }
             OutlinedButton(onClick={manager.requestPinAppWidget(ComponentName(context,OverviewWidget::class.java),null,null)}) { Text(ai("Add daily summary widget","Günlük özet widget’ı ekle")) }
             OutlinedButton(onClick={manager.requestPinAppWidget(ComponentName(context,QuickAddWidget::class.java),null,null)}) { Text(ai("Add quick-entry widget","Hızlı ekleme widget’ı ekle")) }
         } else Text(ai("Long-press your home screen and choose Widgets → 8bitBites.","Ana ekranına uzun bas ve Widget’lar → 8bitBites seç."))

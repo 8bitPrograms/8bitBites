@@ -52,6 +52,12 @@ fun ModelBrowser(busy:Boolean,onClose:()->Unit) {
         catch(cancelled:CancellationException) { throw cancelled }
         catch(failed:Exception) { error=failed.message }
     } }
+    fun restart(id:String,allowMetered:Boolean=false) = action {
+        val selectedNetwork = if (allowMetered) false else library.current(id).unmetered
+        ModelDownloadJobs.pause(app,id)
+        ModelDownloadJobs.start(app,id,token,selectedNetwork)
+        token=""
+    }
     val notificationPermission=rememberLauncherForActivityResult(ActivityResultContracts.RequestPermission()) {
         pendingDownload?.let(::start);pendingDownload=null
     }
@@ -60,7 +66,7 @@ fun ModelBrowser(busy:Boolean,onClose:()->Unit) {
             pendingDownload=id;notificationPermission.launch(Manifest.permission.POST_NOTIFICATIONS)
         } else start(id)
     }
-    LaunchedEffect(Unit) { withContext(Dispatchers.IO) { ModelDownloadJobs.reconcile(app) } }
+    LaunchedEffect(Unit) { while (isActive) { withContext(Dispatchers.IO) { ModelDownloadJobs.reconcile(app) }; delay(2000) } }
     Dialog(onDismissRequest=onClose,properties=DialogProperties(usePlatformDefaultWidth=false,decorFitsSystemWindows=false)) {
         Scaffold(topBar={TopAppBar(title={Text(ai("On-device models","Cihazdaki modeller"))},navigationIcon={IconButton(onClick=onClose) { Icon(Icons.AutoMirrored.Filled.ArrowBack,ai("Back","Geri")) }})}) { padding ->
             LazyColumn(Modifier.fillMaxSize().padding(padding).imePadding(),contentPadding=PaddingValues(20.dp),verticalArrangement=Arrangement.spacedBy(16.dp)) {
@@ -73,10 +79,12 @@ fun ModelBrowser(busy:Boolean,onClose:()->Unit) {
                     Text(ai("Qwen does not require a token. For Gemma, open its model page, accept the access conditions and use a read token from that account. Tokens used by background downloads are encrypted on this device and removed after completion or deletion.",
                         "Qwen için anahtar gerekmez. Gemma için model sayfasındaki erişim koşullarını kabul et ve o hesaptan bir okuma anahtarı kullan. Arka plan indirme anahtarı cihazda şifrelenir; indirme bitince veya silinince kaldırılır."),style=MaterialTheme.typography.bodySmall) }
                 error?.let { message -> item { Text(message,color=MaterialTheme.colorScheme.error) } }
-                items(library.catalogue,key={it.id}) { model ->
+                items(library.catalogue.sortedBy { it.gated },key={it.id}) { model ->
                     val status=libraryState.states[model.id] ?: ModelStatus()
                     Card { Column(Modifier.fillMaxWidth().padding(16.dp),verticalArrangement=Arrangement.spacedBy(8.dp)) {
                         Text(model.name,style=MaterialTheme.typography.titleLarge)
+                        Text(if(model.gated) ai("Requires Hugging Face access and a read token","Hugging Face erişimi ve okuma anahtarı gerekir")
+                            else ai("Public download · no account needed","Herkese açık · hesap gerekmez"),style=MaterialTheme.typography.labelMedium)
                         val size=String.format(Locale.ROOT,"%.2f",model.bytes/1_000_000_000.0)
                         Text("$size GB · "+if(model.vision) ai("Text + photos","Metin + fotoğraf") else ai("Text only","Yalnızca metin"))
                         Text(ai("Suggested RAM: ${model.memoryGb} GB or more. Actual compatibility and speed depend on the device.",
@@ -84,9 +92,12 @@ fun ModelBrowser(busy:Boolean,onClose:()->Unit) {
                         Text("${model.repository} · ${model.license}",style=MaterialTheme.typography.bodySmall)
                         TextButton(onClick={context.startActivity(Intent(Intent.ACTION_VIEW,Uri.parse(model.page)))}) { Text(ai("Model page & license","Model sayfası ve lisansı")) }
                         if(status.wanted || status.phase=="paused" || status.phase=="failed") {
-                            LinearProgressIndicator(progress={ (status.downloaded.toDouble()/model.bytes).toFloat().coerceIn(0f,1f) },modifier=Modifier.fillMaxWidth())
+                            if (status.phase=="connecting") LinearProgressIndicator(modifier=Modifier.fillMaxWidth())
+                            else LinearProgressIndicator(progress={ (status.downloaded.toDouble()/model.bytes).toFloat().coerceIn(0f,1f) },modifier=Modifier.fillMaxWidth())
                             val phase=when(status.phase) {
-                                "queued"->ai("Waiting for the selected network","Seçilen ağ bekleniyor")
+                                "queued"->ai("Starting download","İndirme başlatılıyor")
+                                "waiting_network"->if(status.unmetered) ai("Waiting for Wi-Fi or an unmetered network","Wi-Fi veya tarifesiz ağ bekleniyor") else ai("Waiting for a connection","Bağlantı bekleniyor")
+                                "connecting"->ai("Connecting to model server","Model sunucusuna bağlanılıyor")
                                 "waiting"->ai("Waiting to resume","Devam etmek için bekleniyor")
                                 "verifying"->ai("Verifying model","Model doğrulanıyor")
                                 "paused"->ai("Paused","Duraklatıldı")
@@ -95,7 +106,7 @@ fun ModelBrowser(busy:Boolean,onClose:()->Unit) {
                             }
                             Text("$phase · ${status.downloaded/(1024*1024)} / ${model.bytes/(1024*1024)} MB")
                         }
-                        if(status.error.isNotBlank()) Text(status.error,color=MaterialTheme.colorScheme.error,style=MaterialTheme.typography.bodySmall)
+                        if(status.error.isNotBlank()) BiteText(status.error,style=MaterialTheme.typography.bodySmall)
                         Row(horizontalArrangement=Arrangement.spacedBy(8.dp)) {
                             when {
                                 status.phase=="ready" -> {
@@ -107,6 +118,12 @@ fun ModelBrowser(busy:Boolean,onClose:()->Unit) {
                                     Button(onClick={download(model.id)},enabled=pendingDownload==null) { Text(if(status.downloaded>0) ai("Resume","Devam et") else ai("Download","İndir")) }
                                     if(status.downloaded>0) TextButton(onClick={scope.launch { try { library.remove(model.id) } catch(failed:Exception) {error=failed.message} }}) { Text(ai("Discard","Vazgeç ve sil")) }
                                 }
+                            }
+                        }
+                        if(status.wanted && status.phase in setOf("queued","waiting","waiting_network")) {
+                            Row(horizontalArrangement=Arrangement.spacedBy(8.dp)) {
+                                TextButton(onClick={restart(model.id)}) { Text(ai("Retry now","Şimdi yeniden dene")) }
+                                if(status.unmetered) TextButton(onClick={restart(model.id,true)}) { Text(ai("Allow mobile data","Mobil veriye izin ver")) }
                             }
                         }
                     } }

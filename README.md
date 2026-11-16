@@ -8,7 +8,7 @@ Jetpack Compose and Material 3. Your diary works offline and stays on your devic
 [Türkçe](README.tr.md) · [Build](docs/BUILDING.md) · [AI](docs/AI.md) ·
 [Database](database/README.md) · [Privacy](docs/PRIVACY.md) · [Contribute](CONTRIBUTING.md)
 
-**Status:** early development. Current source: **0.5.1-dev**. Bundled food
+**Status:** early development. Current source: **0.6.0-dev**. Bundled food
 catalogue: **0.4.0** with **2,193 foods**, including 260 ETİ products. Android 9
 (API 28) or newer is required. Device testing is still in progress.
 
@@ -21,7 +21,8 @@ catalogue: **0.4.0** with **2,193 foods**, including 260 ETİ products. Android 
 - **Water:** choose a target and custom ml/L serving. The plus button records
   that serving. A 2,000 ml goal with a 100 ml serving shows 20 glasses; servings
   of **700 ml or more** use bottles. History, deletion and undo are available.
-  The optional adult water reference never overwrites your target. See
+  The optional profile estimate uses age, sex, height and weight. Configurable
+  supplement-day extras activate only for actual intake and use dashed bottles. See
   [how the suggestion works](docs/HYDRATION.md).
 - **Supplements:** tick **This is a supplement** when adding a food. It stays in
   its meal, appears in supplements and contributes nutrition once. Dietary
@@ -63,9 +64,10 @@ background retries are implemented. **Water and unlinked supplement logs remain
 local** in this version. Full per-data-type and historical-range controls are
 planned.
 
-Two Android home-screen widgets provide daily nutrition totals and quick food,
-AI and camera entry. Add them from Settings or your launcher's widget picker.
-Widgets and background behaviour still need testing across physical devices.
+Three Android home-screen widgets provide water tracking with one-tap drink
+records, daily nutrition/water progress, and food/AI/camera shortcuts. Add them
+from Settings or your launcher's widget picker. See [the widget guide](docs/WIDGETS.md).
+Widgets and background behaviour still need physical-device testing.
 
 ## Independent database updates
 

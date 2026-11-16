@@ -1,43 +1,41 @@
 # Releasing the app and catalogue
 
-## App release
+## Local app release
 
-1. Update `versionCode` and `versionName` in `app/build.gradle.kts`. A distributable
-   upgrade needs a strictly higher versionCode and the existing signing identity.
-2. Update `CHANGELOG.md` and the bundled `app-whats-new.json`. Use concise notes
-   for each supported language. Set `highlights=false` for ordinary patch changes.
-3. Run the checks in [BUILDING.md](BUILDING.md), inspect the resulting APK, and
-   test installation and the affected flows on physical Android devices.
-4. Sign the release using a key kept outside the repository. Never commit a
-   keystore or passwords. Android Studio's signed APK/bundle workflow can supply
-   the signing configuration; this repository does not ship production keys.
-5. Verify the package, version, certificate, APK signature and 16 KB native-library
-   alignment. Record the artifact's SHA-256 and the checks actually performed.
-6. Publish a GitHub Release with the verified APK, release notes and checksum.
-   Only after the APK is available, advance `app-update.json` on `main` to that
-   published version. The app opens the repository's Releases page; it never
-   silently installs an executable.
+Builds are performed locally. GitHub Actions runs only when manually dispatched;
+pushing source, tags or release metadata does not start a hosted build.
 
-Source version **0.5.1-dev** is the rename/repository patch. The remote app
-manifest intentionally still advertises the previously packaged **0.5.0-dev**
-(versionCode 6) until a signed 0.5.1 APK is released. CI debug APKs use temporary
-signing keys and do not replace the existing development release identity. The
-local 0.5.1-dev verification APK also has a different certificate from the earlier
-0.5.0 development artifact; see [the signing record](../BUILD-VERIFICATION.md).
-It must be signed with the original key before distribution as an in-place upgrade.
+1. Advance the app versionCode/versionName and bundled release notes. Major user
+   features use highlights=true; ordinary corrections do not need another popup.
+2. Follow BUILDING.md to run the host tests, catalogue checks, debug assembly and lint.
+3. Review the actual UI renders and validate the affected flows on Android devices.
+4. Sign the distributable APK with the existing development signing identity.
+   Keep the keystore outside the repository. A normal Gradle debug APK may use a
+   different local key and must not be assumed to upgrade a previous download.
+5. Verify APK signature, package/version, ZIP and native-library alignment. Record
+   its SHA-256 and the certificate fingerprint in BUILD-VERIFICATION.md.
+6. Publish a GitHub pre-release for development builds, with the APK and checksum.
+   Once the APK is available, advance app-update.json on main to that version.
 
-The display name is 8bitBites, but `org.eightbit.bite` and private storage names
-remain stable. Changing them would create a different app or strand existing
-data and is not part of this rename.
+The signed 0.6.0-dev package uses the original development certificate with SHA-256
+8e73b40f0ab8b1bb784f8a7aa74d9930fb02ec77356b329e04a20b2a1e54560c.
+It matches the historical 0.5.0 development artifact. The Android package remains
+org.eightbit.bite, and the Room migration history is retained.
+
+The earlier locally built 0.5.1 verification APK used a different certificate,
+recorded in docs/verification/0.5.1.md. A device that installed that particular
+artifact has a different signing identity. Never uninstall a diary merely to
+bypass a signature mismatch.
+
+Host tests and matching certificates do not prove an actual phone upgrade.
+The app opens GitHub Releases; it never silently installs an executable.
 
 ## Catalogue-only release
 
-Follow [database/README.md](../database/README.md). Publish a new immutable
-snapshot under `database/versions/<version>/` and update the stable manifest and
-convenience copy in the same commit. Keep all previously published snapshots.
-Run the publisher tests and catalogue integrity check before pushing.
+Follow database/README.md. Publish a new immutable snapshot and update the stable
+manifest and current copy atomically. Keep old snapshots, stable IDs and source
+attribution. Run the catalogue publisher tests and integrity checks before pushing.
 
-Catalogue content version, SQLite schema version and application versionCode
-have different purposes. A schema change needs compatible client validation;
-a new catalogue does not automatically require an APK release. Never replace
-the private Room database with the public food catalogue.
+Catalogue content version, SQLite schema and app versionCode are independent.
+Never publish the private Room diary, personal photos, credentials or signing keys
+as part of the public catalogue.

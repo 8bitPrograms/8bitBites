@@ -307,4 +307,33 @@
     <string name="m70c97e49902d" formatted="false">Tu objetivo sigue siendo tu elección. Alcanzarlo no impide registrar más agua.</string>
     <string name="m6cca7b494136" formatted="false">Referencia adulta: 2,0 L de bebidas para hombres o 1,6 L para mujeres, estimados a partir de valores EFSA suponiendo un 20 % procedente de alimentos. Es una referencia inicial, no una prescripción individual.</string>
     <string name="m3d86af08cf5c" formatted="false">El peso, la altura, las calorías y los gramos de suplementos no determinan por sí solos una necesidad personal. No se añade agua automáticamente por creatina o proteína en polvo. Registra el volumen real de agua del batido.</string>
+    <string name="m5ed029043c65" formatted="false">Adjust base goal with my profile</string>
+    <string name="m8886b682c249" formatted="false">A rough planning estimate for low activity. Heat, exercise and health can change your needs.</string>
+    <string name="m182ec4b8dc60" formatted="false">Complete an adult profile with age, sex, height and weight for an estimate. Your custom base goal is used otherwise.</string>
+    <string name="mc5a588cb7f12" formatted="false">Supplement-day extras</string>
+    <string name="me70bccd1d729" formatted="false">Optional personal targets, not an established water requirement. Zero keeps them off. Only supplements actually recorded for that day activate the extra.</string>
+    <string name="m7ffd031e07a9" formatted="false">Set the matching supplement target in grams above. Half the target adds half your chosen extra, up to the full daily extra. No supplement today means no extra bottles.</string>
+    <string name="md72fc8ed45e3" formatted="false">The profile estimate uses age, sex, height and weight to estimate resting energy, assumes low activity and 20% water from food, then rounds to 50 ml. It is an adjustable planning aid, not a measured requirement.</string>
+    <string name="mb24ae688b9d8" formatted="false">Research does not establish extra litres per gram of creatine or protein powder. Dashed bottles represent only the extra you choose. They never record water as already drunk.</string>
+    <string name="m22b8ceb31cb1" formatted="false">Creatine and hydration research</string>
+    <string name="m1b56aeba0a52" formatted="false">Objetivo base</string>
+    <string name="m18cf1acca4cb" formatted="false">Base water goal · ml</string>
+    <string name="m8210c5fbae7b" formatted="false">Extra at protein powder target · ml</string>
+    <string name="m83629ad99505" formatted="false">Extra at creatine target · ml</string>
+    <string name="m9d9b358fdb10" formatted="false">Dashed bottles are your planned extras. Log drinks separately.</string>
+    <string name="m55da47dad0e5" formatted="false">Objetivo diario</string>
+    <string name="m35b259290ec3" formatted="false">Comida</string>
+    <string name="md01d900383e4" formatted="false">Foto</string>
+    <string name="mc37287702169" formatted="false">Añadir rápido</string>
+    <string name="m5c4cfbc97062" formatted="false">Describir una comida con IA</string>
+    <string name="me660626080f9" formatted="false">Abrir tu perfil</string>
+    <string name="mc398cec5a11d" formatted="false">Hugging Face access denied. Accept the model terms and use an authorised read token.</string>
+    <string name="m0e67e87685aa" formatted="false">Model verification failed. Download it again.</string>
+    <string name="m5644cdb05c8e" formatted="false">The temporary download link expired. Retrying from Hugging Face.</string>
+    <string name="m6684b1ff670b">Connection interrupted. Partial file kept. Retry %1$s/5. %2$s</string>
+    <string name="mbe44e0bb1fb0" formatted="false">Android paused the transfer. You can retry now; the partial model is kept.</string>
+    <string name="me1d50d1beb12" formatted="false">Not enough storage for this model</string>
+    <string name="mded0d98cde26" formatted="false">Not enough storage to continue the download</string>
+    <string name="m38d7baa79faa" formatted="false">Enter a Hugging Face read token for this model</string>
+    <string name="m816e2ffa223a" formatted="false">Connection interrupted. The partial model is kept.</string>
 </resources>

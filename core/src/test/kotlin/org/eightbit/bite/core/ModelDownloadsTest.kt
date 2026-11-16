@@ -7,7 +7,8 @@ class ModelDownloadsTest {
         assertEquals(ResumeResponse.APPEND,ModelDownloadPolicy.response(206,"bytes 10-99/100",10,100))
         assertEquals(ResumeResponse.RESTART,ModelDownloadPolicy.response(200,null,10,100))
         assertEquals(ResumeResponse.VERIFY,ModelDownloadPolicy.response(416,null,100,100))
-        for(range in listOf("bytes 0-99/100","bytes 10-90/100","bytes 10-100/101",null))
+        assertEquals(ResumeResponse.APPEND,ModelDownloadPolicy.response(206,"bytes 10-90/100",10,100))
+        for(range in listOf("bytes 0-99/100","bytes 10-9/100","bytes 10-100/101",null))
             assertFails { ModelDownloadPolicy.response(206,range,10,100) }
         assertFails { ModelDownloadPolicy.response(416,null,99,100) }
     }

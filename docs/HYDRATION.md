@@ -1,41 +1,74 @@
-# Water tracking and optional reference
+# Water planning and supplement-day extras
 
-The water goal is a user-selected tracking target. It is never a limit on
-recording another drink and is never silently changed by an age, profile,
-calorie, protein-powder or creatine update. Reaching it does not disable logging.
-Drinks are recorded by volume; powder mass is not treated as water volume.
+The app separates the base goal, optional protein-powder extra and optional
+creatine extra. These are planning targets. They do not record any water as drunk.
 
-For adults with age and sex entered, Settings can display a starting reference:
-2,000 ml of drinks for male profiles and 1,600 ml for female profiles. These are
-an explicit app estimate of 80% of EFSA's adult total-water reference values
-(2.5 L and 2.0 L respectively), assuming 20% comes from food. Actual food-water
-contributions vary. The original reference includes food moisture and all drinks,
-and is not an individual prescription or a required plain-water intake.
+## Profile estimate
 
-This suggestion uses age/sex references. Weight, height, a calorie target and
-supplement grams alone do not establish an individualized water requirement.
-No extra ml-per-gram rule is applied for creatine or protein powder. This is a
-deliberate limit of the suggestion, rather than a claim of personal prediction.
-For profiles under 18 or without the required reference inputs, only the custom
-goal is offered. No medical or supplement dosage target is generated.
+Settings > Water can adjust the base when the saved age, sex, height or weight
+changes. Existing saved custom goals remain in custom mode until the user enables
+profile mode. An incomplete or unsupported profile keeps the custom base.
 
-Sources:
+For adult profiles (18–80 years, 35–250 kg, 120–230 cm), the app uses:
 
-- EFSA, *Scientific Opinion on Dietary Reference Values for water*:
-  https://www.efsa.europa.eu/en/efsajournal/pub/1459
-- EFSA, *Dietary Reference Values for nutrients — Summary report*, water section:
-  https://www.efsa.europa.eu/sites/default/files/2017_09_DRVs_summary_report.pdf
-- International Society of Sports Nutrition position stand on creatine:
-  https://pmc.ncbi.nlm.nih.gov/articles/PMC5469049/
+    resting kcal = 10 × weight kg + 6.25 × height cm − 5 × age + sex term
+    sex term = +5 for male, −161 for female
+    base drinks goal ml = round to 50 ml(resting kcal × 1.4 × 0.8)
 
-The screen uses glasses for servings below 700 ml and bottles for servings of
-700 ml or more. A 2,000 ml goal with a 100 ml unit produces 20 glasses. The final
-vessel may be partially filled when the goal is not a multiple of the unit.
-Changing the serving changes future additions and the visualization, not past
-logged volumes. Undo removes the most recently added entry from that session;
-individual historical entries can be deleted separately. Every date uses local
-day boundaries, including daylight-saving transitions.
+The Mifflin–St Jeor equation estimates resting energy. The 1.4 activity factor,
+1 ml/kcal water approximation and 20% food-water allowance form an **app planning
+heuristic**. Their combination is not a validated individual fluid prescription.
+A 30-year-old, 70 kg, 175 cm male profile gives a starting goal of 1,850 ml.
 
-Water data is stored in the private app database. This release continues to
-export nutrition records only to Health Connect; it does not request hydration
-permissions or export water records.
+The estimate is independent of a calorie restriction/weight-loss target.
+Exercise, heat, pregnancy, lactation, illness and prescribed fluid limits are
+not modelled. The goal remains editable and can be disabled or overridden.
+
+Sources and limits:
+
+- [Mifflin et al., original resting-energy study](https://pubmed.ncbi.nlm.nih.gov/2305711/).
+- [Institute of Medicine, Water chapter](https://www.nationalacademies.org/read/10925/chapter/6):
+  total water includes drinks and food; a wide range of intakes can maintain hydration.
+- [Comparison of weight- and energy-based water formulas](https://pubmed.ncbi.nlm.nih.gov/22275331/):
+  formulas produce different estimates, so no exact need is claimed here.
+
+## What creatine and protein powder contribute
+
+Research does not provide a validated litres-per-gram extra-water equation for
+either supplement. Creatine can increase body water, especially during initial
+loading; reported short-term retention is not a recurring daily drinking-water
+dose. The app does not convert that retained volume into a compulsory daily extra.
+
+- [ISSN creatine position stand](https://pmc.ncbi.nlm.nih.gov/articles/PMC5469049/).
+- [Creatine questions and misconceptions review](https://pmc.ncbi.nlm.nih.gov/articles/PMC7871530/).
+- [Controlled dietary-protein and hydration study](https://pubmed.ncbi.nlm.nih.gov/16567155/):
+  a small study of total dietary protein does not establish a powder-specific
+  extra-litre rule.
+
+**Supplement-day extras default to zero.** A user who wants a personal extra plan
+can enter its volume alongside the corresponding daily gram target. For each day:
+
+    extra ml = chosen extra at target × min(actual known grams / target grams, 1)
+
+For a 30 g powder target with a chosen 1,000 ml extra, recording 15 g activates
+500 ml; recording no powder activates no powder extra. Each day's extra is capped
+at the selected amount. This is configurable planning arithmetic, not a claim
+about physiological water requirements or the volume used to mix a shake.
+
+Linked meal/supplement records count once. Unknown scoop weights do not invent
+grams or activate extra water. Deleting a recorded dose removes its contribution.
+
+## Display and records
+
+Base vessels have solid outlines. Active extras have dashed bottle outlines,
+with protein powder and creatine labelled separately. The app uses the selected
+serving size for the base; extra bottles represent 1 litre each, with partial fills.
+The water widget uses an adaptive bottle scale to fit its available space.
+
+Actual water fills the base first, then the planned powder and creatine sections.
+Changing a target never changes the amount actually logged. Nothing is added to
+water history merely because a supplement was recorded.
+
+The plus button adds the chosen serving; custom ml/L amounts, deletion and undo
+remain available. Water is stored in the private Room database. It is not exported
+to Health Connect in this release.

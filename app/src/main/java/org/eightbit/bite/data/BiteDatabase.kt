@@ -87,6 +87,12 @@ data class SupplementIntake(
 
 @Dao
 interface BiteDao {
+    @Query("SELECT * FROM diary WHERE deleted = 0 AND time >= :start AND time < :end")
+    suspend fun dailyEntries(start: Long, end: Long): List<DiaryEntry>
+    @Query("SELECT * FROM water_entries WHERE time >= :start AND time < :end")
+    suspend fun dailyWater(start: Long, end: Long): List<WaterEntry>
+    @Query("SELECT * FROM supplement_intakes WHERE deleted = 0 AND time >= :start AND time < :end")
+    suspend fun dailyIntakes(start: Long, end: Long): List<SupplementIntake>
     @Query("SELECT * FROM water_entries ORDER BY time DESC")
     fun waterEntries(): Flow<List<WaterEntry>>
     @Upsert suspend fun saveWater(entry: WaterEntry)

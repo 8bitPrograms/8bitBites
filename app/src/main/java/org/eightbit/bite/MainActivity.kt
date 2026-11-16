@@ -28,6 +28,6 @@ class MainActivity : AppCompatActivity() {
         setContent { BiteApp(launchAction=launchAction,launchId=launchId) }
     }
     override fun onNewIntent(intent:Intent) { super.onNewIntent(intent);setIntent(intent);acceptIntent(intent) }
-    private fun acceptIntent(intent:Intent) { launchAction=intent.getStringExtra("screen")?.takeIf { it in setOf("today","foods","profile","ai","camera","models") };launchId=System.nanoTime() }
+    private fun acceptIntent(intent:Intent) { launchAction=intent.getStringExtra("screen")?.takeIf { it in setOf("today","water","foods","profile","ai","camera","models") };launchId=System.nanoTime() }
     override fun onSaveInstanceState(outState:Bundle) { outState.putString("launchAction",launchAction);outState.putLong("launchId",launchId);super.onSaveInstanceState(outState) }
 }

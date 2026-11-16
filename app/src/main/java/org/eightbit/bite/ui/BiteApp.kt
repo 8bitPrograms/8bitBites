@@ -89,17 +89,19 @@ fun BiteApp(vm: BiteViewModel = viewModel(), launchAction: String? = null, launc
     var privacy by remember { mutableStateOf(false) }
     var cameraRequest by remember { mutableLongStateOf(0) }
     var modelsRequest by remember { mutableLongStateOf(0) }
+    var waterRequest by remember { mutableLongStateOf(0) }
     var consumedLaunch by rememberSaveable { mutableLongStateOf(-1) }
     BackHandler(settings) { settings = false }
     LaunchedEffect(launchId) {
         if (consumedLaunch == launchId) return@LaunchedEffect
         consumedLaunch = launchId
         settings = false
-        if (launchAction in setOf("today", "foods", "ai", "camera")) selectedDate = LocalDate.now().toString()
+        if (launchAction in setOf("today", "water", "foods", "ai", "camera")) selectedDate = LocalDate.now().toString()
         when (launchAction) {
             "ai", "camera", "models" -> { tab = 3; if (launchAction == "camera") cameraRequest = launchId; if (launchAction == "models") modelsRequest = launchId }
             "foods" -> tab = 1
             "profile", "today" -> tab = 0
+            "water" -> { tab = 0; waterRequest = launchId }
         }
     }
     val snackbar = remember { SnackbarHostState() }
@@ -128,7 +130,7 @@ fun BiteApp(vm: BiteViewModel = viewModel(), launchAction: String? = null, launc
             bottomBar = { NavigationBar {
                 val labels = listOf("You", "Foods", "Favorites", "AI")
                 labels.forEachIndexed { index, label -> NavigationBarItem(selected = !settings && tab == index,
-                    onClick = { settings = false; tab = index; cameraRequest = 0; modelsRequest = 0; if (index == 0 || index == 3) addingSupplement = false },
+                    onClick = { settings = false; tab = index; cameraRequest = 0; modelsRequest = 0; waterRequest = 0; if (index == 0 || index == 3) addingSupplement = false },
                     icon = { when (index) {
                         0 -> ProfileAvatar(prefs, Modifier.size(28.dp))
                         1 -> Icon(Icons.AutoMirrored.Filled.List, t(label))
@@ -153,7 +155,7 @@ fun BiteApp(vm: BiteViewModel = viewModel(), launchAction: String? = null, launc
                     canUndoWater = water.any { it.id == lastWaterId && Instant.ofEpochMilli(it.time).atZone(ZoneId.systemDefault()).toLocalDate() == date },
                     save = vm::settings, settings = { settings = true },
                     dose = { doseProduct = it }, editDose = { dose -> supplements.find { it.id == dose.productId }?.let { doseProduct = it; editingDose = dose } },
-                    deleteDose = vm::deleteSupplementIntake, editTarget = { targetProduct = it })
+                    deleteDose = vm::deleteSupplementIntake, editTarget = { targetProduct = it }, waterRequest = waterRequest)
                 1, 2 -> {
                     val activeQuery = if (tab == 2) favoriteQuery else query
                     val matches = if (tab == 2) favorites.filter { food -> vm.app.catalogue.translator.alternatives(activeQuery)

@@ -306,5 +306,12 @@
   "Target %1$s kcal": "目標 %1$s kcal",
   "Target %1$s kcal · incomplete data": "目標 %1$s kcal · データ不足",
   "%1$s entries": "%1$s件",
-  "%1$s entries · incomplete nutrient data": "%1$s件 · 栄養データ不足"
+  "%1$s entries · incomplete nutrient data": "%1$s件 · 栄養データ不足",
+  "Base goal": "基本目標",
+  "Daily goal": "1日の目標",
+  "Food": "食品",
+  "Photo": "写真",
+  "Quick add": "クイック追加",
+  "Describe a meal with AI": "AIで食事を記述",
+  "Open your profile": "プロフィールを開く"
 }

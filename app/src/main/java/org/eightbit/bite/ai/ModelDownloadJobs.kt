@@ -23,7 +23,7 @@ object ModelDownloadJobs {
         library.saveToken(id,token)
         require(!spec.gated || library.token(id).isNotBlank()) { "Enter a Hugging Face read token for this model" }
         val generation=UUID.randomUUID().toString()
-        library.status(id) { it.copy(phase="queued",wanted=true,error="",generation=generation,unmetered=unmetered) }
+        library.status(id) { it.copy(phase="queued",wanted=true,error="",generation=generation,unmetered=unmetered,attempts=0) }
         try {
             if(Build.VERSION.SDK_INT>=34) {
                 val network=NetworkRequest.Builder().addCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET).apply {
@@ -44,10 +44,22 @@ object ModelDownloadJobs {
     }
     fun pause(app:BiteApplication,id:String) {
         app.models.status(id) { it.copy(phase="paused",wanted=false,downloaded=app.models.partial(id).length()) }
+        app.models.interrupt(id)
         if(Build.VERSION.SDK_INT>=34) app.getSystemService(JobScheduler::class.java).cancel(jobId(app,id))
         else WorkManager.getInstance(app).cancelUniqueWork(workName(id))
     }
     fun reconcile(app:BiteApplication) {
+        val connectivity=app.getSystemService(ConnectivityManager::class.java)
+        val capabilities=connectivity.getNetworkCapabilities(connectivity.activeNetwork)
+        for(spec in app.models.catalogue) {
+            val state=app.models.current(spec.id)
+            if(state.wanted && state.phase in setOf("queued","waiting_network")) {
+                val ready=capabilities?.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)==true &&
+                    (!state.unmetered || capabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_NOT_METERED))
+                val phase=if(ready) "queued" else "waiting_network"
+                if(phase!=state.phase) app.models.status(spec.id) { it.copy(phase=phase) }
+            }
+        }
         if(Build.VERSION.SDK_INT>=34) for(spec in app.models.catalogue) {
             if(app.models.current(spec.id).wanted && app.getSystemService(JobScheduler::class.java).getPendingJob(jobId(app,spec.id))==null)
                 app.models.status(spec.id) { it.copy(phase="paused",wanted=false,downloaded=app.models.partial(spec.id).length()) }
@@ -76,7 +88,7 @@ object ModelDownloadJobs {
 @RequiresApi(34)
 class ModelDownloadJob:JobService() {
     private val scope=CoroutineScope(SupervisorJob()+Dispatchers.Main.immediate)
-    private val jobs=mutableMapOf<Int,Job>()
+    private val jobs=mutableMapOf<Int,Pair<String,Job>>()
     override fun onStartJob(params:JobParameters):Boolean {
         val app=application as BiteApplication
         val id=params.extras.getString("model") ?: return false
@@ -84,19 +96,31 @@ class ModelDownloadJob:JobService() {
         if(!app.models.desired(id,generation)) return false
         val notificationId=ModelDownloadJobs.notificationId(app,id)
         setNotification(params,notificationId,ModelDownloadJobs.notification(app,id,app.models.partial(id).length()),JOB_END_NOTIFICATION_POLICY_REMOVE)
-        jobs[params.jobId]=scope.launch {
-            val result=ModelDownloadEngine(app,app.models).run(id,generation) { done,verifying ->
-                ModelDownloadJobs.progress(app,id,done,verifying)
+        val running=scope.launch {
+            try {
+                val network=params.network
+                val result=if(network==null) {
+                    app.models.status(id) { if(it.generation==generation && it.wanted) it.copy(phase="waiting_network") else it }
+                    DownloadOutcome.RETRY
+                } else ModelDownloadEngine(app,app.models,network).run(id,generation) { done,verifying ->
+                    ModelDownloadJobs.progress(app,id,done,verifying)
+                }
+                jobFinished(params,result==DownloadOutcome.RETRY)
+            } finally {
+                if(jobs[params.jobId]?.first==generation) jobs.remove(params.jobId)
             }
-            jobs.remove(params.jobId)
-            jobFinished(params,result==DownloadOutcome.RETRY)
         }
+        jobs[params.jobId]=generation to running
         return true
     }
     override fun onStopJob(params:JobParameters):Boolean {
-        jobs.remove(params.jobId)?.cancel()
+        val generation=params.extras.getString("generation").orEmpty()
+        if(jobs[params.jobId]?.first==generation) jobs.remove(params.jobId)?.second?.cancel()
         val app=application as BiteApplication
         val id=params.extras.getString("model") ?: return false
+        if(app.models.desired(id,generation)) app.models.interrupt(id)
+        app.models.status(id) { if(it.wanted && it.generation==params.extras.getString("generation"))
+            it.copy(phase="waiting",error="Android paused the transfer. You can retry now; the partial model is kept.") else it }
         return app.models.desired(id,params.extras.getString("generation").orEmpty())
     }
     override fun onDestroy() { scope.cancel();super.onDestroy() }
@@ -109,7 +133,14 @@ class ModelDownloadWorker(context:Context,params:WorkerParameters):CoroutineWork
         if(!app.models.desired(id,generation)) return Result.success()
         val notificationId=ModelDownloadJobs.notificationId(app,id)
         val notification=ModelDownloadJobs.notification(app,id,app.models.partial(id).length())
-        setForeground(if(Build.VERSION.SDK_INT>=29) ForegroundInfo(notificationId,notification,ServiceInfo.FOREGROUND_SERVICE_TYPE_DATA_SYNC) else ForegroundInfo(notificationId,notification))
+        try {
+            setForeground(if(Build.VERSION.SDK_INT>=29) ForegroundInfo(notificationId,notification,ServiceInfo.FOREGROUND_SERVICE_TYPE_DATA_SYNC) else ForegroundInfo(notificationId,notification))
+        } catch(cancelled:CancellationException) { throw cancelled }
+        catch(error:Exception) {
+            app.models.status(id) { if(it.generation==generation && it.wanted) it.copy(phase="failed",wanted=false,
+                error="Android could not start the download. Reopen the app and tap Resume.") else it }
+            return Result.failure()
+        }
         val outcome=ModelDownloadEngine(app,app.models).run(id,generation) { done,verifying ->
             ModelDownloadJobs.progress(app,id,done,verifying)
         }

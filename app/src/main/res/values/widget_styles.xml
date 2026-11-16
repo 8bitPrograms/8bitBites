@@ -1,0 +1,13 @@
+<resources>
+    <color name="widget_accent">#256D52</color><color name="widget_muted">#53675B</color><color name="widget_tile">#DCEBDD</color>
+    <string name="widget_water_name">Water tracker</string>
+    <string name="widget_water_description">Daily water goal, bottle progress and one-tap drinking records.</string>
+    <style name="WidgetDrinkButton">
+        <item name="android:layout_width">0dp</item><item name="android:layout_weight">1</item>
+        <item name="android:layout_height">match_parent</item><item name="android:layout_marginHorizontal">3dp</item>
+        <item name="android:gravity">center</item><item name="android:background">@drawable/widget_button</item>
+        <item name="android:textColor">@color/widget_accent</item><item name="android:textSize">12sp</item>
+        <item name="android:textStyle">bold</item><item name="android:maxLines">2</item><item name="android:ellipsize">end</item>
+        <item name="android:padding">3dp</item>
+    </style>
+</resources>

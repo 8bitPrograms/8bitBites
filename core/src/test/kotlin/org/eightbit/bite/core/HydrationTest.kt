@@ -3,6 +3,25 @@ package org.eightbit.bite.core
 import kotlin.test.*
 
 class HydrationTest {
+    @Test fun profileEstimateRespondsToEachBodyMeasurement() {
+        val base = profileWaterEstimateMl(30, "male", 70.0, 175.0)!!
+        assertEquals(1850.0, base)
+        assertTrue(profileWaterEstimateMl(30, "male", 90.0, 175.0)!! > base)
+        assertTrue(profileWaterEstimateMl(30, "male", 70.0, 195.0)!! > base)
+        assertTrue(profileWaterEstimateMl(60, "male", 70.0, 175.0)!! < base)
+        assertTrue(profileWaterEstimateMl(30, "female", 70.0, 175.0)!! < base)
+        assertNull(profileWaterEstimateMl(17, "male", 70.0, 175.0))
+        assertNull(profileWaterEstimateMl(30, "", 70.0, 175.0))
+        assertNull(profileWaterEstimateMl(30, "male", Double.NaN, 175.0))
+    }
+    @Test fun supplementalPlanActivatesOnlyForActualIntakeAndNeverExceedsItsDailyExtra() {
+        assertEquals(0.0, plannedWaterExtraMl(0.0, 30.0, 1000.0))
+        assertEquals(500.0, plannedWaterExtraMl(15.0, 30.0, 1000.0))
+        assertEquals(1000.0, plannedWaterExtraMl(60.0, 30.0, 1000.0))
+        assertEquals(0.0, plannedWaterExtraMl(30.0, null, 1000.0))
+        assertEquals(0.0, plannedWaterExtraMl(30.0, 30.0, 0.0))
+        assertEquals(4000.0, DailyWaterGoal(2000.0, 1000.0, 1000.0).totalMl)
+    }
     @Test fun twentyGlassesAndPartialProgress() {
         val plan = HydrationPlan(2000.0, 100.0)
         assertEquals(20, plan.count)

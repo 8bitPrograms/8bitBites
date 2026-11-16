@@ -4,6 +4,7 @@ package org.eightbit.bite.ui
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.automirrored.filled.ArrowForward
@@ -65,7 +66,8 @@ internal fun DashboardScreen(modifier: Modifier, date: LocalDate, entries: List<
     add: () -> Unit, addSupplement: () -> Unit, delete: (DiaryEntry) -> Unit, repeat: (DiaryEntry) -> Unit,
     edit: (DiaryEntry) -> Unit, addWater: (Double) -> Unit, deleteWater: (String) -> Unit, undoWater: () -> Unit,
     canUndoWater: Boolean, save: (Preferences) -> Unit, settings: () -> Unit, dose: (Supplement) -> Unit,
-    editDose: (SupplementIntake) -> Unit, deleteDose: (SupplementIntake) -> Unit, editTarget: (Supplement) -> Unit) {
+    editDose: (SupplementIntake) -> Unit, deleteDose: (SupplementIntake) -> Unit, editTarget: (Supplement) -> Unit,
+    waterRequest: Long = 0) {
     val zone = ZoneId.systemDefault()
     val start = date.atStartOfDay(zone).toInstant().toEpochMilli()
     val end = date.plusDays(1).atStartOfDay(zone).toInstant().toEpochMilli()
@@ -76,20 +78,11 @@ internal fun DashboardScreen(modifier: Modifier, date: LocalDate, entries: List<
     var summaryExpanded by rememberSaveable { mutableStateOf(true) }
     var supplementsExpanded by rememberSaveable { mutableStateOf(false) }
     var trendsExpanded by rememberSaveable { mutableStateOf(false) }
-    fun amount(kind: SupplementKind): Pair<Double, Boolean> {
-        var known = daily.filter { it.isSupplement && it.supplementKind == kind.name }.sumOf { it.grams }
-        var complete = true
-        doses.filter { it.diaryEntryId == null }.forEach { intake ->
-            products.find { it.id == intake.productId && it.kind == kind.name }?.let { product ->
-                val grams = doseGrams(intake.quantity, DoseUnit.valueOf(intake.unit), product.gramsPerUnit)
-                if (grams == null) complete = false else known += grams
-            }
-        }
-        return known to complete
-    }
-    val (powder, powderComplete) = amount(SupplementKind.PROTEIN_POWDER)
-    val (creatine, creatineComplete) = amount(SupplementKind.CREATINE)
-    LazyColumn(modifier, contentPadding = PaddingValues(20.dp, 8.dp, 20.dp, 100.dp), verticalArrangement = Arrangement.spacedBy(12.dp)) {
+    val (powder, powderComplete) = supplementAmount(SupplementKind.PROTEIN_POWDER, daily, products, doses)
+    val (creatine, creatineComplete) = supplementAmount(SupplementKind.CREATINE, daily, products, doses)
+    val listState = rememberLazyListState()
+    LaunchedEffect(waterRequest) { if (waterRequest != 0L && prefs.waterEnabled) listState.animateScrollToItem(3) }
+    LazyColumn(modifier, state = listState, contentPadding = PaddingValues(20.dp, 8.dp, 20.dp, 100.dp), verticalArrangement = Arrangement.spacedBy(12.dp)) {
         item { Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
             ProfileAvatar(prefs, Modifier.size(42.dp))
             Spacer(Modifier.width(12.dp))
@@ -123,7 +116,8 @@ internal fun DashboardScreen(modifier: Modifier, date: LocalDate, entries: List<
                 }
             }
         } }
-        if (prefs.waterEnabled) item { WaterCard(drinks, prefs, addWater, deleteWater, undoWater, canUndoWater, save) }
+    if (prefs.waterEnabled) item { WaterCard(drinks, prefs, addWater, deleteWater, undoWater, canUndoWater, save,
+        prefs.dailyWaterGoal(powder, creatine), waterRequest) }
         if (prefs.showSupplements) item { Card(Modifier.fillMaxWidth()) {
             Column(Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(10.dp)) {
                 Row(verticalAlignment = Alignment.CenterVertically) {

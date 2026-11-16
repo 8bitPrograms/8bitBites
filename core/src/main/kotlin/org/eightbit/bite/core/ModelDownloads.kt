@@ -25,7 +25,7 @@ object ModelDownloadPolicy {
         require(code==206) { "Model server returned HTTP $code" }
         val parts=Regex("bytes ([0-9]+)-([0-9]+)/([0-9]+)").matchEntire(range.orEmpty())?.groupValues
             ?: error("Invalid download range")
-        require(parts[1].toLong()==offset && parts[2].toLong()==total-1 && parts[3].toLong()==total) { "The server returned a different model range" }
+        require(parts[1].toLong()==offset && parts[2].toLong() in offset until total && parts[3].toLong()==total) { "The server returned a different model range" }
         return ResumeResponse.APPEND
     }
     fun allowedUrl(uri:URI):Boolean {

@@ -2,6 +2,18 @@
 
 App versions and public food-catalogue versions are independent.
 
+## 0.6.0-dev — 2026-11-16
+
+- Add an adjustable water-planning estimate based on age, sex, height and weight.
+- Separate the base from optional, user-defined supplement-day extras; activate
+  extras from actual known intake and display them as dashed bottles.
+- Add a water widget with direct drink buttons, redesign daily/quick widgets,
+  and refresh after water/supplement changes and date/time-zone events.
+- Stream and validate resumable model chunks, use the Android job network,
+  interrupt paused connections and expose network waiting/retry controls.
+- Restore the original development signing identity for the distributed APK.
+- Make GitHub Actions manual-only; this version was built and checked locally.
+
 ## 0.5.1-dev — 2026-11-16
 
 - Rename the app, widgets and project to **8bitBites**.
@@ -14,8 +26,7 @@ App versions and public food-catalogue versions are independent.
 - Preserve the Android package, private storage and unchanged catalogue 0.4.0.
   This patch does not introduce another feature popup.
 
-This is the current development source. `app-update.json` continues to advertise
-the previously packaged 0.5.0-dev until a signed 0.5.1 APK is published.
+This rename patch first published the development source and versioned catalogue.
 
 ## 0.5.0-dev — 2026-11-16
 

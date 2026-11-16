@@ -306,5 +306,12 @@
   "Target %1$s kcal": "Meta %1$s kcal",
   "Target %1$s kcal · incomplete data": "Meta %1$s kcal · dados incompletos",
   "%1$s entries": "%1$s registros",
-  "%1$s entries · incomplete nutrient data": "%1$s registros · dados nutricionais incompletos"
+  "%1$s entries · incomplete nutrient data": "%1$s registros · dados nutricionais incompletos",
+  "Base goal": "Meta base",
+  "Daily goal": "Meta diária",
+  "Food": "Comida",
+  "Photo": "Foto",
+  "Quick add": "Adicionar rápido",
+  "Describe a meal with AI": "Descrever uma refeição com IA",
+  "Open your profile": "Abrir perfil"
 }

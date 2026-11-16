@@ -29,7 +29,8 @@ class BiteApplication : Application() {
         SyncScheduler.periodic(this, preferences.read().autoSync)
         preferences.listen(widgetPreferences)
         appScope.launch {
-            database.dao().entries().debounce(400).collect { WidgetUpdates.request(this@BiteApplication) }
+            combine(database.dao().entries(), database.dao().waterEntries(), database.dao().supplementIntakes(), database.dao().supplements()) { _, _, _, _ -> Unit }
+                .debounce(300).collect { WidgetUpdates.request(this@BiteApplication) }
         }
     }
 }
