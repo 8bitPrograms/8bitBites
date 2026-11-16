@@ -45,11 +45,16 @@ data was cleared. AMOLED and accent choices were observed persisting during
 this session. Earlier device checks established account sign-in, text inference,
 explicit meal approval and history restoration, as recorded in the prior report.
 
-The user's 0.9.1 screenshots showed the composer above the Samsung keyboard and
-the old widget sizing/contrast defects addressed here. The phone was locked at
-the final 0.10.0 screenshot attempt; a fresh unlocked visual check is pending.
-Host render tests do not establish every launcher, battery policy or widget tap
-schedule. No invented meal or unconsumed drink was added to test the user's diary.
+The final unlocked 0.10.0 check verified the AMOLED/green message fills and
+composer, retained bottom navigation, saved conversation history, Search/Favorites
+in Add food and the Meals screen after closing the picker. The existing Water
+and Daily nutrition widgets were observed on the Samsung launcher with current
+totals, visible icons, expanded graphics and bottom actions. The widget Food
+shortcut opened the same picker. No invented meal or unconsumed drink was added.
+
+The original 15-second screen-off timeout was restored and the temporary device
+UI dump was removed. These checks do not establish every launcher, battery policy
+or background water-tap schedule; those paths also have host coverage.
 
 Phone screenshots and diagnostics remain in ignored local artifacts. They are
 not included in the repository.
