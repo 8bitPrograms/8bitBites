@@ -11,7 +11,7 @@ import java.io.IOException
 import java.util.UUID
 
 data class AiChatMessage(val id:String=UUID.randomUUID().toString(),val user:Boolean,val text:String,val photo:ByteArray?=null,
-    val wireText:String=text,val foods:List<AiFoodMention> = emptyList(),val photoPath:String?=null)
+    val wireText:String=text,val foods:List<AiFoodMention> = emptyList(),val photoPath:String?=null,val acknowledges:String="")
 data class ChatReviewState(val id:String,val grams:String,val supplement:Boolean=false,val kind:String="OTHER",val food:AiFoodMention?=null)
 data class ChatSession(val id:String,val created:Long,val updated:Long,val provider:AiProvider,val accountId:String="",
     val endpoint:String="",val model:String="",val messages:List<AiChatMessage> = emptyList(),val draftMessageId:String="",
@@ -55,7 +55,7 @@ class ChatHistoryStore(context:Context) {
                     .put("food",it.food?.let { food -> JSONObject(AiChat.foodJson(food).toString()) } ?: JSONObject.NULL))
             } }).put("messages",JSONArray().apply { messages.forEach { message ->
                 put(JSONObject().put("id",message.id).put("user",message.user).put("text",message.text).put("wire",message.wireText)
-                    .put("photo",message.photoPath!=null))
+                    .put("photo",message.photoPath!=null).put("acknowledges",message.acknowledges))
             } })
         val bytes=json.toString().toByteArray(Charsets.UTF_8);require(bytes.size<=24*1024*1024)
         write(record(session.id),bytes)
@@ -63,12 +63,18 @@ class ChatHistoryStore(context:Context) {
     }
     @Synchronized fun load(id:String):ChatSession {
         val doc=document(safe(id));val rows=doc.getJSONArray("messages");require(rows.length()<=600)
+        val saved=doc.optJSONArray("saved")?.let { a -> (0 until a.length()).map { a.getString(it) }.toSet() }.orEmpty()
         val messages=(0 until rows.length()).map { index -> val row=rows.getJSONObject(index)
             val messageId=safe(row.getString("id"));val user=row.getBoolean("user")
             val text=row.getString("text");val wire=row.optString("wire",text)
             require(text.length<=12000 && wire.length<=32000)
             val foods=if(user) emptyList() else runCatching { AiChat.parse(wire).foods }.getOrDefault(emptyList())
-            AiChatMessage(messageId,user,text,wireText=wire,foods=foods,
+            // Older app-generated receipts had no link. Only recognize them after a locally approved proposal.
+            val previous=if(index>0) rows.getJSONObject(index-1).optString("id") else ""
+            val legacyReceipt=!user && previous in saved && text in setOf("Meal added to your diary.","Öğün günlüğüne eklendi.") &&
+                runCatching { JSONObject(wire).optBoolean("saved") }.getOrDefault(false)
+            val acknowledges=row.optString("acknowledges").ifBlank { if(legacyReceipt) previous else "" }
+            AiChatMessage(messageId,user,text,wireText=wire,foods=foods,acknowledges=acknowledges,
                 photoPath=photo(id,messageId).takeIf { row.optBoolean("photo") && it.isFile && it.length()<=2*1024*1024 }?.absolutePath)
         }
         val reviews=doc.optJSONArray("reviews")?.let { a -> require(a.length()<=20);(0 until a.length()).map {
@@ -78,7 +84,6 @@ class ChatHistoryStore(context:Context) {
                 ChatReviewState(row.getString("id"),row.optString("grams").take(30),row.optBoolean("supplement"),kind,food)
             }
         } }.orEmpty()
-        val saved=doc.optJSONArray("saved")?.let { a -> (0 until a.length()).map { a.getString(it) }.toSet() }.orEmpty()
         return ChatSession(id,doc.getLong("created"),doc.getLong("updated"),AiProvider.valueOf(doc.getString("provider")),
             doc.optString("accountId"),doc.optString("endpoint"),doc.optString("model"),messages,doc.optString("draftMessageId"),reviews,saved,doc.optString("input").take(4000))
     }

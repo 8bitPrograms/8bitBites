@@ -1,29 +1,36 @@
 # Home-screen widgets
 
-Add widgets from Settings > Home screen widgets or the Android launcher's widget picker.
+Add widgets from Settings > Home screen widgets or the Android launcher's picker.
 
-- **Water tracker:** current day's consumed amount and combined goal, solid base
-  bottles, dashed active extras, and three distinct quick amounts. The first amount
-  uses the serving selected in Settings. Buttons log water without opening the app.
-- **Daily nutrition:** energy progress, macros and optional targets, water progress,
-  a quick-water button and food/AI/camera shortcuts.
-- **Quick add:** profile, food, chat and camera shortcuts in a compact card. The
-  chat shortcut uses the selected AI provider's name and icon, including the
-  ChatGPT mark, a local chip or a remote-server symbol.
+- **Quick add:** a single row of three large Food / selected AI provider / Photo
+  targets. Its default target is 3 × 1 cells, subject to launcher cell sizing.
+- **Daily nutrition:** a compact 4 × 2 target with energy, goal, water progress
+  and actions. Enlarging it adds a calorie progress ring and three macro columns;
+  the actions remain at the bottom.
+- **Water tracker:** a compact 3 × 2 target with amount, goal, progress and three
+  distinct drink amounts. A taller card shows large solid base bottles, dashed
+  active supplement extras and the goal breakdown. The first drink amount uses
+  the serving selected in Settings. Drinks are recorded without opening the app.
 
-Widgets adapt to resizing, support light/dark system colours, and use the selected
-app language. Compact cards hide illustration/details to retain the action buttons.
-Tap a water card to open today's water tracker.
+The layout uses the allocated height instead of leaving a large empty tail.
+Launchers control actual cell dimensions; existing widget sizes stay under user
+control. New default sizes apply when adding a widget again.
 
-Water buttons enqueue a durable background write. Each tap has a unique record ID;
-retrying the same write does not add a duplicate drink. The record uses the tap's
-timestamp and the current local day. UI, widget and supplement totals use the same
-daily-goal calculation.
+On Android 12+, widgets follow the app's chosen background and accent, including
+AMOLED black. Buttons use visible filled surfaces and provider icons are tinted
+for contrast. Android 9–11 retain their system light/dark resource palette.
+The widgets use locally bundled Inter and the selected app language. Picker
+preview images come from the actual widget renderer using fictional sample data.
 
-Updates follow food, water, supplement and preference changes. Periodic refresh and
-date/time-zone events also refresh the cards. Android/launcher scheduling can delay
+Water buttons enqueue a durable background write. Each tap has a unique record
+ID; retrying the same write does not add a duplicate drink. The record uses the
+tap timestamp and current local day. UI and widgets share the hydration totals.
+
+Updates follow food, water, supplement and preference changes. Periodic refresh
+and date/time-zone events also refresh cards. Android scheduling can delay a
 background refresh, so exact midnight delivery is not guaranteed.
 
-Host tests apply actual RemoteViews, check visible totals and button bounds, verify
-idempotent water writes and render small/normal previews. Physical-device launcher,
-tap scheduling and battery-restriction behaviour still need device validation.
+Host tests inflate real RemoteViews, check control bounds at small/large sizes,
+theme colors, provider icons and idempotent water writes. An Android 9 inflation
+check covers the fallback path. See BUILD-VERIFICATION.md for physical-device
+checks and their limits.

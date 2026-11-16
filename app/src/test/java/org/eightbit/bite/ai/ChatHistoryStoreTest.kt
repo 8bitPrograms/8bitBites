@@ -55,4 +55,20 @@ class ChatHistoryStoreTest {
         try { store.load("../outside");fail("Unsafe path accepted") } catch(_:IllegalArgumentException) { }
         assertEquals(1,store.list().count { it.id==record.id })
     }
+    @Test fun receiptLinksSurviveRestartAndLegacyReceiptsRequireALocalApproval() {
+        val wire="""{"reply":"Meal added to your diary.","saved":true,"foods":[]}"""
+        val record=session(listOf(
+            AiChatMessage(id="proposal",user=false,text="Estimated meal"),
+            AiChatMessage(id="receipt",user=false,text="Meal added to your diary.",wireText=wire,acknowledges="proposal")))
+            .copy(saved=setOf("proposal"))
+        store.save(record)
+        assertEquals("proposal",store.load(record.id).messages.last().acknowledges)
+        val file=File(RuntimeEnvironment.getApplication().filesDir,"ai-chats/"+record.id+".json")
+        val json=org.json.JSONObject(file.readText())
+        json.getJSONArray("messages").getJSONObject(1).remove("acknowledges")
+        file.writeText(json.toString())
+        assertEquals("proposal",store.load(record.id).messages.last().acknowledges)
+        json.put("saved",org.json.JSONArray());file.writeText(json.toString())
+        assertEquals("",store.load(record.id).messages.last().acknowledges)
+    }
 }

@@ -5,13 +5,20 @@ Choose **Settings > AI and chat** to select **On-device AI**, an HTTPS
 live in Settings. The bottom navigation and quick widget use the selected
 provider's name and symbol: a local chip, remote server or the ChatGPT mark.
 
-The chat screen contains messages, a composer and photo/camera attachments.
+Chat stays within the app and keeps its bottom navigation. One standard app bar
+contains the provider name/icon, history, New chat and AI settings. Replies are
+plain text with small user bubbles. The composer **+** menu contains camera/photo
+attachments; Send becomes Stop during a request. ChatGPT plan usage and a usage
+management link remain visible below it.
 Describe a meal, ask questions or clarify an earlier amount. Conversation context
 is bounded before submission; switching providers, server addresses or ChatGPT
 accounts starts a new chat. Messages, submitted photos and pending meal summaries
 are saved in app-private local storage. **New chat** starts a fresh conversation
-and keeps the old one in history. The history button reopens or deletes a saved
-conversation. Deleting a chat does not delete confirmed diary entries.
+and keeps the old one in history. The history action reopens or deletes a saved
+conversation. Each row’s overflow offers deletion with confirmation. Deleting a
+chat does not delete confirmed diary entries. A confirmed proposal shows one
+saved marker; the app’s context receipt is retained without repeating a second
+meal summary in the visible transcript.
 
 The model interprets text/photos and estimates portions and nutrients itself.
 Choose **Review meal**, check the amounts and summary, then **Approve and add**.

@@ -1,5 +1,10 @@
 # Theme credits and licenses
 
+Clean Light, Charcoal, AMOLED Black, Midnight, Forest and Dusk are original UI
+palettes for 8bitBites,
+provided under the application's GPL-3.0-or-later license. They are available
+without unlocking the additional palette collection below.
+
 8bitPad's Qt/Scintilla theme adapter is independently implemented and licensed
 under GPL-3.0-or-later, like 8bitPad. The color-role mappings in `catalog.json`
 are adaptations for this application: comment contrast, some light-theme colors,

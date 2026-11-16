@@ -8,7 +8,7 @@ Jetpack Compose and Material 3. Your diary works offline and stays on your devic
 [Türkçe](README.tr.md) · [Build](docs/BUILDING.md) · [AI](docs/AI.md) ·
 [Database](database/README.md) · [Privacy](docs/PRIVACY.md) · [Contribute](CONTRIBUTING.md)
 
-**Status:** early development. Current source: **0.8.0-dev**. Bundled food
+**Status:** early development. Current source: **0.10.0-dev**. Bundled food
 catalogue: **0.4.0** with **2,193 foods**, including 260 ETİ products. Android 9
 (API 28) or newer is required. Device testing is still in progress.
 
@@ -16,7 +16,8 @@ catalogue: **0.4.0** with **2,193 foods**, including 260 ETİ products. Android 
 
 - **Food:** search the bundled Turkish catalogue, create personal foods, save
   favourites, or explicitly search Open Food Facts and USDA FoodData Central.
-  Foods contains the catalogue, recorded meals and favourites as separate sections.
+  The catalogue and favourites appear only while adding food. Recorded meals have
+  their own navigation item.
   Portions use grams; missing nutrients stay unknown. The last meal you select
   is remembered for the next entry.
 - **Water:** choose a target and custom ml/L serving. The plus button records
@@ -35,10 +36,13 @@ catalogue: **0.4.0** with **2,193 foods**, including 260 ETİ products. Android 
 
 Tap the bottom-left profile photo for your daily overview, supplements and seven-day
 trends. Optional cards collapse and can be hidden in settings. The top-right
-gear opens settings. **Foods** contains meals and favourites; the third navigation
-item opens chat with the selected provider's name and icon. Choose a profile photo,
-use Material You colours, or unlock the included
-theme pack with seven quick taps on the version label.
+gear opens settings. **Meals** shows recorded entries; **Add food** opens search
+and favourites in a temporary picker. The third navigation item opens chat inside the same app navigation, with the selected provider's
+name and icon. History, New chat and AI settings are in its single app bar.
+Choose **AMOLED Black**, **Charcoal**, **Midnight**, **Forest** or **Dusk** in
+Settings, with a separate accent color. Light, system and Material You remain
+available; seven quick taps on the version label unlock the extra palette pack.
+See [appearance and navigation](docs/APPEARANCE.md).
 
 English is the default UI language. Turkish, German, French, Spanish, Italian,
 Portuguese and Japanese are included. Offline English/Turkish food-term aliases
@@ -47,12 +51,13 @@ help searches; product names and external responses keep their source language.
 ## AI meal entry
 
 Choose a connection in **Settings > AI and chat**. The chat screen contains
-messages, photos and a composer. The model estimates portions, calories and
+messages and a compact composer. The **+** menu contains the camera and photo
+attachments; the send button becomes Stop while a request runs. The model estimates portions, calories and
 nutrients from your description or photo. Use **Review meal**, check the summary,
 then **Approve and add** to save directly. No database-food selection is required.
 These entries remain labelled **AI estimate**; unknown values stay unknown.
 
-The history button reopens conversations saved on this phone, including submitted
+The history action reopens conversations saved on this phone, including submitted
 photos and pending meal summaries. **New chat** keeps the previous conversation
 in history. You can delete a conversation and its photos without deleting meals.
 

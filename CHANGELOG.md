@@ -2,6 +2,21 @@
 
 App versions and public food-catalogue versions are independent.
 
+## 0.10.0-dev — 2026-11-16
+
+- Show catalogue search and Favorites only inside Add food. Recorded Meals is a
+  main destination. Food widgets open the picker; new custom foods continue to
+  portion entry.
+- Add AMOLED Black, Charcoal, Midnight, Forest and Dusk backgrounds and a separate
+  accent preference. Keep light/system, Material You and unlocked extra palettes.
+  Bundle Inter locally with its SIL OFL notice for consistent readable type.
+- Strengthen dark-theme surface contrast and message fills; keep AMOLED backgrounds black.
+- Rebuild widgets with compact defaults, bottom actions, expanding calorie rings
+  and bottle graphics. Follow the app theme on Android 12+ and tint provider icons.
+- Simplify chat while keeping the app’s bottom navigation and standard app bar.
+  Keep history as a compact sheet, place attachments behind + and replace Send
+  with Stop during requests. Avoid repeating saved meal acknowledgments.
+
 ## 0.8.0-dev — 2026-11-16
 
 - Let AI interpret meals/photos and estimate portions and nutrition. Approve the

@@ -79,7 +79,8 @@ fun BiteApp(vm: BiteViewModel = viewModel(), launchAction: String? = null, launc
     var favoriteQuery by rememberSaveable { mutableStateOf("") }
     var settings by rememberSaveable { mutableStateOf(false) }
     var aiSettings by rememberSaveable { mutableStateOf(false) }
-    var foodSection by rememberSaveable { mutableIntStateOf(0) }
+    var showFoodPicker by rememberSaveable { mutableStateOf(false) }
+    var pickerFavorites by rememberSaveable { mutableStateOf(false) }
     var selectedDate by rememberSaveable { mutableStateOf(LocalDate.now().toString()) }
     val date = LocalDate.parse(selectedDate)
     var showFoodEditor by remember { mutableStateOf(false) }
@@ -95,16 +96,18 @@ fun BiteApp(vm: BiteViewModel = viewModel(), launchAction: String? = null, launc
     var waterRequest by remember { mutableLongStateOf(0) }
     var consumedLaunch by rememberSaveable { mutableLongStateOf(-1) }
     BackHandler(settings) { if(aiSettings) aiSettings=false else settings=false }
-    LaunchedEffect(tab) { if(tab==2) { foodSection=2;tab=1 } }
+    BackHandler(!settings && tab==3) { tab=0;cameraRequest=0 }
+    LaunchedEffect(tab) { if(tab==2) { pickerFavorites=true;showFoodPicker=true;tab=1 } }
     LaunchedEffect(launchId) {
         if (consumedLaunch == launchId) return@LaunchedEffect
         consumedLaunch = launchId
         settings = false
+        showFoodPicker=false
         if (launchAction in setOf("today", "water", "foods", "ai", "camera")) selectedDate = LocalDate.now().toString()
         when (launchAction) {
             "ai", "camera" -> { tab = 3; if (launchAction == "camera") cameraRequest = launchId }
             "models", "ai-settings" -> { settings=true;aiSettings=true;if(launchAction=="models") modelsRequest=launchId }
-            "foods" -> { tab=1;foodSection=0 }
+            "foods" -> { tab=1;pickerFavorites=false;showFoodPicker=true }
             "profile", "today" -> tab = 0
             "water" -> { tab = 0; waterRequest = launchId }
         }
@@ -128,12 +131,12 @@ fun BiteApp(vm: BiteViewModel = viewModel(), launchAction: String? = null, launc
     }
     BiteTheme(prefs) {
         Scaffold(
-            topBar = { TopAppBar(title = { if(settings && aiSettings) Text(ai("AI settings","AI ayarları")) else if(!settings && tab==3) Text(ai("Chat","Sohbet")) else BiteText(if(settings) "Settings" else if(tab==0) "You" else "Foods") },
+            topBar = { if(settings || tab!=3) TopAppBar(title = { if(settings && aiSettings) Text(ai("AI settings","AI ayarları")) else BiteText(if(settings) "Settings" else if(tab==0) "You" else "Meals") },
                 navigationIcon = { if (settings) IconButton(onClick = { if(aiSettings) aiSettings=false else settings=false }) { Icon(Icons.AutoMirrored.Filled.ArrowBack, t("Back")) } },
                 actions = { if (!settings) IconButton(onClick = { cameraRequest = 0; modelsRequest = 0; aiSettings=tab==3;settings = true }) { Icon(Icons.Default.Settings, t("Settings")) } }) },
             snackbarHost = { SnackbarHost(snackbar) },
-            bottomBar = { NavigationBar {
-                listOf(0,1,3).forEach { index -> val label=when(index) { 0->t("You");1->t("Foods");else->aiProviderName(aiState.provider) }
+            bottomBar = { NavigationBar(containerColor=MaterialTheme.colorScheme.background) {
+                listOf(0,1,3).forEach { index -> val label=when(index) { 0->t("You");1->t("Meals");else->aiProviderName(aiState.provider) }
                     NavigationBarItem(selected = !settings && tab == index,
                     onClick = { settings = false; tab = index; cameraRequest = 0; modelsRequest = 0; waterRequest = 0; if (index == 0 || index == 3) addingSupplement = false },
                     icon = { when (index) {
@@ -143,8 +146,8 @@ fun BiteApp(vm: BiteViewModel = viewModel(), launchAction: String? = null, launc
                     } }, label = { Text(label) }) }
             } },
             floatingActionButton = { if (!settings && tab != 3) ExtendedFloatingActionButton(onClick = {
-                if (tab == 0 || (tab==1 && foodSection==1)) { addingSupplement = false;foodSection=0;tab = 1 } else showFoodEditor = true
-            }, icon = { Icon(Icons.Default.Add, null) }, text = { BiteText(if (tab == 0 || (tab==1 && foodSection==1)) "Add food" else "Create food") }) },
+                addingSupplement=false;pickerFavorites=false;showFoodPicker=true
+            }, icon = { Icon(Icons.Default.Add, null) }, text = { BiteText("Add food") }) },
         ) { insets ->
             val modifier = Modifier.fillMaxSize().padding(insets).consumeWindowInsets(insets)
             if(settings && aiSettings) AiSettingsScreen(modifier,aiVm,modelsRequest)
@@ -158,35 +161,34 @@ fun BiteApp(vm: BiteViewModel = viewModel(), launchAction: String? = null, launc
                 } })
             else when (tab) {
                 0 -> DashboardScreen(modifier, date, entries, water, supplements, intakes, prefs,
-                    changeDate = { selectedDate = it.toString() }, add = { addingSupplement = false;foodSection=0; tab = 1 },
-                    addSupplement = { addingSupplement = true;foodSection=0; tab = 1 }, delete = vm::delete,
+                    changeDate = { selectedDate = it.toString() }, add = { addingSupplement=false;pickerFavorites=false;showFoodPicker=true },
+                    addSupplement = { addingSupplement=true;pickerFavorites=false;showFoodPicker=true }, delete = vm::delete,
                     repeat = { vm.repeat(it, date) }, edit = ::edit,
                     addWater = { vm.addWater(it, date) }, deleteWater = vm::deleteWater, undoWater = vm::undoWater,
                     canUndoWater = water.any { it.id == lastWaterId && Instant.ofEpochMilli(it.time).atZone(ZoneId.systemDefault()).toLocalDate() == date },
                     save = vm::settings, settings = { settings = true },
                     dose = { doseProduct = it }, editDose = { dose -> supplements.find { it.id == dose.productId }?.let { doseProduct = it; editingDose = dose } },
                     deleteDose = vm::deleteSupplementIntake, editTarget = { targetProduct = it }, waterRequest = waterRequest)
-                1, 2 -> {
-                    val activeQuery = if (foodSection == 2) favoriteQuery else query
-                    val matches = if (foodSection == 2) favorites.filter { food -> vm.app.catalogue.translator.alternatives(activeQuery)
-                        .any { foldFoodText("${food.name} ${food.brand}").contains(it) } } else vm.foods.collectAsStateWithLifecycle().value
-                    Column(modifier) {
-                        SecondaryTabRow(selectedTabIndex=foodSection) { listOf("Foods","Meals","Favorites").forEachIndexed { index,label ->
-                            Tab(selected=foodSection==index,onClick={foodSection=index},text={BiteText(label)})
-                        } }
-                        if(foodSection==1) MealsScreen(Modifier.fillMaxWidth().weight(1f),date,entries,{selectedDate=it.toString()},
-                            {addingSupplement=false;foodSection=0},::edit,{vm.repeat(it,date)},vm::delete)
-                        else FoodScreen(Modifier.fillMaxWidth().weight(1f), matches, favorites.map { it.id }.toSet(), foodSection == 2, vm::favorite,
-                        query = activeQuery, queryChange = { if (foodSection == 2) favoriteQuery = it else { vm.foodQuery.value = it; vm.clearExternal() } }, busy = externalBusy,
-                        external = { provider, key -> vm.externalSearch(provider, key) }, translator = vm.app.catalogue.translator,
-                        add = { addingFood = it }, create = { showFoodEditor = true }, import = { import.launch(arrayOf("application/json", "text/plain")) })
-                    }
-                }
+                1, 2 -> MealsScreen(modifier,date,entries,{selectedDate=it.toString()},
+                    {addingSupplement=false;pickerFavorites=false;showFoodPicker=true},::edit,{vm.repeat(it,date)},vm::delete)
                 3 -> AiScreen(date, onClose = { tab = 0; cameraRequest = 0; modelsRequest = 0 },vm=aiVm,
                     cameraRequest = cameraRequest, embedded = true,openSettings={settings=true;aiSettings=true},modifier=modifier)
             }
         }
-        if (showFoodEditor) FoodEditor(onDismiss = { showFoodEditor = false }, save = { vm.saveFood(it); showFoodEditor = false })
+        if(showFoodPicker) {
+            val activeQuery=if(pickerFavorites) favoriteQuery else query
+            val matches=if(pickerFavorites) favorites.filter { food -> vm.app.catalogue.translator.alternatives(activeQuery)
+                .any { foldFoodText("${food.name} ${food.brand}").contains(it) } } else vm.foods.collectAsStateWithLifecycle().value
+            FoodPicker(pickerFavorites,{pickerFavorites=it},{showFoodPicker=false}) { pickerModifier ->
+                FoodScreen(pickerModifier,matches,favorites.map { it.id }.toSet(),pickerFavorites,vm::favorite,
+                    query=activeQuery,queryChange={if(pickerFavorites) favoriteQuery=it else {vm.foodQuery.value=it;vm.clearExternal()}},busy=externalBusy,
+                    external=vm::externalSearch,translator=vm.app.catalogue.translator,
+                    add={addingFood=it;showFoodPicker=false},create={showFoodEditor=true},import={import.launch(arrayOf("application/json","text/plain"))})
+            }
+        }
+        if (showFoodEditor) FoodEditor(onDismiss = { showFoodEditor = false }, save = {
+            vm.saveFood(it);showFoodEditor=false;showFoodPicker=false;addingFood=it
+        })
         addingFood?.let { food -> PortionEditor(food, editingEntry, prefs.lastMealType, vm::selectMeal,
             initialSupplement = editingEntry?.isSupplement ?: addingSupplement,
             onDismiss = { addingFood = null; editingEntry = null },
@@ -223,7 +225,7 @@ private fun FoodScreen(modifier: Modifier, foods: List<Food>, favorites: Set<Str
     var options by remember { mutableStateOf(false) }
     val context = androidx.compose.ui.platform.LocalContext.current
     val language = androidx.compose.ui.platform.LocalConfiguration.current.locales[0].language
-    LazyColumn(modifier, contentPadding = PaddingValues(20.dp, 8.dp, 20.dp, 100.dp), verticalArrangement = Arrangement.spacedBy(10.dp)) {
+    LazyColumn(modifier, contentPadding = PaddingValues(20.dp, 12.dp, 20.dp, 24.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
         item { OutlinedTextField(query, queryChange, label = { BiteText(if (onlyFavorites) "Search favorites" else "Search your foods") },
             singleLine = true, modifier = Modifier.fillMaxWidth()) }
         if (!onlyFavorites) item { Row(verticalAlignment = Alignment.CenterVertically) {
@@ -307,6 +309,7 @@ private fun PrivacyDialog(vm: BiteViewModel, onDismiss: () -> Unit) {
             item { BiteText("Health Connect sharing is optional and writes only your nutrition entries. Edits and deletions remain queued until sync succeeds. Android controls permissions and background timing.") }
             item { BiteText("Open source · GPL-3.0-or-later. Themes retain their original license notices.") }
             item { TextButton(onClick = { credits = vm.app.assets.open("themes/NOTICES.md").bufferedReader().use { it.readText() } }) { BiteText("Theme credits") } }
+            item { TextButton(onClick = { credits = vm.app.assets.open("fonts/OFL-Inter.txt").bufferedReader().use { it.readText() } }) { Text(ai("Font credits","Yazı tipi lisansı")) } }
             item { TextButton(onClick = { credits = vm.app.assets.open("licenses/litert-lm.txt").bufferedReader().use { it.readText() } }) { Text(ai("AI runtime license","AI çalışma ortamı lisansı")) } }
             item { TextButton(onClick = { credits = vm.app.assets.open("licenses/chatgpt-brand.txt").bufferedReader().use { it.readText() } }) { Text(ai("ChatGPT mark attribution","ChatGPT simgesi hakkında")) } }
             credits?.let { item { BiteText(it, style = MaterialTheme.typography.bodySmall) } }

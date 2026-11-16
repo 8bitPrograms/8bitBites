@@ -66,7 +66,7 @@ fun AiScreen(date:LocalDate,onClose:()->Unit,vm:AiViewModel=viewModel(),cameraRe
             send=vm::recognize,cancel=vm::cancel,newChat=vm::newChat,
             photo={withImages { photo.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly)) }},
             camera={withImages { showCamera=true }},removePhoto={vm.edit { it.copy(jpeg=null) }},
-            review={showReview=true},retry=vm::retry,settings=openSettings,history={showHistory=true;vm.refreshHistory()},manageUsage={context.startActivity(Intent(Intent.ACTION_VIEW,Uri.parse("https://chatgpt.com/#settings/Usage")))},copyError={
+            review={showReview=true},retry=vm::retry,settings=openSettings,history={vm.refreshHistory();showHistory=true},manageUsage={context.startActivity(Intent(Intent.ACTION_VIEW,Uri.parse("https://chatgpt.com/#settings/Usage")))},copyError={
                 context.getSystemService(ClipboardManager::class.java).setPrimaryClip(ClipData.newPlainText("8bitBites AI",vm.diagnosticDetails()))
                 android.widget.Toast.makeText(context,copiedMessage,android.widget.Toast.LENGTH_SHORT).show()
             })
@@ -77,8 +77,12 @@ fun AiScreen(date:LocalDate,onClose:()->Unit,vm:AiViewModel=viewModel(),cameraRe
     if(showReview && state.draft.isNotEmpty()) ModalBottomSheet(onDismissRequest={showReview=false}) {
         AiEstimateReview(date,state,vm.lastMeal,vm::review,vm::drop,vm::selectMeal) { vm.save(date,it) }
     }
-    if(showHistory) AiHistorySheet(histories,historyLoading,state.busy,historyError,state.sessionId,
-        close={showHistory=false},open={id -> showHistory=false;showReview=false;vm.openConversation(id)},delete=vm::deleteConversation)
+    if(showHistory) ModalBottomSheet(onDismissRequest={showHistory=false}) {
+        Box(Modifier.fillMaxWidth().fillMaxHeight(.85f)) {
+            AiHistoryContent(histories,historyLoading,state.busy,historyError,state.sessionId,
+                close={showHistory=false},open={id -> showHistory=false;showReview=false;vm.openConversation(id)},delete=vm::deleteConversation)
+        }
+    }
 }
 
 @OptIn(ExperimentalLayoutApi::class)

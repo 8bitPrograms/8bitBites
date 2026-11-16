@@ -89,8 +89,6 @@ internal fun TrackerSettingsScreen(modifier: Modifier, prefs: Preferences, pendi
     var waterUnitDialog by remember { mutableStateOf(false) }
     var waterDetails by rememberSaveable { mutableStateOf(false) }
     val context = LocalContext.current
-    val palettes = remember { loadPalettes(context) }
-    var themeMenu by remember { mutableStateOf(false) }
     fun optional(value: String, min: Double, max: Double) = value.isBlank() || value.numeric()?.let { it in min..max } == true
     val validProfile = calories.toIntOrNull()?.let { it in 1..100000 } == true &&
         (age.isBlank() || age.toIntOrNull()?.let { it in 1..120 } == true) &&
@@ -171,14 +169,8 @@ internal fun TrackerSettingsScreen(modifier: Modifier, prefs: Preferences, pendi
         item { SettingSwitch("Show trends", prefs.showTrends) { save(prefs.copy(showTrends = it)) } }
         item { HorizontalDivider(); BiteText("Appearance", style = MaterialTheme.typography.titleLarge) }
         item { LanguagePicker() }
-        if (prefs.themesUnlocked) item { Box {
-            OutlinedButton(onClick = { themeMenu = true }) { BiteText(palettes.find { it.id == prefs.theme }?.name ?: "Material You · wallpaper colors") }
-            DropdownMenu(themeMenu, onDismissRequest = { themeMenu = false }) {
-                DropdownMenuItem(text = { BiteText("Material You · wallpaper colors") }, onClick = { save(prefs.copy(theme = "system")); themeMenu = false })
-                palettes.forEach { palette -> DropdownMenuItem(text = { Text(palette.name) }, onClick = { save(prefs.copy(theme = palette.id)); themeMenu = false }) }
-            }
-        } }
-        if (prefs.theme == "system" || !prefs.themesUnlocked) item { SingleChoiceSegmentedButtonRow(Modifier.fillMaxWidth()) {
+        item { ThemePicker(prefs,save) }
+        if (prefs.theme in setOf("system","clean-system") || (!prefs.themesUnlocked && !prefs.theme.startsWith("clean-"))) item { SingleChoiceSegmentedButtonRow(Modifier.fillMaxWidth()) {
             listOf("system", "light", "dark").forEachIndexed { index, mode -> SegmentedButton(selected = prefs.appearance == mode,
                 onClick = { save(prefs.copy(appearance = mode)) }, shape = SegmentedButtonDefaults.itemShape(index, 3)) { BiteText(mode.replaceFirstChar { it.titlecase() }) } }
         } }

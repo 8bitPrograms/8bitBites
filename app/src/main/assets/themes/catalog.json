@@ -1,4 +1,10 @@
 [
+  {"id":"clean-light","name":"Clean Light","dark":false,"background":"#FFFFFF","foreground":"#202123","accent":"#242424","source":"8bitBites"},
+  {"id":"clean-dark","name":"Clean Dark","dark":true,"background":"#212121","foreground":"#ECECEC","accent":"#E8E8E8","source":"8bitBites"},
+  {"id":"clean-amoled","name":"AMOLED Black","dark":true,"background":"#000000","foreground":"#ECECEC","accent":"#E8E8E8","source":"8bitBites"},
+  {"id":"clean-midnight","name":"Midnight","dark":true,"background":"#0B101C","foreground":"#E8ECF4","accent":"#A8C7FA","source":"8bitBites"},
+  {"id":"clean-forest","name":"Forest","dark":true,"background":"#08130F","foreground":"#E4EEE7","accent":"#9DD5B6","source":"8bitBites"},
+  {"id":"clean-dusk","name":"Dusk","dark":true,"background":"#160E1C","foreground":"#F0E7F3","accent":"#D6B7EB","source":"8bitBites"},
   {"id":"cyberpunk-silverhand","name":"Silverhand","dark":true,"background":"#0b0d16","foreground":"#e8f0f2","comment":"#8fa5b5","accent":"#fcee0a","secondaryAccent":"#00f0ff","keyword":"#fcee0a","string":"#81e995","number":"#ffbd74","function":"#00f0ff","type":"#77c8e8","error":"#ff586b","source":"8bitpad"},
   {"id":"cyberpunk-v","name":"V","dark":true,"background":"#140d13","foreground":"#f4e4e8","comment":"#b596a3","accent":"#ff4f5e","secondaryAccent":"#00f0ff","keyword":"#ff7a88","string":"#8dedbd","number":"#fcee0a","function":"#00f0ff","type":"#b7b8ff","error":"#ff586b","source":"8bitpad"},
   {"id":"cyberpunk-k","name":"K","dark":true,"background":"#0b141b","foreground":"#e2f2f5","comment":"#89a7b2","accent":"#00f0ff","secondaryAccent":"#91bcff","keyword":"#00f0ff","string":"#f4e482","number":"#ffb17c","function":"#9aefcf","type":"#91bcff","error":"#ff6176","source":"8bitpad"},

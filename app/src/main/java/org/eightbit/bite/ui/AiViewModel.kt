@@ -301,7 +301,7 @@ class AiViewModel(application:Application):AndroidViewModel(application) {
         selectMeal(meal)
         if(app.preferences.read().autoSync) SyncScheduler.now(app)
         val reply=if(app.resources.configuration.locales[0].language=="tr") "Öğün günlüğüne eklendi." else "Meal added to your diary."
-        val message=AiChatMessage(user=false,text=reply,wireText=org.json.JSONObject().put("reply",reply).put("saved",true)
+        val message=AiChatMessage(user=false,text=reply,acknowledges=state.value.draftMessageId,wireText=org.json.JSONObject().put("reply",reply).put("saved",true)
             .put("foods",org.json.JSONArray().apply { rows.forEach { row ->
                 put(org.json.JSONObject(AiChat.foodJson(row.mention.copy(grams=row.weight())).toString()))
             } }).toString())

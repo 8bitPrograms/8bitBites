@@ -6,6 +6,7 @@ import android.graphics.Canvas
 import android.view.View
 import android.widget.FrameLayout
 import android.widget.TextView
+import android.widget.ImageView
 import androidx.room.Room
 import kotlinx.coroutines.runBlocking
 import org.eightbit.bite.R
@@ -26,7 +27,7 @@ import java.time.LocalDate
 @GraphicsMode(GraphicsMode.Mode.NATIVE)
 class WidgetTest {
     private val day = WidgetDay(LocalDate.of(2026, 11, 16),
-        Preferences(waterUnitMl = 250.0, proteinGoalEnabled = true, proteinGoal = 120.0),
+        Preferences(theme="clean-amoled",accent="green",waterUnitMl = 250.0, proteinGoalEnabled = true, proteinGoal = 120.0),
         NutrientTotal(1285.0, 0), NutrientTotal(84.0, 0), NutrientTotal(132.0, 0), NutrientTotal(45.0, 1),
         2250.0, DailyWaterGoal(2000.0, 1000.0, 1000.0))
 
@@ -44,6 +45,7 @@ class WidgetTest {
     private fun assertFits(root: View, target: Int) {
         val child = root.findViewById<View>(target)
         val bounds = android.graphics.Rect(0, 0, child.width, child.height)
+        assertTrue("Widget action has no usable height",child.height>=40*root.resources.displayMetrics.density)
         (root as android.view.ViewGroup).offsetDescendantRectToMyCoords(child, bounds)
         assertTrue("Widget control is clipped: " + bounds, bounds.bottom <= root.height - root.paddingBottom)
     }
@@ -58,17 +60,17 @@ class WidgetTest {
         assertFits(view, R.id.widget_drink_three)
     }
     @Test fun compactWidgetKeepsDrinkingButtonsAndHidesOnlyTheIllustration() {
-        val view = render(WaterWidget::class.java, 540, 420, "widget-water-compact", true)
+        val view = render(WaterWidget::class.java, 540, 456, "widget-water-compact", true)
         assertEquals(View.GONE, view.findViewById<View>(R.id.widget_water_vessels).visibility)
         assertEquals(View.VISIBLE, view.findViewById<View>(R.id.widget_drink_one).visibility)
         assertFits(view, R.id.widget_drink_three)
     }
     @Test fun summaryAndQuickWidgetsRenderWithoutClippingAtTheirMinimumSizes() {
-        val overview = render(OverviewWidget::class.java, 780, 720, "widget-overview")
+        val overview = render(OverviewWidget::class.java, 900, 960, "widget-overview")
         assertTrue(overview.findViewById<TextView>(R.id.widget_energy).text.contains("1285"))
-        assertTrue(overview.findViewById<TextView>(R.id.widget_macros).text.contains("84/120"))
+        assertTrue(overview.findViewById<TextView>(R.id.widget_protein).text.contains("84/120"))
         assertFits(overview, R.id.widget_camera)
-        val quick = render(QuickAddWidget::class.java, 540, 300, "widget-quick")
+        val quick = render(QuickAddWidget::class.java, 720, 240, "widget-quick")
         assertFits(quick, R.id.widget_camera)
     }
     @Test fun retriedTapDoesNotDuplicateWaterAndTwoTapsRemainSeparate() = runBlocking {
@@ -85,10 +87,34 @@ class WidgetTest {
     @Test fun quickWidgetUsesTheSelectedProviderLabelAndAnActualIcon() {
         val context=RuntimeEnvironment.getApplication() as android.content.Context
         context.getSharedPreferences("ai-settings",0).edit().putString("provider","CHATGPT").commit()
-        val view=render(QuickAddWidget::class.java,540,300,"widget-quick-chatgpt")
-        val button=view.findViewById<TextView>(R.id.widget_ai)
+        val view=render(QuickAddWidget::class.java,720,240,"widget-quick-chatgpt")
+        val button=view.findViewById<TextView>(R.id.widget_ai_label)
         assertEquals("ChatGPT",button.text.toString())
-        assertNotNull(button.compoundDrawables[1])
+        assertNotNull(view.findViewById<ImageView>(R.id.widget_ai_icon).drawable)
         assertFits(view,R.id.widget_ai)
+    }
+    @Test fun compactSummaryKeepsActionsAndFillsTheMinimumHeight() {
+        val view=render(OverviewWidget::class.java,840,564,"widget-overview-compact",true)
+        assertEquals(View.GONE,view.findViewById<View>(R.id.widget_energy_ring).visibility)
+        assertEquals(View.VISIBLE,view.findViewById<View>(R.id.widget_actions).visibility)
+        assertFits(view,R.id.widget_camera)
+    }
+    @Test fun tallSummaryAnchorsActionsAtTheBottomAndUsesTheCentreForProgress() {
+        val view=render(OverviewWidget::class.java,990,1260,"widget-overview-tall")
+        val ring=view.findViewById<View>(R.id.widget_energy_ring)
+        assertTrue("Expanded chart should use the extra height",ring.height>200)
+        val action=view.findViewById<View>(R.id.widget_actions)
+        assertTrue("Footer should follow widget height",action.bottom>=view.height-view.paddingBottom-2)
+        assertFits(view,R.id.widget_camera)
+    }
+    @Test fun tallWaterUsesTheExtraSpaceForTheBottleIllustration() {
+        val view=render(WaterWidget::class.java,660,1020,"widget-water-tall")
+        assertTrue(view.findViewById<View>(R.id.widget_water_vessels).height>300)
+        assertFits(view,R.id.widget_drink_three)
+    }
+    @Test @Config(sdk=[28]) fun legacyAndroidCanStillInflateAndUseWidgetActions() {
+        val view=render(QuickAddWidget::class.java,720,240,"widget-quick-android9")
+        assertTrue(view.findViewById<View>(R.id.widget_ai).performClick())
+        assertFits(view,R.id.widget_camera)
     }
 }

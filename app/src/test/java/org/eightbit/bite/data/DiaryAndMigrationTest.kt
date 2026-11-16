@@ -75,7 +75,7 @@ class DiaryAndMigrationTest {
             .putLong("avatarVersion", 123).putBoolean("themesUnlocked", true).putLong("lastSync", 987).apply()
         val store = PreferenceStore(context)
         assertFalse(store.read().proteinGoalEnabled); assertFalse(store.read().carbGoalEnabled); assertFalse(store.read().fatGoalEnabled)
-        store.save(store.read().copy(age = 30, weightKg = 70.0, heightCm = 175.0, waterGoalMl = 2750.0))
+        store.save(store.read().copy(age = 30, weightKg = 70.0, heightCm = 175.0, waterGoalMl = 2750.0,accent="purple"))
         store.seedLastMeal(2)
         assertEquals(2, store.read().lastMealType)
         store.mealSelected(1)
@@ -85,6 +85,7 @@ class DiaryAndMigrationTest {
         assertEquals(123L, restored.avatarVersion); assertTrue(restored.themesUnlocked)
         assertEquals(987L, restored.lastSync); assertEquals(1, restored.lastMealType)
         assertEquals(2750.0, restored.waterGoalMl, .0001)
+        assertEquals("purple",restored.accent)
         storage.edit().clear().apply()
     }
     @Test fun favoritesUseFoodIdsAndWaterUndoRemovesOnlyItsEntry() = runBlocking {

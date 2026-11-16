@@ -9,6 +9,7 @@ import android.graphics.*
 import android.os.Bundle
 import android.view.View
 import android.widget.RemoteViews
+import androidx.compose.ui.graphics.toArgb
 import androidx.room.withTransaction
 import androidx.work.*
 import kotlinx.coroutines.flow.first
@@ -85,7 +86,8 @@ class WidgetRefreshWorker(context: Context, params: WorkerParameters) : Coroutin
         val manager = AppWidgetManager.getInstance(app)
         for (provider in WidgetUpdates.providers) for (id in manager.getAppWidgetIds(ComponentName(app, provider))) {
             val options = manager.getAppWidgetOptions(id)
-            val compact = options.getInt(AppWidgetManager.OPTION_APPWIDGET_MIN_HEIGHT, 220) < 180
+            val height=options.getInt(AppWidgetManager.OPTION_APPWIDGET_MIN_HEIGHT, 220)
+            val compact=when(provider) { OverviewWidget::class.java->height<280;WaterWidget::class.java->height<220;else->false }
             manager.updateAppWidget(id, renderWidget(translated, provider, day, compact))
         }
         return Result.success()
@@ -123,16 +125,34 @@ private fun water(value: Double, liters: Boolean) = if (liters)
     else number(value) + " ml"
 private fun NutrientTotal.text() = number(known) + if (complete) "" else "+?"
 
+internal data class WidgetColors(val background:Int,val foreground:Int,val muted:Int,val accent:Int,val tile:Int,val track:Int)
+internal fun widgetColors(context:Context,prefs:Preferences):WidgetColors {
+    val systemDark=context.resources.configuration.uiMode and android.content.res.Configuration.UI_MODE_NIGHT_MASK == android.content.res.Configuration.UI_MODE_NIGHT_YES
+    val palette=org.eightbit.bite.ui.resolvePalette(prefs,org.eightbit.bite.ui.loadPalettes(context),systemDark)
+    if(palette!=null && android.os.Build.VERSION.SDK_INT>=31) {
+        val scheme=org.eightbit.bite.ui.paletteColorScheme(palette)
+        return WidgetColors(scheme.surface.toArgb(),scheme.onSurface.toArgb(),scheme.onSurfaceVariant.toArgb(),
+            scheme.primary.toArgb(),scheme.primaryContainer.toArgb(),scheme.surfaceContainerHigh.toArgb())
+    }
+    return WidgetColors(context.getColor(R.color.widget_surface),context.getColor(R.color.widget_foreground),
+        context.getColor(R.color.widget_muted),context.getColor(R.color.widget_accent),context.getColor(R.color.widget_tile),context.getColor(R.color.widget_tile))
+}
+
 internal fun renderWidget(context: Context, provider: Class<*>, day: WidgetDay, compact: Boolean = false): RemoteViews {
     val isWater = provider == WaterWidget::class.java
     val isOverview = provider == OverviewWidget::class.java
     val layout = if (isWater) R.layout.widget_water else if (isOverview) R.layout.widget_overview else R.layout.widget_quick
     val view = RemoteViews(context.packageName, layout)
-    if (compact) {
-        val padding = (8 * context.resources.displayMetrics.density).toInt()
-        view.setViewPadding(R.id.widget_root, padding, padding, padding, padding)
-        if (isWater) view.setTextViewTextSize(R.id.widget_water_amount, android.util.TypedValue.COMPLEX_UNIT_SP, 22f)
-        if (isOverview) view.setTextViewTextSize(R.id.widget_energy, android.util.TypedValue.COMPLEX_UNIT_SP, 20f)
+    val colors=widgetColors(context,day.prefs)
+    fun text(id:Int,value:String,color:Int=colors.foreground) { view.setTextViewText(id,value);view.setTextColor(id,color) }
+    fun tint(id:Int,color:Int,method:String="setBackgroundTintList") {
+        if(android.os.Build.VERSION.SDK_INT>=31) view.setColorStateList(id,method,android.content.res.ColorStateList.valueOf(color))
+    }
+    tint(R.id.widget_root,colors.background)
+    if(compact) {
+        val padding=(8*context.resources.displayMetrics.density).toInt()
+        view.setViewPadding(R.id.widget_root,padding,padding,padding,padding)
+        if(isWater || isOverview) view.setTextViewTextSize(if(isWater) R.id.widget_water_amount else R.id.widget_energy,android.util.TypedValue.COMPLEX_UNIT_SP,if(isWater) 22f else 20f)
     }
     fun label(source: String) = localized(context, source)
     fun open(target: Int, screen: String) {
@@ -141,60 +161,92 @@ internal fun renderWidget(context: Context, provider: Class<*>, day: WidgetDay, 
         view.setOnClickPendingIntent(target, PendingIntent.getActivity(context, screen.hashCode(), intent,
             PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE))
     }
+    fun progress(id:Int,fraction:Double) {
+        view.setProgressBar(id,1000,(fraction*1000).toInt().coerceIn(0,1000),false)
+        tint(id,colors.accent,"setProgressTintList");tint(id,colors.track,"setProgressBackgroundTintList")
+    }
     fun drink(target: Int, amount: Double) {
         val intent = Intent(context, WidgetWaterAction::class.java).setAction("org.eightbit.bite.widget.DRINK")
             .setData(android.net.Uri.parse("bite://drink/" + number(amount))).putExtra("amountMl", amount)
-        view.setTextViewText(target, "+" + water(amount, day.prefs.waterInLiters))
+        text(target,"+"+water(amount,day.prefs.waterInLiters))
+        tint(target,colors.tile)
         view.setContentDescription(target, label("Add water") + " " + water(amount, day.prefs.waterInLiters))
         view.setOnClickPendingIntent(target, PendingIntent.getBroadcast(context, 0, intent,
             PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE))
     }
-    view.setTextViewText(R.id.widget_title, label(if (isWater) "Water" else if (isOverview) "Today" else "Quick add"))
-    view.setTextViewText(R.id.widget_date, day.date.format(DateTimeFormatter.ofPattern("d MMM", context.resources.configuration.locales[0])))
-    open(R.id.widget_root, if (isWater) "water" else "today")
-    if (isWater) {
-        view.setTextViewText(R.id.widget_water_amount, water(day.waterMl, day.prefs.waterInLiters))
-        view.setTextViewText(R.id.widget_water_target, label("Daily goal") + " " + water(day.goal.totalMl, day.prefs.waterInLiters))
-        view.setTextViewText(R.id.widget_water_breakdown, label("Base goal") + " " + water(day.goal.baseMl, true) +
-            (if (day.goal.powderMl > 0) " · " + label("Protein powder") + " +" + water(day.goal.powderMl, true) else "") +
-            (if (day.goal.creatineMl > 0) " · " + label("Creatine") + " +" + water(day.goal.creatineMl, true) else ""))
-        view.setProgressBar(R.id.widget_water_progress, 1000, (day.waterMl / day.goal.totalMl * 1000).toInt().coerceIn(0, 1000), false)
-        view.setImageViewBitmap(R.id.widget_water_vessels, widgetWaterBitmap(context, day.goal, day.waterMl))
-        view.setContentDescription(R.id.widget_water_vessels, label("Base goal") + " " + water(day.goal.baseMl, true) +
-            " · " + label("Dashed bottles are your planned extras. Log drinks separately."))
-        view.setViewVisibility(R.id.widget_water_vessels, if (compact) View.GONE else View.VISIBLE)
-        view.setViewVisibility(R.id.widget_water_breakdown, if (compact) View.GONE else View.VISIBLE)
-        val portions = listOf(day.prefs.waterUnitMl, 250.0, 500.0, 100.0).distinct().take(3)
-        listOf(R.id.widget_drink_one, R.id.widget_drink_two, R.id.widget_drink_three).forEachIndexed { index, target -> drink(target, portions[index]) }
+    if(isWater || isOverview) {
+        text(R.id.widget_title,label(if(isWater) "Water" else "Today"))
+        text(R.id.widget_date,day.date.format(DateTimeFormatter.ofPattern("d MMM",context.resources.configuration.locales[0])),colors.muted)
+    }
+    open(R.id.widget_root,if(isWater) "water" else "today")
+    if(isWater) {
+        text(R.id.widget_water_amount,water(day.waterMl,day.prefs.waterInLiters),colors.accent)
+        text(R.id.widget_water_target,label("Daily goal")+" "+water(day.goal.totalMl,day.prefs.waterInLiters),colors.muted)
+        text(R.id.widget_water_breakdown,label("Base goal")+" "+water(day.goal.baseMl,true)+
+            (if(day.goal.powderMl>0) " · "+label("Protein powder")+" +"+water(day.goal.powderMl,true) else "")+
+            (if(day.goal.creatineMl>0) " · "+label("Creatine")+" +"+water(day.goal.creatineMl,true) else ""),colors.muted)
+        progress(R.id.widget_water_progress,day.waterMl/day.goal.totalMl)
+        view.setImageViewBitmap(R.id.widget_water_vessels,widgetWaterBitmap(context,day.goal,day.waterMl,colors.accent))
+        view.setContentDescription(R.id.widget_water_vessels,label("Base goal")+" "+water(day.goal.baseMl,true)+" · "+label("Dashed bottles are your planned extras. Log drinks separately."))
+        view.setViewVisibility(R.id.widget_water_vessels,if(compact) View.GONE else View.VISIBLE)
+        view.setViewVisibility(R.id.widget_water_breakdown,if(compact) View.GONE else View.VISIBLE)
+        val portions=listOf(day.prefs.waterUnitMl,250.0,500.0,100.0).distinct().take(3)
+        listOf(R.id.widget_drink_one,R.id.widget_drink_two,R.id.widget_drink_three).forEachIndexed { index,id -> drink(id,portions[index]) }
     } else {
-        view.setTextViewText(R.id.widget_add, label("Food"))
-        view.setTextViewText(R.id.widget_camera, label("Photo"))
         val provider=selectedAiProvider(context)
-        view.setTextViewText(R.id.widget_ai,when(provider) { AiProvider.CHATGPT -> "ChatGPT";AiProvider.REMOTE -> label("Remote server");AiProvider.LOCAL -> label("On-device AI") })
-        view.setTextViewCompoundDrawables(R.id.widget_ai,0,aiProviderDrawable(provider),0,0)
-        view.setContentDescription(R.id.widget_ai, label("Describe a meal with AI"))
-        view.setContentDescription(R.id.widget_avatar, label("Open your profile"))
-        listOf(R.id.widget_add to "foods", R.id.widget_ai to "ai", R.id.widget_camera to "camera", R.id.widget_avatar to "profile").forEach { (target, screen) -> open(target, screen) }
-        val avatar = java.io.File(context.filesDir, "profile.jpg")
-        val image = if (day.prefs.avatarVersion > 0) circleAvatar(avatar) else null
-        if (image == null) view.setImageViewResource(R.id.widget_avatar, R.mipmap.ic_launcher) else view.setImageViewBitmap(R.id.widget_avatar, image)
-        if (isOverview) {
-            view.setTextViewText(R.id.widget_energy, day.energy.text() + " / " + day.prefs.calorieGoal + " kcal")
-            view.setProgressBar(R.id.widget_energy_progress, 1000, (day.energy.known / day.prefs.calorieGoal * 1000).toInt().coerceIn(0, 1000), false)
-            fun macro(name: String, actual: NutrientTotal, goal: Double?) = label(name) + " " + actual.text() + (goal?.let { "/" + number(it) } ?: "") + " g"
-            view.setTextViewText(R.id.widget_macros, macro("Protein", day.protein, day.prefs.proteinGoal.takeIf { day.prefs.proteinGoalEnabled }) + "\n" +
-                macro("Carbs", day.carbs, day.prefs.carbGoal.takeIf { day.prefs.carbGoalEnabled }) + " · " +
-                macro("Fat", day.fat, day.prefs.fatGoal.takeIf { day.prefs.fatGoalEnabled }))
-            view.setTextViewText(R.id.widget_water_summary, label("Water") + "  " + water(day.waterMl, true) + " / " + water(day.goal.totalMl, true))
-            view.setProgressBar(R.id.widget_water_progress, 1000, (day.waterMl / day.goal.totalMl * 1000).toInt().coerceIn(0, 1000), false)
-            open(R.id.widget_water_section, "water")
-            drink(R.id.widget_water_add, day.prefs.waterUnitMl)
-            view.setViewVisibility(R.id.widget_water_section, if (day.prefs.waterEnabled) View.VISIBLE else View.GONE)
-            view.setViewVisibility(R.id.widget_actions, if (compact) View.GONE else View.VISIBLE)
-            view.setViewVisibility(R.id.widget_macros, if (compact) View.GONE else View.VISIBLE)
+        text(R.id.widget_add_label,label("Food"))
+        text(R.id.widget_camera_label,label("Photo"))
+        text(R.id.widget_ai_label,when(provider) { AiProvider.CHATGPT->"ChatGPT";AiProvider.REMOTE->"Server";AiProvider.LOCAL->"On-device" })
+        listOf(R.id.widget_add,R.id.widget_ai,R.id.widget_camera).forEach { tint(it,colors.tile) }
+        listOf(R.id.widget_add_icon to R.drawable.ic_chat_new,R.id.widget_ai_icon to aiProviderDrawable(provider),
+            R.id.widget_camera_icon to R.drawable.ic_chat_camera).forEach { (id,icon) -> view.setImageViewBitmap(id,widgetIcon(context,icon,colors.foreground)) }
+        view.setContentDescription(R.id.widget_ai,label("Describe a meal with AI"))
+        listOf(R.id.widget_add to "foods",R.id.widget_ai to "ai",R.id.widget_camera to "camera").forEach { (id,screen) -> open(id,screen) }
+        if(isOverview) {
+            val avatar=java.io.File(context.filesDir,"profile.jpg")
+            val image=if(day.prefs.avatarVersion>0) circleAvatar(avatar) else null
+            if(image==null) view.setImageViewResource(R.id.widget_avatar,R.mipmap.ic_launcher) else view.setImageViewBitmap(R.id.widget_avatar,image)
+            view.setContentDescription(R.id.widget_avatar,label("Open your profile"));open(R.id.widget_avatar,"profile")
+            text(R.id.widget_energy,day.energy.text()+(if(compact) " / "+day.prefs.calorieGoal else "")+" kcal")
+            text(R.id.widget_energy_target,label("Daily goal")+" "+day.prefs.calorieGoal+" kcal",colors.muted)
+            val fraction=day.energy.known/day.prefs.calorieGoal
+            progress(R.id.widget_energy_progress,fraction)
+            view.setImageViewBitmap(R.id.widget_energy_ring,widgetEnergyRing(context,fraction,colors))
+            view.setContentDescription(R.id.widget_energy_ring,day.energy.text()+" / "+day.prefs.calorieGoal+" kcal")
+            fun macro(name:String,actual:NutrientTotal,goal:Double?)=label(name)+"\n"+actual.text()+(goal?.let { "/"+number(it) } ?: "")+" g"
+            text(R.id.widget_protein,macro("Protein",day.protein,day.prefs.proteinGoal.takeIf { day.prefs.proteinGoalEnabled }))
+            text(R.id.widget_carbs,macro("Carbs",day.carbs,day.prefs.carbGoal.takeIf { day.prefs.carbGoalEnabled }))
+            text(R.id.widget_fat,macro("Fat",day.fat,day.prefs.fatGoal.takeIf { day.prefs.fatGoalEnabled }))
+            text(R.id.widget_water_summary,label("Water")+"  "+water(day.waterMl,true)+" / "+water(day.goal.totalMl,true))
+            progress(R.id.widget_water_progress,day.waterMl/day.goal.totalMl)
+            open(R.id.widget_water_section,"water");drink(R.id.widget_water_add,day.prefs.waterUnitMl)
+            view.setViewVisibility(R.id.widget_water_section,if(day.prefs.waterEnabled) View.VISIBLE else View.GONE)
+            view.setViewVisibility(R.id.widget_macros,if(compact) View.GONE else View.VISIBLE)
+            view.setViewVisibility(R.id.widget_energy_ring,if(compact) View.GONE else View.VISIBLE)
+            view.setViewVisibility(R.id.widget_energy_target,if(compact) View.GONE else View.VISIBLE)
         }
     }
     return view
+}
+
+private fun widgetIcon(context:Context,id:Int,color:Int):Bitmap {
+    val bitmap=Bitmap.createBitmap(64,64,Bitmap.Config.ARGB_8888)
+    context.getDrawable(id)?.mutate()?.let { drawable ->
+        drawable.setTint(color);drawable.setBounds(0,0,64,64);drawable.draw(Canvas(bitmap))
+    }
+    return bitmap
+}
+
+private fun widgetEnergyRing(context:Context,fraction:Double,colors:WidgetColors):Bitmap {
+    val bitmap=Bitmap.createBitmap(240,240,Bitmap.Config.ARGB_8888)
+    val canvas=Canvas(bitmap);val ring=RectF(22f,22f,218f,218f)
+    val paint=Paint(Paint.ANTI_ALIAS_FLAG).apply { style=Paint.Style.STROKE;strokeWidth=18f;strokeCap=Paint.Cap.ROUND;color=colors.track }
+    canvas.drawOval(ring,paint);paint.color=colors.accent
+    canvas.drawArc(ring,-90f,(fraction.coerceIn(0.0,1.0)*360).toFloat(),false,paint)
+    paint.style=Paint.Style.FILL;paint.color=colors.foreground;paint.textAlign=Paint.Align.CENTER;paint.textSize=48f
+    paint.typeface=context.resources.getFont(R.font.inter_variable)
+    canvas.drawText((fraction*100).toInt().coerceAtMost(999).toString()+"%",120f,137f,paint)
+    return bitmap
 }
 
 private fun circleAvatar(file: java.io.File): Bitmap? {
@@ -212,28 +264,28 @@ private fun circleAvatar(file: java.io.File): Bitmap? {
     return result
 }
 
-internal fun widgetWaterBitmap(context: Context, goal: DailyWaterGoal, consumedMl: Double): Bitmap {
-    val bitmap = Bitmap.createBitmap(480, 88, Bitmap.Config.ARGB_8888)
+internal fun widgetWaterBitmap(context: Context, goal: DailyWaterGoal, consumedMl: Double, accent:Int=context.getColor(R.color.widget_accent)): Bitmap {
+    val bitmap = Bitmap.createBitmap(480, 240, Bitmap.Config.ARGB_8888)
     val canvas = Canvas(bitmap)
-    val outline = context.getColor(R.color.widget_accent)
-    val fill = Paint(Paint.ANTI_ALIAS_FLAG).apply { color = outline; alpha = 170 }
-    val stroke = Paint(Paint.ANTI_ALIAS_FLAG).apply { color = outline; style = Paint.Style.STROKE; strokeWidth = 2.5f }
+    val outline = accent
+    val fill = Paint(Paint.ANTI_ALIAS_FLAG).apply { color = outline; alpha = 220 }
+    val stroke = Paint(Paint.ANTI_ALIAS_FLAG).apply { color = outline; style = Paint.Style.STROKE; strokeWidth = 3.5f }
     val unit = maxOf(1000.0, kotlin.math.ceil(goal.totalMl / 8000.0) * 1000)
     val segments = listOf(goal.baseMl, goal.powderMl, goal.creatineMl)
     val count = segments.sumOf { kotlin.math.ceil(it / unit).toInt() }
-    val width = minOf(52f, 480f / count)
+    val width = minOf(90f, 480f / count)
     var x = (480f - width * count) / 2
     var start = 0.0
     segments.forEachIndexed { group, ml ->
         repeat(kotlin.math.ceil(ml / unit).toInt()) { index ->
             val path = Path().apply {
-                moveTo(x + width * .37f, 5f); lineTo(x + width * .63f, 5f); lineTo(x + width * .63f, 22f)
-                lineTo(x + width * .81f, 35f); lineTo(x + width * .81f, 81f); lineTo(x + width * .19f, 81f)
-                lineTo(x + width * .19f, 35f); lineTo(x + width * .37f, 22f); close()
+                moveTo(x + width * .37f, 5f); lineTo(x + width * .63f, 5f); lineTo(x + width * .63f, 50f)
+                lineTo(x + width * .81f, 85f); lineTo(x + width * .81f, 225f); lineTo(x + width * .19f, 225f)
+                lineTo(x + width * .19f, 85f); lineTo(x + width * .37f, 50f); close()
             }
             val fraction = ((consumedMl - start - index * unit) / unit).coerceIn(0.0, 1.0).toFloat()
-            canvas.save(); canvas.clipPath(path); canvas.drawRect(x, 81 - 76 * fraction, x + width, 82f, fill); canvas.restore()
-            stroke.pathEffect = if (group > 0) DashPathEffect(floatArrayOf(5f, 4f), 0f) else null
+            canvas.save(); canvas.clipPath(path); canvas.drawRect(x, 225 - 210 * fraction, x + width, 226f, fill); canvas.restore()
+            stroke.pathEffect = if (group > 0) DashPathEffect(floatArrayOf(10f, 8f), 0f) else null
             canvas.drawPath(path, stroke)
             x += width
         }

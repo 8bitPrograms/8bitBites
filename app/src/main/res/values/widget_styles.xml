@@ -6,8 +6,38 @@
         <item name="android:layout_width">0dp</item><item name="android:layout_weight">1</item>
         <item name="android:layout_height">match_parent</item><item name="android:layout_marginHorizontal">3dp</item>
         <item name="android:gravity">center</item><item name="android:background">@drawable/widget_button</item>
-        <item name="android:textColor">@color/widget_accent</item><item name="android:textSize">12sp</item>
+        <item name="android:fontFamily">@font/inter_variable</item><item name="android:textColor">@color/widget_foreground</item><item name="android:textSize">12sp</item>
         <item name="android:textStyle">bold</item><item name="android:maxLines">2</item><item name="android:ellipsize">end</item>
         <item name="android:padding">3dp</item>
+    </style>
+
+    <style name="WidgetHeading">
+        <item name="android:layout_height">wrap_content</item><item name="android:textSize">15sp</item>
+        <item name="android:textColor">@color/widget_foreground</item><item name="android:fontFamily">@font/inter_variable</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+    <style name="WidgetCaption">
+        <item name="android:layout_height">wrap_content</item><item name="android:textSize">11sp</item>
+        <item name="android:textColor">@color/widget_muted</item><item name="android:fontFamily">@font/inter_variable</item>
+    </style>
+    <style name="WidgetMacro" parent="WidgetCaption">
+        <item name="android:layout_width">0dp</item><item name="android:layout_weight">1</item>
+        <item name="android:layout_height">match_parent</item><item name="android:gravity">center</item>
+        <item name="android:textColor">@color/widget_foreground</item><item name="android:textSize">12sp</item>
+    </style>
+    <style name="WidgetActionTile">
+        <item name="android:layout_width">0dp</item><item name="android:layout_weight">1</item>
+        <item name="android:layout_height">match_parent</item><item name="android:layout_marginHorizontal">3dp</item>
+        <item name="android:gravity">center</item><item name="android:orientation">vertical</item>
+        <item name="android:padding">4dp</item><item name="android:background">@drawable/widget_button</item>
+    </style>
+    <style name="WidgetActionIcon">
+        <item name="android:layout_width">19dp</item><item name="android:layout_height">19dp</item>
+        <item name="android:layout_marginBottom">2dp</item>
+    </style>
+    <style name="WidgetActionLabel" parent="WidgetCaption">
+        <item name="android:layout_width">match_parent</item><item name="android:gravity">center</item>
+        <item name="android:textColor">@color/widget_foreground</item><item name="android:textSize">11sp</item>
+        <item name="android:maxLines">1</item><item name="android:ellipsize">end</item>
     </style>
 </resources>

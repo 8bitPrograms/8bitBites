@@ -1,48 +1,48 @@
 {
   "formatVersion": 1,
-  "versionCode": 13,
-  "versionName": "0.8.0-dev",
+  "versionCode": 16,
+  "versionName": "0.10.0-dev",
   "highlights": true,
   "notes": {
     "en": [
-      "AI-estimated portions and nutrition, added directly after your approval.",
-      "Saved conversations and photos, with a history you can reopen.",
-      "ChatGPT sign-in, mobile return page and chat keyboard layout fixes."
+      "Food search and Favorites appear only when adding a meal.",
+      "Stronger dark-theme colors and clearly separated message bubbles.",
+      "Compact widgets expand with calorie rings and bottle progress, and follow the app theme."
     ],
     "tr": [
-      "AI porsiyon ve besin değerlerini tahmin eder; onayınla doğrudan günlüğe ekler.",
-      "Sohbetler ve fotoğraflar kaydedilir; geçmiş oturumları yeniden açabilirsin.",
-      "ChatGPT girişi, mobil geri dönüş sayfası ve sohbet klavye düzeni düzeltildi."
+      "Besin araması ve Favoriler yalnızca yemek eklerken açılır.",
+      "Daha dolgun koyu tema renkleri ve arka plandan ayrışan mesaj balonları.",
+      "Küçük widget düzenleri; büyük alanda kalori halkası, su şişeleri ve uygulamayla uyumlu tema."
     ],
     "de": [
-      "KI schätzt Portionen und Nährwerte; nach Bestätigung direkt ins Tagebuch.",
-      "Gespeicherte Gespräche und Fotos im erneut aufrufbaren Verlauf.",
-      "Verbesserte ChatGPT-Anmeldung, mobile Rückkehrseite und Chat-Tastatur."
+      "Lebensmittelsuche und Favoriten beim Hinzufügen einer Mahlzeit.",
+      "Kräftigere dunkle Farben und klar erkennbare Nachrichtenblasen.",
+      "Kompakte Widgets mit Kalorienring und Flaschenfortschritt in größeren Ansichten."
     ],
     "fr": [
-      "Portions et nutrition estimées par l’IA, ajoutées après votre validation.",
-      "Conversations et photos enregistrées, avec un historique consultable.",
-      "Connexion ChatGPT, page de retour mobile et clavier du chat corrigés."
+      "Recherche et favoris lors de l’ajout d’un repas.",
+      "Couleurs sombres plus soutenues et bulles bien distinctes.",
+      "Widgets compacts avec anneau de calories et bouteilles dans les grandes vues."
     ],
     "es": [
-      "Porciones y nutrientes estimados por IA, guardados tras tu aprobación.",
-      "Conversaciones y fotos guardadas con historial para retomarlas.",
-      "Mejoras en el acceso a ChatGPT, el regreso a la app y el teclado."
+      "Búsqueda y Favoritos al añadir una comida.",
+      "Colores oscuros más intensos y burbujas bien diferenciadas.",
+      "Widgets compactos con anillo de calorías y progreso en botellas al ampliarlos."
     ],
     "it": [
-      "Porzioni e nutrienti stimati dall’IA, aggiunti dopo la tua conferma.",
-      "Conversazioni e foto salvate in una cronologia riapribile.",
-      "Correzioni all’accesso ChatGPT, al ritorno mobile e alla tastiera."
+      "Ricerca e Preferiti durante l’aggiunta di un pasto.",
+      "Colori scuri più intensi e messaggi ben distinguibili.",
+      "Widget compatti con anello calorie e bottiglie nelle viste più grandi."
     ],
     "pt": [
-      "Porções e nutrientes estimados por IA, adicionados após sua aprovação.",
-      "Conversas e fotos salvas com histórico que pode ser reaberto.",
-      "Correções no login ChatGPT, retorno ao app e teclado do chat."
+      "Pesquisa e Favoritos ao adicionar uma refeição.",
+      "Cores escuras mais fortes e mensagens bem destacadas.",
+      "Widgets compactos com anel de calorias e garrafas nas visualizações maiores."
     ],
     "ja": [
-      "AIが分量と栄養を推定し、確認後に日記へ直接追加します。",
-      "会話と写真を保存し、履歴から再開できます。",
-      "ChatGPTログイン、モバイル復帰画面、キーボード表示を修正しました。"
+      "食品検索とお気に入りは食事の追加時に表示。",
+      "暗いテーマの色を強め、メッセージの背景を明確に区別。",
+      "小型ウィジェットと、大きい表示でのカロリーリング・ボトル進捗。"
     ]
   }
 }

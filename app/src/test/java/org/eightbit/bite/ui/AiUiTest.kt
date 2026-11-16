@@ -9,6 +9,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.graphics.luminance
 import androidx.compose.ui.test.*
 import androidx.compose.ui.test.junit4.createComposeRule
 import org.eightbit.bite.ai.*
@@ -43,9 +44,10 @@ class AiUiTest {
     @Test fun historyCanOpenAConversationAndConfirmsDeletion() {
         var opened="";var deleted=""
         val row=ChatSummary("conversation","Breakfast",AiProvider.CHATGPT,"model",1000,4)
-        compose.setContent { MaterialTheme { AiHistorySheet(listOf(row),false,false,null,"",{}, {opened=it},{deleted=it}) } }
+        compose.setContent { MaterialTheme { Surface(Modifier.fillMaxSize()) { AiHistoryContent(listOf(row),false,false,null,"",{}, {opened=it},{deleted=it}) } } }
         compose.onNodeWithText("Breakfast").performClick();assertEquals("conversation",opened)
-        compose.onNodeWithContentDescription("Delete conversation").performClick()
+        compose.onNodeWithContentDescription("Conversation options").performClick()
+        compose.onNodeWithText("Delete conversation").performClick()
         assertEquals("",deleted)
         compose.onNodeWithText("Delete",useUnmergedTree=true).performClick();assertEquals("conversation",deleted)
     }
@@ -117,7 +119,8 @@ class AiUiTest {
             AiChatMessage(id="correction",user=true,text="Peynir 150 g olsun."),message),
             draft=listOf(AiReview(mention=food)),draftMessageId="answer")
         var reviewed=false
-        compose.setContent { BiteTheme(Preferences()) { Surface(Modifier.fillMaxSize()) {
+        var prefs by mutableStateOf(Preferences(theme="clean-light"))
+        compose.setContent { BiteTheme(prefs) { Surface(Modifier.fillMaxSize()) {
             root=LocalView.current
             AiChatContent(Modifier.fillMaxSize(),state,"Hesabındaki model",true,{},{},{},{},{},{},{},{reviewed=true},{},{},{})
         } } }
@@ -125,9 +128,11 @@ class AiUiTest {
         assertTrue(reviewed)
         compose.onNodeWithText("Onayla ve öğünü kaydet").assertDoesNotExist()
         compose.onNodeWithText("API anahtarı (gerekiyorsa)").assertDoesNotExist()
-        capture("ai-chat-tr")
+        capture("ai-chat-clean-light")
+        compose.runOnIdle { prefs=prefs.copy(theme="clean-dark") }
+        capture("ai-chat-clean-dark")
     }
-    @Test fun mealsAreAvailableAsTheirOwnFoodsSectionWithTheOriginalEntryActions() {
+    @Test fun mealsKeepTheOriginalEntryActions() {
         val date=LocalDate.of(2026,11,16)
         val entry=DiaryEntry(id="meal",foodId="test",name="Cheese",source="label",grams=100.0,mealType=1,
             time=date.atTime(10,0).atZone(ZoneId.systemDefault()).toInstant().toEpochMilli(),offsetSeconds=0,
@@ -167,5 +172,92 @@ class AiUiTest {
         compose.onNodeWithText("Manage ChatGPT usage").performScrollTo().performClick()
         assertTrue(managed)
         compose.onNodeWithText("Retry").assertDoesNotExist()
+    }
+
+    @Test fun attachmentsStayInTheComposerMenuAndStopReplacesSendWhileBusy() {
+        var state by mutableStateOf(AiState(provider=AiProvider.REMOTE))
+        var photos=0;var cameras=0;var stopped=false
+        compose.setContent { MaterialTheme { AiChatContent(Modifier.fillMaxSize(),state,"Remote model",true,
+            {state=state.copy(text=it)},{},{stopped=true},{},{photos++},{cameras++},{},{},{},{},{}) } }
+        compose.onNodeWithText("Take photo").assertDoesNotExist()
+        compose.onNodeWithContentDescription("Add attachment").performClick()
+        compose.onNodeWithText("Take photo").performClick();assertEquals(1,cameras)
+        compose.onNodeWithText("Take photo").assertDoesNotExist()
+        compose.onNodeWithContentDescription("Add attachment").performClick()
+        compose.onNodeWithText("Attach photo").performClick();assertEquals(1,photos)
+        compose.onNodeWithTag("chat-composer").performTextInput("My meal")
+        compose.onNodeWithContentDescription("Send message").assertIsEnabled()
+        compose.runOnIdle { state=state.copy(busy=true,status="Thinking…") }
+        compose.onNodeWithContentDescription("Send message").assertDoesNotExist()
+        compose.onNodeWithContentDescription("Stop").performClick();assertTrue(stopped)
+    }
+
+    @Test fun aSavedMealShowsOneReceiptWithoutRepeatingTheAcknowledgment() {
+        val state=AiState(provider=AiProvider.CHATGPT,savedMessages=setOf("proposal"),messages=listOf(
+            AiChatMessage(id="proposal",user=false,text="Estimated breakfast"),
+            AiChatMessage(user=false,text="Meal added to your diary.",acknowledges="proposal")))
+        compose.setContent { MaterialTheme { AiChatContent(Modifier.fillMaxSize(),state,"Account model",true,
+            {},{},{},{},{},{},{},{},{},{},{}) } }
+        compose.onAllNodesWithText("Saved to diary").assertCountEquals(1)
+        compose.onNodeWithText("Meal added to your diary.").assertDoesNotExist()
+        compose.onNodeWithText("Estimated breakfast").assertIsDisplayed()
+    }
+
+    @Test fun foodSearchAndFavoritesAreAvailableWithinTheDismissibleAddFlow() {
+        var favorites by mutableStateOf(false)
+        var visible by mutableStateOf(true)
+        compose.setContent { BiteTheme(Preferences()) {
+            if(visible) FoodPicker(favorites,{favorites=it},{visible=false}) { modifier ->
+                Text(if(favorites) "Favorite items" else "Search results",modifier)
+            }
+        } }
+        compose.onNodeWithText("Search results").assertIsDisplayed()
+        compose.onNodeWithText("Favorites").performClick()
+        compose.onNodeWithText("Favorite items").assertIsDisplayed()
+        compose.onNodeWithText("Search").performClick()
+        compose.onNodeWithText("Search results").assertIsDisplayed()
+        compose.onNodeWithContentDescription("Close").performClick()
+        compose.onNodeWithTag("food-picker").assertDoesNotExist()
+    }
+
+    @Test fun cleanThemesCanBeSelectedWithoutUnlockingTheExtraPalettePack() {
+        var prefs by mutableStateOf(Preferences(theme="system",themesUnlocked=false))
+        compose.setContent { BiteTheme(prefs) { ThemePicker(prefs,{prefs=it}) } }
+        compose.onNodeWithTag("theme-picker").performClick()
+        compose.onNodeWithText("Dark · Charcoal").performClick()
+        assertEquals("clean-dark",prefs.theme)
+        compose.onNodeWithTag("theme-picker").performClick()
+        compose.onNodeWithText("Light",useUnmergedTree=true).performClick()
+        assertEquals("clean-light",prefs.theme)
+    }
+
+    @Test fun anAmoledBackgroundStaysBlackWhenItsAccentChanges() {
+        var prefs by mutableStateOf(Preferences(theme="clean-amoled"))
+        var background=androidx.compose.ui.graphics.Color.Unspecified
+        var primary=androidx.compose.ui.graphics.Color.Unspecified
+        compose.setContent { BiteTheme(prefs) {
+            background=MaterialTheme.colorScheme.background;primary=MaterialTheme.colorScheme.primary
+            Surface(Modifier.fillMaxSize()) { ThemePicker(prefs,{prefs=it}) }
+        } }
+        compose.onNodeWithText("Blue").performClick()
+        assertEquals("blue",prefs.accent)
+        compose.runOnIdle { assertEquals(androidx.compose.ui.graphics.Color.Black,background);assertEquals(accentColors.getValue("blue"),primary) }
+        compose.onNodeWithTag("theme-picker").performClick()
+        compose.onNodeWithText("Midnight").performClick()
+        assertEquals("clean-midnight",prefs.theme);assertEquals("blue",prefs.accent)
+    }
+    @Test fun darkThemesKeepMessageFillsVisibleAndTextReadableForEveryAccent() {
+        val palettes=loadPalettes(RuntimeEnvironment.getApplication())
+        fun contrast(a:androidx.compose.ui.graphics.Color,b:androidx.compose.ui.graphics.Color):Float {
+            val x=a.luminance();val y=b.luminance();return (maxOf(x,y)+.05f)/(minOf(x,y)+.05f)
+        }
+        for(id in listOf("clean-dark","clean-amoled","clean-midnight","clean-forest","clean-dusk")) {
+            for(accent in listOf("neutral")+accentColors.keys) {
+                val scheme=paletteColorScheme(resolvePalette(Preferences(theme=id,accent=accent),palettes,true)!!)
+                assertTrue("Bubble merges with background: $id/$accent",contrast(scheme.primaryContainer,scheme.background)>=1.8f)
+                assertTrue("Composer merges with background: $id/$accent",contrast(scheme.surfaceContainerHigh,scheme.background)>=1.35f)
+                assertTrue("Unreadable bubble text: $id/$accent",contrast(scheme.onPrimaryContainer,scheme.primaryContainer)>=4.5f)
+            }
+        }
     }
 }

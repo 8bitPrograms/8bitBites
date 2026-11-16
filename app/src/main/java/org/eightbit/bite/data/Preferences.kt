@@ -6,7 +6,8 @@ import android.content.Context
 data class Preferences(
     val name: String = "",
     val calorieGoal: Int = 2000,
-    val theme: String = "system",
+    val theme: String = "clean-system",
+    val accent: String = "neutral",
     val appearance: String = "system",
     val autoSync: Boolean = false,
     val lastSync: Long = 0,
@@ -42,7 +43,8 @@ class PreferenceStore(context: Context) {
     fun read() = Preferences(
         name = store.getString("name", "").orEmpty(),
         calorieGoal = store.getInt("calorieGoal", 2000),
-        theme = store.getString("theme", "system") ?: "system",
+        theme = store.getString("theme", "clean-system") ?: "clean-system",
+        accent = store.getString("accent", "neutral") ?: "neutral",
         appearance = store.getString("appearance", "system") ?: "system",
         autoSync = store.getBoolean("autoSync", false),
         lastSync = store.getLong("lastSync", 0),
@@ -85,7 +87,7 @@ class PreferenceStore(context: Context) {
         require(!value.fatGoalEnabled || value.fatGoal != null)
         // Sync status is owned by the worker. Settings writes must not overwrite it.
         store.edit().putString("name", value.name).putInt("calorieGoal", value.calorieGoal)
-            .putString("theme", value.theme).putString("appearance", value.appearance)
+            .putString("theme", value.theme).putString("accent", value.accent).putString("appearance", value.appearance)
             .putBoolean("autoSync", value.autoSync)
             .putString("age", value.age?.toString()).putString("weightKg", value.weightKg?.toString())
             .putString("heightCm", value.heightCm?.toString()).putString("sex", value.sex)
