@@ -1,0 +1,32 @@
+{
+  "version": "0.4.0",
+  "schema": 1,
+  "minimumAppCode": 2,
+  "highlights": true,
+  "notes": {
+    "en": [
+      "Major-brand source listings and additional per-mass food labels."
+    ],
+    "tr": [
+      "Önemli markaların ürün listeleri ve ek gram esaslı besin etiketleri."
+    ]
+  },
+  "foodCount": 2193,
+  "excluded": {
+    "Not a mass-based label": 849,
+    "No reported nutrients": 33,
+    "Missing serving basis": 7
+  },
+  "duplicateRows": 5,
+  "noticeVersion": 1,
+  "brandAuditExcluded": {
+    "Not a mass-based or unresolved label": 627,
+    "Label identity or serving basis pending review": 226,
+    "No reported nutrients": 4
+  },
+  "brandAuditDuplicateRows": 0,
+  "formatVersion": 1,
+  "file": "versions/0.4.0/foods.sqlite",
+  "bytes": 12095488,
+  "sha256": "1e73e8d5dc8759348d2796d45bec0d3ce85e2719fd7145b420d28cbcca30d10e"
+}

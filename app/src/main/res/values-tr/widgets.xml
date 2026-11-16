@@ -1,0 +1,8 @@
+<resources>
+    <string name="widget_overview_name">Günlük beslenme</string>
+    <string name="widget_overview_description">Bugünün enerji ve makroları; yiyecek ekleme ve AI kamerası kısayolları.</string>
+    <string name="widget_quick_name">Hızlı ekle</string>
+    <string name="widget_quick_description">Yiyecek ekleme, AI ile öğün ekleme veya uygulama kamerasını aç.</string>
+    <string name="widget_add">Yiyecek ekle</string><string name="widget_camera">Fotoğraf</string>
+    <string name="widget_ai">AI ile öğününü yaz</string><string name="widget_profile">Profilini aç</string>
+</resources>

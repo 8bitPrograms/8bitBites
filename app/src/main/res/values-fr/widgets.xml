@@ -1,0 +1,10 @@
+<resources>
+    <string name="widget_overview_name">Nutrition quotidienne</string>
+    <string name="widget_overview_description">Énergie et nutriments du jour, avec raccourcis vers aliments et caméra IA.</string>
+    <string name="widget_quick_name">Ajout rapide</string>
+    <string name="widget_quick_description">Ouvrir la saisie alimentaire, l’IA ou l’appareil photo.</string>
+    <string name="widget_add">Aliment</string>
+    <string name="widget_camera">Photo</string>
+    <string name="widget_ai">Décrire un repas avec l’IA</string>
+    <string name="widget_profile">Ouvrir votre profil</string>
+</resources>

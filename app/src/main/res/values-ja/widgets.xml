@@ -1,0 +1,10 @@
+<resources>
+    <string name="widget_overview_name">1日の栄養</string>
+    <string name="widget_overview_description">今日のエネルギーと栄養素。食品追加やAIカメラへのショートカット。</string>
+    <string name="widget_quick_name">クイック追加</string>
+    <string name="widget_quick_description">食品追加、AIでの食事記録、アプリ内カメラを開きます。</string>
+    <string name="widget_add">食品</string>
+    <string name="widget_camera">写真</string>
+    <string name="widget_ai">AIで食事を入力</string>
+    <string name="widget_profile">プロフィールを開く</string>
+</resources>

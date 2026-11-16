@@ -1,0 +1,10 @@
+<resources>
+    <string name="widget_overview_name">Nutrizione giornaliera</string>
+    <string name="widget_overview_description">Energia e nutrienti del giorno, con scorciatoie per alimenti e fotocamera IA.</string>
+    <string name="widget_quick_name">Aggiunta rapida</string>
+    <string name="widget_quick_description">Apri alimenti, IA o la fotocamera dell’app.</string>
+    <string name="widget_add">Alimento</string>
+    <string name="widget_camera">Foto</string>
+    <string name="widget_ai">Descrivi un pasto con IA</string>
+    <string name="widget_profile">Apri il tuo profilo</string>
+</resources>

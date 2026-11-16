@@ -1,0 +1,10 @@
+<resources>
+    <string name="widget_overview_name">Nutrición diaria</string>
+    <string name="widget_overview_description">Energía y nutrientes del día, con accesos a alimentos y cámara de IA.</string>
+    <string name="widget_quick_name">Registro rápido</string>
+    <string name="widget_quick_description">Abrir alimentos, IA o la cámara de la aplicación.</string>
+    <string name="widget_add">Alimento</string>
+    <string name="widget_camera">Foto</string>
+    <string name="widget_ai">Describir comida con IA</string>
+    <string name="widget_profile">Abrir tu perfil</string>
+</resources>

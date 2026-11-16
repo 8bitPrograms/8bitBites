@@ -1,0 +1,32 @@
+{
+  "formatVersion": 1,
+  "versionCode": 7,
+  "versionName": "0.5.1-dev",
+  "highlights": false,
+  "notes": {
+    "en": [
+      "The app is now called 8bitBites. Updates use the official 8bitPrograms/8bitBites repository."
+    ],
+    "tr": [
+      "Uygulamanın adı artık 8bitBites. Güncellemeler resmi 8bitPrograms/8bitBites deposunu kullanır."
+    ],
+    "de": [
+      "Die App heißt jetzt 8bitBites. Updates verwenden das offizielle Repository 8bitPrograms/8bitBites."
+    ],
+    "fr": [
+      "L’application s’appelle désormais 8bitBites. Les mises à jour utilisent le dépôt officiel 8bitPrograms/8bitBites."
+    ],
+    "es": [
+      "La aplicación ahora se llama 8bitBites. Las actualizaciones usan el repositorio oficial 8bitPrograms/8bitBites."
+    ],
+    "it": [
+      "L’app ora si chiama 8bitBites. Gli aggiornamenti usano il repository ufficiale 8bitPrograms/8bitBites."
+    ],
+    "pt": [
+      "O aplicativo agora se chama 8bitBites. As atualizações usam o repositório oficial 8bitPrograms/8bitBites."
+    ],
+    "ja": [
+      "アプリ名が8bitBitesになりました。更新には公式の8bitPrograms/8bitBitesリポジトリを使用します。"
+    ]
+  }
+}

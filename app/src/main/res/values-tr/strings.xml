@@ -1,0 +1,310 @@
+<resources>
+    <string name="m24345a14377f" formatted="false">Bugün</string>
+    <string name="mbd32ee72cd51" formatted="false">Besinler</string>
+    <string name="m7c63edf9a185" formatted="false">Takviyeler</string>
+    <string name="m716f3fa8e1e5" formatted="false">Geçmiş</string>
+    <string name="m905cb326c779" formatted="false">Sen</string>
+    <string name="m899088f98f70" formatted="false">Besin ekle</string>
+    <string name="m8e2bf473b223" formatted="false">Besin oluştur</string>
+    <string name="m83ebed6c6e65" formatted="false">Takviye ekle</string>
+    <string name="m04be025093f8" formatted="false">Gizlilik ve hakkında</string>
+    <string name="me2b6b0a1d0bc" formatted="false">Önceki gün</string>
+    <string name="m38f859dde041" formatted="false">Sonraki gün</string>
+    <string name="m9b9355172fdb" formatted="false">Alınan enerji</string>
+    <string name="m26ed353d0b23" formatted="false">Protein</string>
+    <string name="md1b71194516a" formatted="false">Karbonhidrat</string>
+    <string name="m7b71bd0c3d76" formatted="false">Yağ</string>
+    <string name="m364653cd2a4a" formatted="false">Kahvaltı</string>
+    <string name="m585ecb76103a" formatted="false">Öğle yemeği</string>
+    <string name="m8cf98a54654a" formatted="false">Akşam yemeği</string>
+    <string name="m071a0788f410" formatted="false">Ara öğün</string>
+    <string name="mf1f0020a5c0b" formatted="false">Besinlere göz at</string>
+    <string name="m5301648dcf6b" formatted="false">Düzenle</string>
+    <string name="m659eba121958" formatted="false">Tekrar ekle</string>
+    <string name="mf6fdbe48dc54" formatted="false">Sil</string>
+    <string name="mfcaf0ba31daa" formatted="false">Günlüğün boş. Katalogdan bir besin ekle veya kişisel kayıt oluştur.</string>
+    <string name="meb4d811e37f6" formatted="false">Besinlerinde ara</string>
+    <string name="md303c0aa6098" formatted="false">Besin oluştur · 100 g için</string>
+    <string name="m34e5a9d3830a" formatted="false">Besin adı</string>
+    <string name="me74b9704dacd" formatted="false">Marka (isteğe bağlı)</string>
+    <string name="m885136d6bb8e" formatted="false">Belirtilmeyen besin değerlerini boş bırak.</string>
+    <string name="m89d7b91058bb" formatted="false">Enerji · kcal</string>
+    <string name="m69f0e5eb3536" formatted="false">Protein · g</string>
+    <string name="me22f3b502a67" formatted="false">Karbonhidrat · g</string>
+    <string name="ma143ac86badf" formatted="false">Yağ · g</string>
+    <string name="mdd885ec43949" formatted="false">Besini kaydet</string>
+    <string name="m4f4ce5bae41f" formatted="false">Kaydı kaydet</string>
+    <string name="m77dfd2135f4d" formatted="false">İptal</string>
+    <string name="m9fc87e7d568d" formatted="false">Miktarı düzenle</string>
+    <string name="md130fcc4a6da" formatted="false">Miktar · gram</string>
+    <string name="mc9eb90e04e6d" formatted="false">Katalog içe aktar</string>
+    <string name="mf8be01f2dc39" formatted="false">Son yedi gün</string>
+    <string name="m58a927b3bc04" formatted="false">Kişisel bilgiler</string>
+    <string name="m23d1974a7536" formatted="false">Görünen ad (isteğe bağlı)</string>
+    <string name="m4ac413113dfc" formatted="false">Günlük kalori hedefi · kcal</string>
+    <string name="mf597c0e8201d" formatted="false">Profili kaydet</string>
+    <string name="m41def7a0febe" formatted="false">Görünüm</string>
+    <string name="m2a93cf6cb4a8" formatted="false">Material You · duvar kâğıdı renkleri</string>
+    <string name="mbc0792d8dc81" formatted="false">Sistem</string>
+    <string name="ma36ef8aba229" formatted="false">Açık</string>
+    <string name="mae1ef0143294" formatted="false">Koyu</string>
+    <string name="m475ff1ba630b" formatted="false">Burada kaydettiğin beslenme verilerini paylaş. İzin isteğe bağlıdır; günlük çevrimdışı çalışır.</string>
+    <string name="m105a257fd289" formatted="false">Beslenme izni ver</string>
+    <string name="m084644b229ca" formatted="false">Otomatik eşitleme</string>
+    <string name="m3757c92c3728" formatted="false">Kayıt sonrası, saatlik yeniden deneme</string>
+    <string name="maa2d9ed24927" formatted="false">Android ayarlarından Health Connect\'i yükle veya güncelle</string>
+    <string name="m8b02f3de3906" formatted="false">Bağlı değil</string>
+    <string name="m82fb1d5144a8" formatted="false">Güncel</string>
+    <string name="mba03031c5936" formatted="false">Health Connect kullanılamıyor veya güncellenmeli</string>
+    <string name="md6b08b733c5c" formatted="false">Beslenme izni gerekli</string>
+    <string name="m3255dba5db1f" formatted="false">Beslenme izni kaldırıldı</string>
+    <string name="m2dcdb46ec1eb" formatted="false">Eşitleme başarısız; kayıtlar sırada tutuluyor</string>
+    <string name="md3907bccaf45" formatted="false">Tema kaynakları</string>
+    <string name="mbbfa773e5a63" formatted="false">Kapat</string>
+    <string name="m2e02623966f9" formatted="false">Devam et</string>
+    <string name="m369702420149" formatted="false">Yenilikler</string>
+    <string name="mb5ae830d5a5d" formatted="false">Açık kaynak · GPL-3.0-or-later. Temalar kendi lisans bildirimlerini korur.</string>
+    <string name="ma4cb5026dd26" formatted="false">Günlüğün ve profilin cihazında kalır. Güncelleme kontrolü için GitHub\'a bağlanılır. Besin kaynaklarına yalnızca istediğinde arama gönderilir. Hesap veya analiz takibi yoktur. Uygulamayı kaldırmak yerel verileri siler.</string>
+    <string name="m4a53521c129b" formatted="false">Health Connect paylaşımı isteğe bağlıdır ve yalnızca beslenme kayıtlarını yazar. Düzenleme ve silmeler eşitleme tamamlanana kadar sırada kalır. İzinleri ve arka plan zamanlamasını Android yönetir.</string>
+    <string name="mbc41ab0b1a94" formatted="false">Miktar kaydet</string>
+    <string name="mb031e71a9714" formatted="false">Günlük hedef</string>
+    <string name="m6bd8a9a4c9b9" formatted="false">Alım geçmişi</string>
+    <string name="m527abbd87c35" formatted="false">Alımı düzenle</string>
+    <string name="mdc1ca05cf232" formatted="false">Besin değerleri günlüğüne bir kez kaydedilir.</string>
+    <string name="mbef84c80fa18" formatted="false">Miktarı güncelle</string>
+    <string name="mf9fcebd51383" formatted="false">Hedefi kaldırmak için boş bırak</string>
+    <string name="mfa5df149550b" formatted="false">Hedefi kaydet</string>
+    <string name="m4eaa406251ca" formatted="false">ölçek</string>
+    <string name="m073c5dc664c2" formatted="false">kapsül</string>
+    <string name="m6f4d3f36ea02" formatted="false">tablet</string>
+    <string name="mbc7819b34ff8" formatted="false">Bilinmiyor</string>
+    <string name="m89b86ab0e66f" formatted="false">Dil</string>
+    <string name="mc76d18079a07" formatted="false">Güncellemeler</string>
+    <string name="mb0794025de85" formatted="false">Besin veritabanı uygulamayı yeniden yüklemeden güncellenebilir.</string>
+    <string name="mdbb9d521810e" formatted="false">Güncellemeler denetleniyor…</string>
+    <string name="m736b9062b336" formatted="false">Güncellemeleri denetle</string>
+    <string name="m87ed9170be21" formatted="false">Bazı güncelleme kontrolleri başarısız. Çevrimdışı verilerin kullanılabilir.</string>
+    <string name="mb45ea6048892" formatted="false">Uygulama sürümlerini aç</string>
+    <string name="mc38c3903da3e" formatted="false">Bu veritabanı sürümünü yüklemeden önce uygulamayı güncelle.</string>
+    <string name="mfabfef0bf5ca" formatted="false">Veritabanı güncelleniyor…</string>
+    <string name="m6fa074ab6809" formatted="false">Yalnızca veritabanını güncelle</string>
+    <string name="m59924e6a2452" formatted="false">Veritabanı güncellemesi doğrulanamadı. Önceki kataloğun korundu.</string>
+    <string name="mc818f4297c8d" formatted="false">Veritabanı doğruluğu ve kaynak bilgisi</string>
+    <string name="mbac64a013634" formatted="false">Besin verileri hakkında</string>
+    <string name="m318804e47c16" formatted="false">Yaklaşık yerel çeviri</string>
+    <string name="mdf65659012e9" formatted="false">Çevrimiçi ara</string>
+    <string name="m1a6a5ba8c23d" formatted="false">Aranıyor…</string>
+    <string name="meabbb14c5def" formatted="false">USDA API anahtarı · yalnızca bu oturum</string>
+    <string name="m7c70e003bac0" formatted="false">Önce yerel besinlerde arar. Dış kaynaklara yalnızca Çevrimiçi ara seçilince istek gönderilir.</string>
+    <string name="m6da13addb000" formatted="false">Kaynak</string>
+    <string name="m6ed264fd5623" formatted="false">Dış kaynak araması tamamlandı</string>
+    <string name="m6bc66688f141" formatted="false">Besin kaynağı isteği başarısız</string>
+    <string name="mdca0f09f861e" formatted="false">En az iki karakter gir</string>
+    <string name="mfd29e9a5752a" formatted="false">Yeniden aramadan önce birkaç saniye bekle</string>
+    <string name="mc1cb0759dcab" formatted="false">USDA API anahtarını gir</string>
+    <string name="mff52bbcd3f3e" formatted="false">Besin kaydedildi</string>
+    <string name="ma51c90f7815a" formatted="false">Besin adı gir</string>
+    <string name="m67618f27de68" formatted="false">Günlüğe eklendi</string>
+    <string name="m53550cff7439" formatted="false">Kayıt güncellendi</string>
+    <string name="m313945aa03a8" formatted="false">Kayıt silindi; Health Connect silme işlemi sıraya alındı</string>
+    <string name="md958362c15d5" formatted="false">Öğün kaydı tekrar eklendi</string>
+    <string name="m19df932c7271" formatted="false">Takviye adı gir</string>
+    <string name="m7800924bf9ae" formatted="false">Pozitif hedef gir veya boş bırak</string>
+    <string name="m4a6506eb1c31" formatted="false">Besin değerleri için bir ölçeğin gramını gir</string>
+    <string name="m29027eff18a7" formatted="false">Besin kaydı bulunamadı</string>
+    <string name="m259a0703ff43" formatted="false">Takviye kaydedildi</string>
+    <string name="m29fb72fc0920" formatted="false">Takviye alımı kaydedildi</string>
+    <string name="m6576bba4386c" formatted="false">Takviye miktarı güncellendi</string>
+    <string name="m2e25638d7d19" formatted="false">Takviye alımı silindi</string>
+    <string name="m2f1367d63a3d" formatted="false">İşlem tamamlanamadı</string>
+    <string name="m89a5db0f8e82" formatted="false">Katalog açılamadı</string>
+    <string name="m1aac3f49995f" formatted="false">Katalog 10 MB\'den küçük olmalı</string>
+    <string name="mb47962087115" formatted="false">Tek seferde en fazla 20.000 besin aktar</string>
+    <string name="m60f47f5b37a8" formatted="false">Katalogda yinelenen besin kimlikleri var</string>
+    <string name="mdebb9d283a41" formatted="false">Her besinde kaynak ön ekli kimlik, ad ve kaynak olmalı</string>
+    <string name="m98be4a1f6da8" formatted="false">Ölçek ağırlığı gerekli</string>
+    <string name="m07eb4b8a56a3">Uygulama %1$s</string>
+    <string name="md7ad5588416f">Veritabanı %1$s · %2$s besin</string>
+    <string name="mee0c1992b052">Uygulama güncellemesi: %1$s</string>
+    <string name="m2e282212c3f9">Veritabanı güncellemesi: %1$s</string>
+    <string name="mab36228547e3">Hedef %1$s kcal · eksik veri</string>
+    <string name="mce0cdcbe8dac">Hedef %1$s kcal</string>
+    <string name="mee7bb7a400b0">%1$s kayıt · eksik besin verisi</string>
+    <string name="mf04bb3a45043">%1$s kayıt</string>
+    <string name="mfb648b260587">Son eşitleme: %1$s</string>
+    <string name="m6df36ff072ac">Şimdi eşitle · %1$s bekliyor</string>
+    <string name="m3146ea1feb76">%1$s besin içe aktarıldı</string>
+    <string name="m43ce1a0e2b14">Miktar · %1$s</string>
+    <string name="mcdb25affadfd">Günlük miktar hedefi · %1$s</string>
+    <string name="m788a1ebf7caf">%1$s başına gram</string>
+    <string name="m48e9d038fd70">Ölçü birimi: %1$s</string>
+    <string name="m65936d002938">%1$s g / %2$s g</string>
+    <string name="m3fe7d2980c95">%1$s g · bugün</string>
+    <string name="m7b7059f019f5">%1$s g · %2$s</string>
+    <string name="m033f0f52a8f0">%1$s mg / %2$s mg</string>
+    <string name="mfefb359ed625">%1$s mg · bugün</string>
+    <string name="mbfde4f61c753">%1$s mg · %2$s</string>
+    <string name="m8e1a2ae3588f">%1$s ölçek / %2$s ölçek</string>
+    <string name="mb6bc29abfa5e">%1$s ölçek · bugün</string>
+    <string name="m3d8851f7a5a5">%1$s ölçek · %2$s</string>
+    <string name="m9e1c005dd520">%1$s kapsül / %2$s kapsül</string>
+    <string name="meaff10d47e32">%1$s kapsül · bugün</string>
+    <string name="m9a7344c48cd1">%1$s kapsül · %2$s</string>
+    <string name="m6a9f089c848b">%1$s tablet / %2$s tablet</string>
+    <string name="m8e56005e625c">%1$s tablet · bugün</string>
+    <string name="med113393c321">%1$s tablet · %2$s</string>
+    <string name="m935ea641ef04">%1$s ml / %2$s ml</string>
+    <string name="m255ec6d69ac1">%1$s ml · bugün</string>
+    <string name="mda1351420476">%1$s ml · %2$s</string>
+    <string name="m9208ce440bbe" formatted="false">Besin değerleri sonlu ve negatif olmayan sayılar olmalı</string>
+    <string name="m53818bd39c54" formatted="false">Gram cinsinden pozitif miktar gir</string>
+    <string name="mdc98d980fc3b" formatted="false">Çarpan pozitif olmalı</string>
+    <string name="m370f292ba08f" formatted="false">Pozitif miktar gir</string>
+    <string name="m8383e15b67e2" formatted="false">Ölçek ağırlığı pozitif olmalı</string>
+    <string name="m4a7957a5d67d" formatted="false">Miktar çok büyük</string>
+    <string name="m617967962bf6" formatted="false">Veritabanı zaten güncel</string>
+    <string name="m930b3ff212f8" formatted="false">Desteklenmeyen katalog şeması</string>
+    <string name="md7f9a74cc335" formatted="false">AI API modu yalnızca gönderdiğin açıklama ve fotoğrafı seçtiğin servise iletir. API anahtarları oturum belleğinde kalır. Yerel AI cihazında çalışır.</string>
+    <string name="m2de7d05d0217" formatted="false">AI çalışma ortamı lisansı</string>
+    <string name="me7fd0d752291" formatted="false">Ana ekran widget\'ları</string>
+    <string name="m0cb33735e08b" formatted="false">Günlük özet veya besin ekleme, AI ve kameraya kısayol ekle.</string>
+    <string name="m92ce26d6f3b9" formatted="false">Günlük özet widget\'ı ekle</string>
+    <string name="m55669312a3b9" formatted="false">Hızlı ekleme widget\'ı ekle</string>
+    <string name="m6120e78ec6a2" formatted="false">Ana ekrana basılı tut ve Widget\'lar → 8bitBites seç.</string>
+    <string name="m22a27527081c" formatted="false">AI ile öğün ekle</string>
+    <string name="mb52b36b7269f" formatted="false">Geri</string>
+    <string name="mfd1942665af9" formatted="false">Öğününü yaz veya bir fotoğraf seç.</string>
+    <string name="m72a3fb88fe94" formatted="false">Cihazda</string>
+    <string name="mcf678cab87dc" formatted="false">API anahtarı</string>
+    <string name="mac05dac63255" formatted="false">Yalnızca bu açıklama ve seçtiğin fotoğraf aşağıdaki servise gönderilir. Anahtarın uygulama kapanana kadar bellekte tutulur.</string>
+    <string name="mdbf41a416cc8" formatted="false">API adresi (HTTPS)</string>
+    <string name="mc7eb22a300df" formatted="false">Model kimliği</string>
+    <string name="md8191f443e4f" formatted="false">Fotoğraflar için görsel destekli bir model seç.</string>
+    <string name="m6819ed257e75" formatted="false">API anahtarın · yalnızca bu oturum</string>
+    <string name="mf380610e2d3d" formatted="false">Yerel model kur</string>
+    <string name="m4d1a3b82cabc" formatted="false">Hugging Face üzerinden desteklenen bir model indir veya .litertlm dosyası içe aktar. Fotoğraflar için metin ve fotoğraf destekli model seç. İşleme cihazında yapılır.</string>
+    <string name="me87d067d3391" formatted="false">Modellere göz at ve indir</string>
+    <string name="m0021f0825cb2" formatted="false">Model içe aktar</string>
+    <string name="me963907dac5c" formatted="false">Kaldır</string>
+    <string name="mf8dd3a3d3c7c" formatted="false">Uyumlu modeller</string>
+    <string name="m1d423d9bd694" formatted="false">Ne yedin?</string>
+    <string name="me28ceec0b06d" formatted="false">100 g peynir ve 2 dilim ekmek</string>
+    <string name="m7ebd5d4c919a" formatted="false">Fotoğraf çek</string>
+    <string name="m4a7eded8ed3a" formatted="false">Fotoğraf seç</string>
+    <string name="mc8f5eda8ace9" formatted="false">Fotoğrafı kaldır</string>
+    <string name="mf6819feed1b1" formatted="false">Seçilen öğün fotoğrafı</string>
+    <string name="m8c4f950f5f7e" formatted="false">Öğünü tanı</string>
+    <string name="me7465d8081dc" formatted="false">Öğün günlüğüne eklendi</string>
+    <string name="m2fa473d659c8" formatted="false">Günlüğe dön</string>
+    <string name="m086d1d9b8de4" formatted="false">Başka öğün ekle</string>
+    <string name="m6f92b7e4df2b" formatted="false">Kaydetmeden önce kontrol et</string>
+    <string name="m34606e4ff408" formatted="false">Doğru veritabanı yiyeceğini seç ve her miktarı kontrol et. AI tahminleri hatalı olabilir. Besin değerleri seçtiğin kayıttan hesaplanır.</string>
+    <string name="mb2473cc93b00" formatted="false">Tahmini miktar · lütfen kontrol et</string>
+    <string name="m94c2d72e6eb8" formatted="false">Gram cinsinden miktar</string>
+    <string name="me88e33334de6" formatted="false">Eşleşen yiyeceği bul</string>
+    <string name="m17687166b442" formatted="false">Enerji bilinmiyor</string>
+    <string name="m2c65275ae0b0" formatted="false">protein</string>
+    <string name="m38dd138ea247" formatted="false">Yiyeceği değiştir</string>
+    <string name="mcf35d5c3346a" formatted="false">Eşleşme yok. Daha kısa bir ad ara veya ambalaj etiketinden yiyecek oluştur.</string>
+    <string name="m0de52d27855f" formatted="false">Etiketten yiyecek oluştur</string>
+    <string name="m76ecba1f27d2" formatted="false">Kaydı kaldır</string>
+    <string name="me854d55de7c8" formatted="false">Onayla ve öğünü kaydet</string>
+    <string name="mb6fffc5ab71c" formatted="false">Yeniden başla</string>
+    <string name="m6b5d48471464" formatted="false">Cihazdaki modeller</string>
+    <string name="m16a31ca45138" formatted="false">Hugging Face üzerinden indir</string>
+    <string name="mb1771bd118fd" formatted="false">Desteklenen LiteRT-LM dosyaları aşağıda. Ekrandan ayrılsan veya uygulama arka plana geçse de indirme sürer. Duraklatıp devam edebilirsin. Android sistem koşullarına göre işi duraklatabilir.</string>
+    <string name="m7c8d374ba569" formatted="false">Yalnızca tarifesiz ağ</string>
+    <string name="me812205f2373" formatted="false">Wi-Fi veya başka bir tarifesiz bağlantı</string>
+    <string name="m6f718f8cdd7b" formatted="false">Hugging Face okuma anahtarı (isteğe bağlı)</string>
+    <string name="m3daf7fd84237" formatted="false">Qwen için anahtar gerekmez. Gemma için model sayfasındaki erişim koşullarını kabul et ve o hesaptan bir okuma anahtarı kullan. Arka plan indirme anahtarı cihazda şifrelenir; indirme bitince veya silinince kaldırılır.</string>
+    <string name="m6f267a2a1c27" formatted="false">Metin + fotoğraf</string>
+    <string name="m9ccbd022505b" formatted="false">Yalnızca metin</string>
+    <string name="m9122d816c1f4" formatted="false">Model sayfası ve lisansı</string>
+    <string name="m89d03d92038b" formatted="false">Seçilen ağ bekleniyor</string>
+    <string name="m8586e4fb8198" formatted="false">Devam etmek için bekleniyor</string>
+    <string name="m084626a37d6a" formatted="false">Model doğrulanıyor</string>
+    <string name="mc7dfb6f1d9c5" formatted="false">Duraklatıldı</string>
+    <string name="m451dda35fc50" formatted="false">İndirme kontrol gerektiriyor</string>
+    <string name="m9b4592f9ae45" formatted="false">İndiriliyor</string>
+    <string name="m9a976fc228b6" formatted="false">Seçili</string>
+    <string name="m8d558ce2b2a2" formatted="false">Modeli kullan</string>
+    <string name="m781961bc81c2" formatted="false">Duraklat</string>
+    <string name="mb3bd0b5a7049" formatted="false">Devam et</string>
+    <string name="ma479c9c34e87" formatted="false">İndir</string>
+    <string name="m36fff63ccbcd" formatted="false">Vazgeç ve sil</string>
+    <string name="ma6223f3031a8" formatted="false">İçe aktarılan model · yetenekler dosyaya bağlıdır</string>
+    <string name="m1919d722d8a0" formatted="false">İçe aktarılan modeli kullan</string>
+    <string name="md0343323ecfc" formatted="false">İndirilen modeller kullanılmadan önce doğrulanır. Model lisansları uygulama lisansından ayrıdır.</string>
+    <string name="m8a12d7b11a65" formatted="false">SQLite güncellemesi içe aktar</string>
+    <string name="mc1c9cbe6993c" formatted="false">Profilin</string>
+    <string name="m33f385bb3b7f" formatted="false">Profil fotoğrafı</string>
+    <string name="me976bd16c14d" formatted="false">Profil fotoğrafı seç</string>
+    <string name="mce3661a25546" formatted="false">Bu cihazda saklanır</string>
+    <string name="m42513ed0ee2b" formatted="false">Öğününün fotoğrafını çek</string>
+    <string name="m39e31f29813a" formatted="false">Tabağın tamamını kadraja al. Daha iyi sonuç için açıklamaya miktarları ekle.</string>
+    <string name="m725f60705b23" formatted="false">Burada fotoğraf çekmek için kamera izni ver.</string>
+    <string name="m1dfb1b870feb" formatted="false">Kameraya izin ver</string>
+    <string name="m07b3e447db02" formatted="false">Favoriler</string>
+    <string name="m560040c54a3b" formatted="false">AI</string>
+    <string name="mc7f73bb54d92" formatted="false">Ayarlar</string>
+    <string name="mc927250a71a3" formatted="false">Günlük özetin</string>
+    <string name="md87f47b47e4d" formatted="false">Özet</string>
+    <string name="mde9b1be49dae" formatted="false">Su</string>
+    <string name="m745b5a481804" formatted="false">Bardak</string>
+    <string name="m3b8ac6c75a92" formatted="false">Şişe</string>
+    <string name="md60f8f72a3ac" formatted="false">Su ekle</string>
+    <string name="m550e270078be" formatted="false">İçim miktarı</string>
+    <string name="m43dc8532f7e5" formatted="false">Miktar</string>
+    <string name="me212cb5c0dff" formatted="false">İçince + düğmesine bas</string>
+    <string name="mf7219236a0f8" formatted="false">Özel miktar</string>
+    <string name="m22b47caca649" formatted="false">Son içimi geri al</string>
+    <string name="mbe1f2f3ec867" formatted="false">Hedefe ulaşıldı</string>
+    <string name="m28ff3e29db2b" formatted="false">Bir dokunuş bu miktarı ekler. 700 ml ve üzeri şişeyle gösterilir.</string>
+    <string name="m9869e506c38f" formatted="false">Aç</string>
+    <string name="m9cf188d3a677" formatted="false">Kapat</string>
+    <string name="mb40a9b0a3c2a" formatted="false">Protein tozu</string>
+    <string name="med961bb52094" formatted="false">Kreatin</string>
+    <string name="m59b99c7c1ec4" formatted="false">Diğer takviye</string>
+    <string name="mb445e5e5893b" formatted="false">Bu bir takviye</string>
+    <string name="m2176fc51a216" formatted="false">Bu öğünde kalır ve Takviyeler bölümünde de görünür. Besin değerleri bir kez sayılır.</string>
+    <string name="me237051ba3d7" formatted="false">Toz miktarı ve alınan protein ayrı takip edilir.</string>
+    <string name="mffdd1f1a2857" formatted="false">Öğünler</string>
+    <string name="m413347c6a38c" formatted="false">Kayıt işlemleri</string>
+    <string name="m48d8c627be3c" formatted="false">Hedefler</string>
+    <string name="maddbe59018d4" formatted="false">Günlük hedef · g</string>
+    <string name="m22aba062f0f1" formatted="false">Favorilerde ara</string>
+    <string name="m4914d44ee6e4" formatted="false">Favorilere ekle</string>
+    <string name="m8b9da771965f" formatted="false">Favorilerden çıkar</string>
+    <string name="m263460b7f8bc" formatted="false">Hızlı erişmek için besinlere yıldız ekle.</string>
+    <string name="mfed2d253bf56" formatted="false">Eşleşen besin yok. Başka bir ad ara veya besin oluştur.</string>
+    <string name="m86c0a35ec883" formatted="false">Diğer seçenekler</string>
+    <string name="mff9f1ff32120" formatted="false">Yaş</string>
+    <string name="m974df3c33497" formatted="false">Kilo · kg</string>
+    <string name="mb0ea4993d34c" formatted="false">Boy · cm</string>
+    <string name="me301dd6062f7" formatted="false">Cinsiyet</string>
+    <string name="m3f3a489c72de" formatted="false">Erkek</string>
+    <string name="mb7c17e97d3d6" formatted="false">Kadın</string>
+    <string name="m93039e609d94" formatted="false">Belirtilmedi</string>
+    <string name="mf74b47eb9ba9" formatted="false">Beslenme hedefleri</string>
+    <string name="m8c5e46ecb084" formatted="false">İsteğe bağlı hedefler. Yalnızca istediklerini aç.</string>
+    <string name="m23bc7757bb51" formatted="false">Protein hedefi</string>
+    <string name="mf077aa7e558d" formatted="false">Karbonhidrat hedefi</string>
+    <string name="m3364edaa31db" formatted="false">Yağ hedefi</string>
+    <string name="m725dff31518f" formatted="false">Protein tozu hedefi · g</string>
+    <string name="m1a22393dc154" formatted="false">Kreatin hedefi · g</string>
+    <string name="m7937752aa71a" formatted="false">Hedefi kaldırmak için alanı boş bırak.</string>
+    <string name="mcc48288a51d2" formatted="false">Hedefleri kaydet</string>
+    <string name="m706e8eabd4f0" formatted="false">Su takibini göster</string>
+    <string name="m3e79f290c496" formatted="false">Günlük su hedefi · ml</string>
+    <string name="m5713af352da8" formatted="false">Önerilen başlangıç hedefi</string>
+    <string name="m0478f23956e9" formatted="false">Önerilen hedefi kullan</string>
+    <string name="mb0f9cc869839" formatted="false">Bu öneri hakkında</string>
+    <string name="m8db9d3c93bc7" formatted="false">Su hedefini kaydet</string>
+    <string name="m9c6130e73a85" formatted="false">Takviyeleri göster</string>
+    <string name="mdd7d30049456" formatted="false">Geçmişi göster</string>
+    <string name="mefc007a393f6" formatted="false">Kaydet</string>
+    <string name="m41435a2ebe1d" formatted="false">Yetişkin su önerisi için yaş ve cinsiyet gir. Kendi hedefini her zaman seçebilirsin.</string>
+    <string name="m70c97e49902d" formatted="false">Seçtiğin hedef geçerlidir. Hedefe ulaşmak yeni içim eklemeni engellemez.</string>
+    <string name="m6cca7b494136" formatted="false">Yetişkin referansı: EFSA toplam su değerlerinden, %20\'sinin besinlerden geldiği varsayılarak içecekler için erkeklerde 2,0 L, kadınlarda 1,6 L. Bu kişisel reçete değil, başlangıç referansıdır.</string>
+    <string name="m3d86af08cf5c" formatted="false">Kilo, boy, kalori ve takviye gramı tek başına kişisel su ihtiyacını belirleyemez. Kreatin veya protein tozu için otomatik ek su miktarı uygulanmaz. Shake\'e katılan suyu gerçek hacmiyle kaydet.</string>
+</resources>

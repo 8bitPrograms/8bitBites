@@ -1,0 +1,134 @@
+[
+  {
+    "source": "App %1$s",
+    "pattern": "^App\\ (.+?)$"
+  },
+  {
+    "source": "Database %1$s · %2$s foods",
+    "pattern": "^Database\\ (.+?)\\ ·\\ (.+?)\\ foods$"
+  },
+  {
+    "source": "App update available: %1$s",
+    "pattern": "^App\\ update\\ available:\\ (.+?)$"
+  },
+  {
+    "source": "Database update available: %1$s",
+    "pattern": "^Database\\ update\\ available:\\ (.+?)$"
+  },
+  {
+    "source": "Target %1$s kcal · incomplete data",
+    "pattern": "^Target\\ (.+?)\\ kcal\\ ·\\ incomplete\\ data$"
+  },
+  {
+    "source": "Target %1$s kcal",
+    "pattern": "^Target\\ (.+?)\\ kcal$"
+  },
+  {
+    "source": "%1$s entries · incomplete nutrient data",
+    "pattern": "^(.+?)\\ entries\\ ·\\ incomplete\\ nutrient\\ data$"
+  },
+  {
+    "source": "%1$s entries",
+    "pattern": "^(.+?)\\ entries$"
+  },
+  {
+    "source": "Last sync: %1$s",
+    "pattern": "^Last\\ sync:\\ (.+?)$"
+  },
+  {
+    "source": "Sync now · %1$s pending",
+    "pattern": "^Sync\\ now\\ ·\\ (.+?)\\ pending$"
+  },
+  {
+    "source": "Imported %1$s foods",
+    "pattern": "^Imported\\ (.+?)\\ foods$"
+  },
+  {
+    "source": "Amount · %1$s",
+    "pattern": "^Amount\\ ·\\ (.+?)$"
+  },
+  {
+    "source": "Daily amount target · %1$s",
+    "pattern": "^Daily\\ amount\\ target\\ ·\\ (.+?)$"
+  },
+  {
+    "source": "Grams per %1$s",
+    "pattern": "^Grams\\ per\\ (.+?)$"
+  },
+  {
+    "source": "Measure in %1$s",
+    "pattern": "^Measure\\ in\\ (.+?)$"
+  },
+  {
+    "source": "%1$s g / %2$s g",
+    "pattern": "^(.+?)\\ g\\ /\\ (.+?)\\ g$"
+  },
+  {
+    "source": "%1$s g today",
+    "pattern": "^(.+?)\\ g\\ today$"
+  },
+  {
+    "source": "%1$s g · %2$s",
+    "pattern": "^(.+?)\\ g\\ ·\\ (.+?)$"
+  },
+  {
+    "source": "%1$s mg / %2$s mg",
+    "pattern": "^(.+?)\\ mg\\ /\\ (.+?)\\ mg$"
+  },
+  {
+    "source": "%1$s mg today",
+    "pattern": "^(.+?)\\ mg\\ today$"
+  },
+  {
+    "source": "%1$s mg · %2$s",
+    "pattern": "^(.+?)\\ mg\\ ·\\ (.+?)$"
+  },
+  {
+    "source": "%1$s scoop / %2$s scoop",
+    "pattern": "^(.+?)\\ scoop\\ /\\ (.+?)\\ scoop$"
+  },
+  {
+    "source": "%1$s scoop today",
+    "pattern": "^(.+?)\\ scoop\\ today$"
+  },
+  {
+    "source": "%1$s scoop · %2$s",
+    "pattern": "^(.+?)\\ scoop\\ ·\\ (.+?)$"
+  },
+  {
+    "source": "%1$s capsule / %2$s capsule",
+    "pattern": "^(.+?)\\ capsule\\ /\\ (.+?)\\ capsule$"
+  },
+  {
+    "source": "%1$s capsule today",
+    "pattern": "^(.+?)\\ capsule\\ today$"
+  },
+  {
+    "source": "%1$s capsule · %2$s",
+    "pattern": "^(.+?)\\ capsule\\ ·\\ (.+?)$"
+  },
+  {
+    "source": "%1$s tablet / %2$s tablet",
+    "pattern": "^(.+?)\\ tablet\\ /\\ (.+?)\\ tablet$"
+  },
+  {
+    "source": "%1$s tablet today",
+    "pattern": "^(.+?)\\ tablet\\ today$"
+  },
+  {
+    "source": "%1$s tablet · %2$s",
+    "pattern": "^(.+?)\\ tablet\\ ·\\ (.+?)$"
+  },
+  {
+    "source": "%1$s ml / %2$s ml",
+    "pattern": "^(.+?)\\ ml\\ /\\ (.+?)\\ ml$"
+  },
+  {
+    "source": "%1$s ml today",
+    "pattern": "^(.+?)\\ ml\\ today$"
+  },
+  {
+    "source": "%1$s ml · %2$s",
+    "pattern": "^(.+?)\\ ml\\ ·\\ (.+?)$"
+  }
+]

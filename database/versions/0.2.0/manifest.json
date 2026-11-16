@@ -1,0 +1,28 @@
+{
+  "version": "0.2.0",
+  "schema": 1,
+  "minimumAppCode": 2,
+  "highlights": true,
+  "notes": {
+    "en": [
+      "Expanded food catalogue with FİLE, ŞOK and CarrefourSA products.",
+      "Additional source and quality information retained for review."
+    ],
+    "tr": [
+      "FİLE, ŞOK ve CarrefourSA ürünleriyle genişletilmiş besin kataloğu.",
+      "Kaynak ve kalite bilgileri inceleme için korundu."
+    ]
+  },
+  "foodCount": 636,
+  "excluded": {
+    "Not a mass-based label": 845,
+    "No reported nutrients": 28,
+    "Missing serving basis": 7
+  },
+  "duplicateRows": 5,
+  "noticeVersion": 1,
+  "formatVersion": 1,
+  "file": "versions/0.2.0/foods.sqlite",
+  "bytes": 6381568,
+  "sha256": "1d88a37c71d0216dad63cb7803a59b27acfb0fbca41a3284f31a960c1900f0ab"
+}

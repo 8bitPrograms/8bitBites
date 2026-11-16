@@ -1,0 +1,310 @@
+<resources>
+    <string name="m24345a14377f" formatted="false">今日</string>
+    <string name="mbd32ee72cd51" formatted="false">食品</string>
+    <string name="m7c63edf9a185" formatted="false">サプリメント</string>
+    <string name="m716f3fa8e1e5" formatted="false">推移</string>
+    <string name="m905cb326c779" formatted="false">あなた</string>
+    <string name="m899088f98f70" formatted="false">食品を追加</string>
+    <string name="m8e2bf473b223" formatted="false">食品を登録</string>
+    <string name="m83ebed6c6e65" formatted="false">サプリメントを追加</string>
+    <string name="m04be025093f8" formatted="false">プライバシーと情報</string>
+    <string name="me2b6b0a1d0bc" formatted="false">前の日</string>
+    <string name="m38f859dde041" formatted="false">次の日</string>
+    <string name="m9b9355172fdb" formatted="false">摂取エネルギー</string>
+    <string name="m26ed353d0b23" formatted="false">たんぱく質</string>
+    <string name="md1b71194516a" formatted="false">炭水化物</string>
+    <string name="m7b71bd0c3d76" formatted="false">脂質</string>
+    <string name="m364653cd2a4a" formatted="false">朝食</string>
+    <string name="m585ecb76103a" formatted="false">昼食</string>
+    <string name="m8cf98a54654a" formatted="false">夕食</string>
+    <string name="m071a0788f410" formatted="false">間食</string>
+    <string name="mf1f0020a5c0b" formatted="false">食品を探す</string>
+    <string name="m5301648dcf6b" formatted="false">編集</string>
+    <string name="m659eba121958" formatted="false">もう一度追加</string>
+    <string name="mf6fdbe48dc54" formatted="false">削除</string>
+    <string name="mfcaf0ba31daa" formatted="false">日記はまだ空です。カタログの食品を追加するか、自分で登録してください。</string>
+    <string name="meb4d811e37f6" formatted="false">食品を検索</string>
+    <string name="md303c0aa6098" formatted="false">食品を登録 · 100 g当たり</string>
+    <string name="m34e5a9d3830a" formatted="false">食品名</string>
+    <string name="me74b9704dacd" formatted="false">ブランド（任意）</string>
+    <string name="m885136d6bb8e" formatted="false">不明な栄養素は空欄にしてください。</string>
+    <string name="m89d7b91058bb" formatted="false">エネルギー · kcal</string>
+    <string name="m69f0e5eb3536" formatted="false">たんぱく質 · g</string>
+    <string name="me22f3b502a67" formatted="false">炭水化物 · g</string>
+    <string name="ma143ac86badf" formatted="false">脂質 · g</string>
+    <string name="mdd885ec43949" formatted="false">食品を保存</string>
+    <string name="m4f4ce5bae41f" formatted="false">記録を保存</string>
+    <string name="m77dfd2135f4d" formatted="false">キャンセル</string>
+    <string name="m9fc87e7d568d" formatted="false">量を編集</string>
+    <string name="md130fcc4a6da" formatted="false">重量 · g</string>
+    <string name="mc9eb90e04e6d" formatted="false">カタログをインポート</string>
+    <string name="mf8be01f2dc39" formatted="false">過去7日間</string>
+    <string name="m58a927b3bc04" formatted="false">プロフィール</string>
+    <string name="m23d1974a7536" formatted="false">表示名（任意）</string>
+    <string name="m4ac413113dfc" formatted="false">1日のエネルギー目標 · kcal</string>
+    <string name="mf597c0e8201d" formatted="false">プロフィールを保存</string>
+    <string name="m41def7a0febe" formatted="false">外観</string>
+    <string name="m2a93cf6cb4a8" formatted="false">Material You · 壁紙の色</string>
+    <string name="mbc0792d8dc81" formatted="false">システム</string>
+    <string name="ma36ef8aba229" formatted="false">ライト</string>
+    <string name="mae1ef0143294" formatted="false">ダーク</string>
+    <string name="m475ff1ba630b" formatted="false">ここで記録した栄養データを共有できます。権限は任意で、日記はオフラインでも使えます。</string>
+    <string name="m105a257fd289" formatted="false">栄養データの権限を許可</string>
+    <string name="m084644b229ca" formatted="false">自動同期</string>
+    <string name="m3757c92c3728" formatted="false">記録後に同期し、毎時再試行</string>
+    <string name="maa2d9ed24927" formatted="false">Androidの設定でHealth Connectをインストールまたは更新してください</string>
+    <string name="m8b02f3de3906" formatted="false">未接続</string>
+    <string name="m82fb1d5144a8" formatted="false">最新です</string>
+    <string name="mba03031c5936" formatted="false">Health Connectを利用できないか、更新が必要です</string>
+    <string name="md6b08b733c5c" formatted="false">栄養データの権限が必要です</string>
+    <string name="m3255dba5db1f" formatted="false">栄養データの権限が取り消されました</string>
+    <string name="m2dcdb46ec1eb" formatted="false">同期できませんでした。記録は待機中です</string>
+    <string name="md3907bccaf45" formatted="false">テーマのクレジット</string>
+    <string name="mbbfa773e5a63" formatted="false">閉じる</string>
+    <string name="m2e02623966f9" formatted="false">続ける</string>
+    <string name="m369702420149" formatted="false">更新内容</string>
+    <string name="mb5ae830d5a5d" formatted="false">オープンソース · GPL-3.0-or-later。テーマには元のライセンス表記を保持しています。</string>
+    <string name="ma4cb5026dd26" formatted="false">日記とプロフィールは端末内に保存します。更新確認にGitHubへ接続します。食品サービスへの検索は指示したときだけ行います。アカウントや利用解析は不要です。アンインストールすると端末内のデータは削除されます。</string>
+    <string name="m4a53521c129b" formatted="false">Health Connectとの共有は任意で、栄養の記録のみ書き込みます。編集と削除は同期が成功するまで待機します。権限とバックグラウンド実行はAndroidが管理します。</string>
+    <string name="mbc41ab0b1a94" formatted="false">摂取量を記録</string>
+    <string name="mb031e71a9714" formatted="false">1日の目標</string>
+    <string name="m6bd8a9a4c9b9" formatted="false">摂取履歴</string>
+    <string name="m527abbd87c35" formatted="false">摂取量を編集</string>
+    <string name="mdc1ca05cf232" formatted="false">栄養は食事日記に1回だけ記録されます。</string>
+    <string name="mbef84c80fa18" formatted="false">摂取量を更新</string>
+    <string name="mf9fcebd51383" formatted="false">目標を解除するには空欄にしてください</string>
+    <string name="mfa5df149550b" formatted="false">目標を保存</string>
+    <string name="m4eaa406251ca" formatted="false">スクープ</string>
+    <string name="m073c5dc664c2" formatted="false">カプセル</string>
+    <string name="m6f4d3f36ea02" formatted="false">錠</string>
+    <string name="mbc7819b34ff8" formatted="false">不明</string>
+    <string name="m89b86ab0e66f" formatted="false">言語</string>
+    <string name="mc76d18079a07" formatted="false">アップデート</string>
+    <string name="mb0794025de85" formatted="false">アプリを再インストールせずに食品データベースを更新できます。</string>
+    <string name="mdbb9d521810e" formatted="false">更新を確認中…</string>
+    <string name="m736b9062b336" formatted="false">更新を確認</string>
+    <string name="m87ed9170be21" formatted="false">一部の更新を確認できませんでした。オフラインのデータは引き続き使えます。</string>
+    <string name="mb45ea6048892" formatted="false">アプリのリリースを開く</string>
+    <string name="mc38c3903da3e" formatted="false">このデータベースをインストールする前にアプリを更新してください。</string>
+    <string name="mfabfef0bf5ca" formatted="false">データベースを更新中…</string>
+    <string name="m6fa074ab6809" formatted="false">データベースのみ更新</string>
+    <string name="m59924e6a2452" formatted="false">データベースの検証に失敗しました。以前のカタログを保持しています。</string>
+    <string name="mc818f4297c8d" formatted="false">データベースの精度と出典</string>
+    <string name="mbac64a013634" formatted="false">食品データについて</string>
+    <string name="m318804e47c16" formatted="false">端末内の参考訳</string>
+    <string name="mdf65659012e9" formatted="false">オンライン検索</string>
+    <string name="m1a6a5ba8c23d" formatted="false">検索中…</string>
+    <string name="meabbb14c5def" formatted="false">USDA APIキー · このセッションのみ</string>
+    <string name="m7c70e003bac0" formatted="false">最初に端末内を検索します。オンライン検索を押したときだけ外部に問い合わせます。</string>
+    <string name="m6da13addb000" formatted="false">出典</string>
+    <string name="m6ed264fd5623" formatted="false">外部検索が完了しました</string>
+    <string name="m6bc66688f141" formatted="false">食品データへの問い合わせに失敗しました</string>
+    <string name="mdca0f09f861e" formatted="false">2文字以上入力してください</string>
+    <string name="mfd29e9a5752a" formatted="false">数秒待ってからもう一度検索してください</string>
+    <string name="mc1cb0759dcab" formatted="false">USDA APIキーを入力してください</string>
+    <string name="mff52bbcd3f3e" formatted="false">食品を保存しました</string>
+    <string name="ma51c90f7815a" formatted="false">食品名を入力してください</string>
+    <string name="m67618f27de68" formatted="false">日記に追加しました</string>
+    <string name="m53550cff7439" formatted="false">記録を更新しました</string>
+    <string name="m313945aa03a8" formatted="false">記録を削除しました。Health Connectの削除は待機中です</string>
+    <string name="md958362c15d5" formatted="false">食事の記録をもう一度追加しました</string>
+    <string name="m19df932c7271" formatted="false">サプリメント名を入力してください</string>
+    <string name="m7800924bf9ae" formatted="false">正の目標値を入力するか空欄にしてください</string>
+    <string name="m4a6506eb1c31" formatted="false">栄養を計算するには1回分の重さを入力してください</string>
+    <string name="m29027eff18a7" formatted="false">対応する食品が見つかりませんでした</string>
+    <string name="m259a0703ff43" formatted="false">サプリメントを保存しました</string>
+    <string name="m29fb72fc0920" formatted="false">サプリメントの摂取を記録しました</string>
+    <string name="m6576bba4386c" formatted="false">サプリメントの摂取量を更新しました</string>
+    <string name="m2e25638d7d19" formatted="false">サプリメントの摂取を削除しました</string>
+    <string name="m2f1367d63a3d" formatted="false">操作を完了できませんでした</string>
+    <string name="m89a5db0f8e82" formatted="false">カタログを開けませんでした</string>
+    <string name="m1aac3f49995f" formatted="false">カタログは10 MB未満にしてください</string>
+    <string name="mb47962087115" formatted="false">1回にインポートできる食品は20,000件までです</string>
+    <string name="m60f47f5b37a8" formatted="false">カタログに重複した食品IDがあります</string>
+    <string name="mdebb9d283a41" formatted="false">各食品には名前空間付きID、名前、出典が必要です</string>
+    <string name="m98be4a1f6da8" formatted="false">1回分の重さが必要です</string>
+    <string name="m07eb4b8a56a3">アプリ %1$s</string>
+    <string name="md7ad5588416f">データベース %1$s · %2$s件</string>
+    <string name="mee0c1992b052">アプリの更新があります：%1$s</string>
+    <string name="m2e282212c3f9">データベースの更新があります：%1$s</string>
+    <string name="mab36228547e3">目標 %1$s kcal · データ不足</string>
+    <string name="mce0cdcbe8dac">目標 %1$s kcal</string>
+    <string name="mee7bb7a400b0">%1$s件 · 栄養データ不足</string>
+    <string name="mf04bb3a45043">%1$s件</string>
+    <string name="mfb648b260587">最終同期：%1$s</string>
+    <string name="m6df36ff072ac">今すぐ同期 · %1$s件待機中</string>
+    <string name="m3146ea1feb76">食品を%1$s件インポートしました</string>
+    <string name="m43ce1a0e2b14">量 · %1$s</string>
+    <string name="mcdb25affadfd">1日の量の目標 · %1$s</string>
+    <string name="m788a1ebf7caf">%1$s当たりのグラム数</string>
+    <string name="m48e9d038fd70">単位：%1$s</string>
+    <string name="m65936d002938">%1$s g / %2$s g</string>
+    <string name="m3fe7d2980c95">%1$s g · 今日</string>
+    <string name="m7b7059f019f5">%1$s g · %2$s</string>
+    <string name="m033f0f52a8f0">%1$s mg / %2$s mg</string>
+    <string name="mfefb359ed625">%1$s mg · 今日</string>
+    <string name="mbfde4f61c753">%1$s mg · %2$s</string>
+    <string name="m8e1a2ae3588f">%1$s スクープ / %2$s スクープ</string>
+    <string name="mb6bc29abfa5e">%1$s スクープ · 今日</string>
+    <string name="m3d8851f7a5a5">%1$s スクープ · %2$s</string>
+    <string name="m9e1c005dd520">%1$s カプセル / %2$s カプセル</string>
+    <string name="meaff10d47e32">%1$s カプセル · 今日</string>
+    <string name="m9a7344c48cd1">%1$s カプセル · %2$s</string>
+    <string name="m6a9f089c848b">%1$s 錠 / %2$s 錠</string>
+    <string name="m8e56005e625c">%1$s 錠 · 今日</string>
+    <string name="med113393c321">%1$s 錠 · %2$s</string>
+    <string name="m935ea641ef04">%1$s ml / %2$s ml</string>
+    <string name="m255ec6d69ac1">%1$s ml · 今日</string>
+    <string name="mda1351420476">%1$s ml · %2$s</string>
+    <string name="m9208ce440bbe" formatted="false">栄養値は有限の0以上の数にしてください</string>
+    <string name="m53818bd39c54" formatted="false">グラム単位で正の重さを入力してください</string>
+    <string name="mdc98d980fc3b" formatted="false">倍率は正の数にしてください</string>
+    <string name="m370f292ba08f" formatted="false">正の摂取量を入力してください</string>
+    <string name="m8383e15b67e2" formatted="false">1回分の重さは正の数にしてください</string>
+    <string name="m4a7957a5d67d" formatted="false">摂取量が大きすぎます</string>
+    <string name="m617967962bf6" formatted="false">データベースはすでに最新です</string>
+    <string name="m930b3ff212f8" formatted="false">このカタログ形式には対応していません</string>
+    <string name="md7f9a74cc335" formatted="false">APIモードは送信した説明と写真のみを選んだサービスへ送ります。APIキーはセッションのメモリ内に保持します。ローカルAIは端末内で動作します。</string>
+    <string name="m2de7d05d0217" formatted="false">AIランタイムのライセンス</string>
+    <string name="me7fd0d752291" formatted="false">ホーム画面ウィジェット</string>
+    <string name="m0cb33735e08b" formatted="false">1日の概要や、食品追加・AI・カメラへのショートカットを追加できます。</string>
+    <string name="m92ce26d6f3b9" formatted="false">1日の概要ウィジェットを追加</string>
+    <string name="m55669312a3b9" formatted="false">クイック追加ウィジェットを追加</string>
+    <string name="m6120e78ec6a2" formatted="false">ホーム画面を長押しし、ウィジェット → 8bitBitesを選んでください。</string>
+    <string name="m22a27527081c" formatted="false">AIで食事を記録</string>
+    <string name="mb52b36b7269f" formatted="false">戻る</string>
+    <string name="mfd1942665af9" formatted="false">食事の内容を入力するか写真を選んでください。</string>
+    <string name="m72a3fb88fe94" formatted="false">端末内</string>
+    <string name="mcf678cab87dc" formatted="false">APIキー</string>
+    <string name="mac05dac63255" formatted="false">この説明と選んだ写真だけを下記のサービスに送信します。キーはアプリを閉じるまでメモリ内に保持します。</string>
+    <string name="mdbf41a416cc8" formatted="false">APIのベースURL（HTTPS）</string>
+    <string name="mc7eb22a300df" formatted="false">モデルID</string>
+    <string name="md8191f443e4f" formatted="false">写真には画像対応モデルを選んでください。</string>
+    <string name="m6819ed257e75" formatted="false">APIキー · このセッションのみ</string>
+    <string name="mf380610e2d3d" formatted="false">ローカルモデルを設定</string>
+    <string name="m4d1a3b82cabc" formatted="false">Hugging Faceから対応モデルをダウンロードするか、.litertlmファイルを読み込んでください。写真にはテキスト・画像対応モデルを選びます。処理は端末内で行います。</string>
+    <string name="me87d067d3391" formatted="false">モデルを探してダウンロード</string>
+    <string name="m0021f0825cb2" formatted="false">モデルを読み込む</string>
+    <string name="me963907dac5c" formatted="false">削除</string>
+    <string name="mf8dd3a3d3c7c" formatted="false">対応モデル</string>
+    <string name="m1d423d9bd694" formatted="false">何を食べましたか？</string>
+    <string name="me28ceec0b06d" formatted="false">チーズ100 gとパン2枚</string>
+    <string name="m7ebd5d4c919a" formatted="false">写真を撮る</string>
+    <string name="m4a7eded8ed3a" formatted="false">写真を選ぶ</string>
+    <string name="mc8f5eda8ace9" formatted="false">写真を削除</string>
+    <string name="mf6819feed1b1" formatted="false">選択した食事の写真</string>
+    <string name="m8c4f950f5f7e" formatted="false">食事を解析</string>
+    <string name="me7465d8081dc" formatted="false">食事を日記に追加しました</string>
+    <string name="m2fa473d659c8" formatted="false">日記に戻る</string>
+    <string name="m086d1d9b8de4" formatted="false">別の食事を追加</string>
+    <string name="m6f92b7e4df2b" formatted="false">保存前に確認</string>
+    <string name="m34606e4ff408" formatted="false">対応する食品データを選び、各重量を確認してください。AIの推定には誤差があります。栄養値は選んだ食品データから計算します。</string>
+    <string name="mb2473cc93b00" formatted="false">推定重量 · 確認してください</string>
+    <string name="m94c2d72e6eb8" formatted="false">重さ（グラム）</string>
+    <string name="me88e33334de6" formatted="false">対応する食品を探す</string>
+    <string name="m17687166b442" formatted="false">エネルギー不明</string>
+    <string name="m2c65275ae0b0" formatted="false">たんぱく質</string>
+    <string name="m38dd138ea247" formatted="false">食品を変更</string>
+    <string name="mcf35d5c3346a" formatted="false">一致する食品がありません。簡単な名前で検索するか、ラベルを基に登録してください。</string>
+    <string name="m0de52d27855f" formatted="false">ラベルから食品を登録</string>
+    <string name="m76ecba1f27d2" formatted="false">項目を削除</string>
+    <string name="me854d55de7c8" formatted="false">確認して食事を保存</string>
+    <string name="mb6fffc5ab71c" formatted="false">最初からやり直す</string>
+    <string name="m6b5d48471464" formatted="false">端末内のモデル</string>
+    <string name="m16a31ca45138" formatted="false">Hugging Faceからダウンロード</string>
+    <string name="mb1771bd118fd" formatted="false">対応するLiteRT-LMファイルを以下に表示します。画面を離れたりバックグラウンドに移ってもダウンロードは続きます。一時停止・再開が可能です。Androidの制限で停止する場合があります。</string>
+    <string name="m7c8d374ba569" formatted="false">従量制でない回線のみ</string>
+    <string name="me812205f2373" formatted="false">Wi-Fiなど従量制でない回線</string>
+    <string name="m6f718f8cdd7b" formatted="false">Hugging Face読み取りトークン（任意）</string>
+    <string name="m3daf7fd84237" formatted="false">Qwenはトークン不要です。Gemmaはモデルページで利用条件に同意し、そのアカウントの読み取りトークンを使用してください。バックグラウンド用トークンは端末内で暗号化し、完了または削除後に消去します。</string>
+    <string name="m6f267a2a1c27" formatted="false">テキスト＋写真</string>
+    <string name="m9ccbd022505b" formatted="false">テキストのみ</string>
+    <string name="m9122d816c1f4" formatted="false">モデルページとライセンス</string>
+    <string name="m89d03d92038b" formatted="false">選択した回線を待機中</string>
+    <string name="m8586e4fb8198" formatted="false">再開待機中</string>
+    <string name="m084626a37d6a" formatted="false">モデルを検証中</string>
+    <string name="mc7dfb6f1d9c5" formatted="false">一時停止中</string>
+    <string name="m451dda35fc50" formatted="false">ダウンロードの確認が必要です</string>
+    <string name="m9b4592f9ae45" formatted="false">ダウンロード中</string>
+    <string name="m9a976fc228b6" formatted="false">選択中</string>
+    <string name="m8d558ce2b2a2" formatted="false">このモデルを使う</string>
+    <string name="m781961bc81c2" formatted="false">一時停止</string>
+    <string name="mb3bd0b5a7049" formatted="false">再開</string>
+    <string name="ma479c9c34e87" formatted="false">ダウンロード</string>
+    <string name="m36fff63ccbcd" formatted="false">破棄</string>
+    <string name="ma6223f3031a8" formatted="false">読み込み済みモデル · 対応機能はファイルによります</string>
+    <string name="m1919d722d8a0" formatted="false">読み込んだモデルを使う</string>
+    <string name="md0343323ecfc" formatted="false">ダウンロードは使用前に検証します。モデルのライセンスはアプリとは別です。</string>
+    <string name="m8a12d7b11a65" formatted="false">SQLiteデータベースの更新を読み込む</string>
+    <string name="mc1c9cbe6993c" formatted="false">プロフィール</string>
+    <string name="m33f385bb3b7f" formatted="false">プロフィール写真</string>
+    <string name="me976bd16c14d" formatted="false">プロフィール写真を選択</string>
+    <string name="mce3661a25546" formatted="false">この端末に保存</string>
+    <string name="m42513ed0ee2b" formatted="false">食事の写真を撮る</string>
+    <string name="m39e31f29813a" formatted="false">皿全体が写るようにしてください。説明に重さを加えると推定の参考になります。</string>
+    <string name="m725f60705b23" formatted="false">ここで撮影するにはカメラへのアクセスを許可してください。</string>
+    <string name="m1dfb1b870feb" formatted="false">カメラを許可</string>
+    <string name="m07b3e447db02" formatted="false">お気に入り</string>
+    <string name="m560040c54a3b" formatted="false">AI</string>
+    <string name="mc7f73bb54d92" formatted="false">設定</string>
+    <string name="mc927250a71a3" formatted="false">今日のダッシュボード</string>
+    <string name="md87f47b47e4d" formatted="false">ダッシュボード</string>
+    <string name="mde9b1be49dae" formatted="false">水分</string>
+    <string name="m745b5a481804" formatted="false">コップ</string>
+    <string name="m3b8ac6c75a92" formatted="false">ボトル</string>
+    <string name="md60f8f72a3ac" formatted="false">水分を追加</string>
+    <string name="m550e270078be" formatted="false">1回の量</string>
+    <string name="m43dc8532f7e5" formatted="false">量</string>
+    <string name="me212cb5c0dff" formatted="false">飲んだら＋をタップ</string>
+    <string name="mf7219236a0f8" formatted="false">量を指定</string>
+    <string name="m22b47caca649" formatted="false">直前の記録を取り消す</string>
+    <string name="mbe1f2f3ec867" formatted="false">目標達成</string>
+    <string name="m28ff3e29db2b" formatted="false">1回タップするとこの量を追加します。700 ml以上はボトルで表示します。</string>
+    <string name="m9869e506c38f" formatted="false">展開</string>
+    <string name="m9cf188d3a677" formatted="false">折りたたむ</string>
+    <string name="mb40a9b0a3c2a" formatted="false">プロテインパウダー</string>
+    <string name="med961bb52094" formatted="false">クレアチン</string>
+    <string name="m59b99c7c1ec4" formatted="false">その他のサプリメント</string>
+    <string name="mb445e5e5893b" formatted="false">サプリメントとして記録</string>
+    <string name="m2176fc51a216" formatted="false">この食事に残したままサプリメントにも表示します。栄養は1回だけ計上します。</string>
+    <string name="me237051ba3d7" formatted="false">パウダーの重さと栄養素のたんぱく質は別々に記録します。</string>
+    <string name="mffdd1f1a2857" formatted="false">食事</string>
+    <string name="m413347c6a38c" formatted="false">記録の操作</string>
+    <string name="m48d8c627be3c" formatted="false">目標</string>
+    <string name="maddbe59018d4" formatted="false">1日の目標 · g</string>
+    <string name="m22aba062f0f1" formatted="false">お気に入りを検索</string>
+    <string name="m4914d44ee6e4" formatted="false">お気に入りに追加</string>
+    <string name="m8b9da771965f" formatted="false">お気に入りから削除</string>
+    <string name="m263460b7f8bc" formatted="false">食品に星を付けると、ここからすぐに追加できます。</string>
+    <string name="mfed2d253bf56" formatted="false">一致する食品がありません。別の名前で検索するか食品を登録してください。</string>
+    <string name="m86c0a35ec883" formatted="false">その他のオプション</string>
+    <string name="mff9f1ff32120" formatted="false">年齢</string>
+    <string name="m974df3c33497" formatted="false">体重 · kg</string>
+    <string name="mb0ea4993d34c" formatted="false">身長 · cm</string>
+    <string name="me301dd6062f7" formatted="false">性別</string>
+    <string name="m3f3a489c72de" formatted="false">男性</string>
+    <string name="mb7c17e97d3d6" formatted="false">女性</string>
+    <string name="m93039e609d94" formatted="false">未設定</string>
+    <string name="mf74b47eb9ba9" formatted="false">栄養目標</string>
+    <string name="m8c5e46ecb084" formatted="false">目標は任意です。必要なものだけ有効にしてください。</string>
+    <string name="m23bc7757bb51" formatted="false">たんぱく質の目標</string>
+    <string name="mf077aa7e558d" formatted="false">炭水化物の目標</string>
+    <string name="m3364edaa31db" formatted="false">脂質の目標</string>
+    <string name="m725dff31518f" formatted="false">プロテインパウダーの目標 · g</string>
+    <string name="m1a22393dc154" formatted="false">クレアチンの目標 · g</string>
+    <string name="m7937752aa71a" formatted="false">任意の目標を解除するには空欄にしてください。</string>
+    <string name="mcc48288a51d2" formatted="false">目標を保存</string>
+    <string name="m706e8eabd4f0" formatted="false">水分トラッカーを表示</string>
+    <string name="m3e79f290c496" formatted="false">1日の水分目標 · ml</string>
+    <string name="m5713af352da8" formatted="false">開始目標の目安</string>
+    <string name="m0478f23956e9" formatted="false">この目標を使う</string>
+    <string name="mb0f9cc869839" formatted="false">目安について</string>
+    <string name="m8db9d3c93bc7" formatted="false">水分目標を保存</string>
+    <string name="m9c6130e73a85" formatted="false">サプリメントを表示</string>
+    <string name="mdd7d30049456" formatted="false">推移を表示</string>
+    <string name="mefc007a393f6" formatted="false">保存</string>
+    <string name="m41435a2ebe1d" formatted="false">成人向けの目安には年齢と性別を入力してください。目標はいつでも自由に設定できます。</string>
+    <string name="m70c97e49902d" formatted="false">目標は自分で選べます。達成後も追加で飲んだ量を記録できます。</string>
+    <string name="m6cca7b494136" formatted="false">成人の目安：EFSAの総水分摂取量を基に、20%を食事から摂ると仮定し、飲み物を男性2.0 L、女性1.6 Lと推定しています。個人への処方ではなく開始時の参考値です。</string>
+    <string name="m3d86af08cf5c" formatted="false">体重・身長・カロリー・サプリのグラム数だけでは個人の必要水分量は決まりません。クレアチンやプロテインによる自動加算は行いません。シェイクに混ぜた水は実際の体積で記録してください。</string>
+</resources>

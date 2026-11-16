@@ -1,0 +1,9 @@
+<resources>
+    <color name="widget_surface">#EDF4EE</color><color name="widget_foreground">#17251B</color>
+    <string name="widget_overview_name">Daily nutrition</string>
+    <string name="widget_overview_description">Today’s energy and macros, with shortcuts to food entry and the AI camera.</string>
+    <string name="widget_quick_name">Quick add</string>
+    <string name="widget_quick_description">Open food entry, AI meal entry or the in-app camera.</string>
+    <string name="widget_add">Add food</string><string name="widget_camera">Photo</string>
+    <string name="widget_ai">Describe a meal with AI</string><string name="widget_profile">Open your profile</string>
+</resources>

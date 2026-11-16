@@ -1,0 +1,310 @@
+<resources>
+    <string name="m24345a14377f" formatted="false">Hoy</string>
+    <string name="mbd32ee72cd51" formatted="false">Alimentos</string>
+    <string name="m7c63edf9a185" formatted="false">Suplementos</string>
+    <string name="m716f3fa8e1e5" formatted="false">Tendencias</string>
+    <string name="m905cb326c779" formatted="false">Tú</string>
+    <string name="m899088f98f70" formatted="false">Añadir alimento</string>
+    <string name="m8e2bf473b223" formatted="false">Crear alimento</string>
+    <string name="m83ebed6c6e65" formatted="false">Añadir suplemento</string>
+    <string name="m04be025093f8" formatted="false">Privacidad y acerca de</string>
+    <string name="me2b6b0a1d0bc" formatted="false">Día anterior</string>
+    <string name="m38f859dde041" formatted="false">Día siguiente</string>
+    <string name="m9b9355172fdb" formatted="false">Energía consumida</string>
+    <string name="m26ed353d0b23" formatted="false">Proteína</string>
+    <string name="md1b71194516a" formatted="false">Carbohidratos</string>
+    <string name="m7b71bd0c3d76" formatted="false">Grasas</string>
+    <string name="m364653cd2a4a" formatted="false">Desayuno</string>
+    <string name="m585ecb76103a" formatted="false">Almuerzo</string>
+    <string name="m8cf98a54654a" formatted="false">Cena</string>
+    <string name="m071a0788f410" formatted="false">Tentempié</string>
+    <string name="mf1f0020a5c0b" formatted="false">Explorar alimentos</string>
+    <string name="m5301648dcf6b" formatted="false">Editar</string>
+    <string name="m659eba121958" formatted="false">Repetir</string>
+    <string name="mf6fdbe48dc54" formatted="false">Eliminar</string>
+    <string name="mfcaf0ba31daa" formatted="false">Tu diario está vacío. Añade un alimento del catálogo o crea un registro propio.</string>
+    <string name="meb4d811e37f6" formatted="false">Buscar alimentos</string>
+    <string name="md303c0aa6098" formatted="false">Crear alimento · por 100 g</string>
+    <string name="m34e5a9d3830a" formatted="false">Nombre del alimento</string>
+    <string name="me74b9704dacd" formatted="false">Marca (opcional)</string>
+    <string name="m885136d6bb8e" formatted="false">Deja vacíos los nutrientes no indicados.</string>
+    <string name="m89d7b91058bb" formatted="false">Energía · kcal</string>
+    <string name="m69f0e5eb3536" formatted="false">Proteína · g</string>
+    <string name="me22f3b502a67" formatted="false">Carbohidratos · g</string>
+    <string name="ma143ac86badf" formatted="false">Grasas · g</string>
+    <string name="mdd885ec43949" formatted="false">Guardar alimento</string>
+    <string name="m4f4ce5bae41f" formatted="false">Guardar registro</string>
+    <string name="m77dfd2135f4d" formatted="false">Cancelar</string>
+    <string name="m9fc87e7d568d" formatted="false">Editar porción</string>
+    <string name="md130fcc4a6da" formatted="false">Peso · gramos</string>
+    <string name="mc9eb90e04e6d" formatted="false">Importar catálogo</string>
+    <string name="mf8be01f2dc39" formatted="false">Últimos siete días</string>
+    <string name="m58a927b3bc04" formatted="false">Datos personales</string>
+    <string name="m23d1974a7536" formatted="false">Nombre visible (opcional)</string>
+    <string name="m4ac413113dfc" formatted="false">Objetivo energético diario · kcal</string>
+    <string name="mf597c0e8201d" formatted="false">Guardar perfil</string>
+    <string name="m41def7a0febe" formatted="false">Apariencia</string>
+    <string name="m2a93cf6cb4a8" formatted="false">Material You · colores del fondo</string>
+    <string name="mbc0792d8dc81" formatted="false">Sistema</string>
+    <string name="ma36ef8aba229" formatted="false">Claro</string>
+    <string name="mae1ef0143294" formatted="false">Oscuro</string>
+    <string name="m475ff1ba630b" formatted="false">Comparte los datos nutricionales que registres aquí. El permiso es opcional; el diario funciona sin conexión.</string>
+    <string name="m105a257fd289" formatted="false">Permitir datos nutricionales</string>
+    <string name="m084644b229ca" formatted="false">Sincronización automática</string>
+    <string name="m3757c92c3728" formatted="false">Tras registrar, con reintentos cada hora</string>
+    <string name="maa2d9ed24927" formatted="false">Instala o actualiza Health Connect en los ajustes de Android</string>
+    <string name="m8b02f3de3906" formatted="false">Sin conexión</string>
+    <string name="m82fb1d5144a8" formatted="false">Actualizado</string>
+    <string name="mba03031c5936" formatted="false">Health Connect no está disponible o debe actualizarse</string>
+    <string name="md6b08b733c5c" formatted="false">Se requiere permiso de nutrición</string>
+    <string name="m3255dba5db1f" formatted="false">Se revocó el permiso de nutrición</string>
+    <string name="m2dcdb46ec1eb" formatted="false">Falló la sincronización; los registros siguen en cola</string>
+    <string name="md3907bccaf45" formatted="false">Créditos de temas</string>
+    <string name="mbbfa773e5a63" formatted="false">Cerrar</string>
+    <string name="m2e02623966f9" formatted="false">Continuar</string>
+    <string name="m369702420149" formatted="false">Novedades</string>
+    <string name="mb5ae830d5a5d" formatted="false">Código abierto · GPL-3.0-or-later. Los temas conservan sus avisos de licencia originales.</string>
+    <string name="ma4cb5026dd26" formatted="false">Tu diario y perfil permanecen en tu dispositivo. Se consulta GitHub para actualizaciones. Los proveedores solo reciben búsquedas que solicites. No requiere cuenta ni analítica. Desinstalar elimina los datos locales.</string>
+    <string name="m4a53521c129b" formatted="false">Compartir con Health Connect es opcional y solo escribe registros nutricionales. Los cambios y eliminaciones quedan pendientes hasta sincronizar. Android controla permisos y ejecución en segundo plano.</string>
+    <string name="mbc41ab0b1a94" formatted="false">Registrar toma</string>
+    <string name="mb031e71a9714" formatted="false">Objetivo diario</string>
+    <string name="m6bd8a9a4c9b9" formatted="false">Historial de tomas</string>
+    <string name="m527abbd87c35" formatted="false">Editar toma</string>
+    <string name="mdc1ca05cf232" formatted="false">Los nutrientes se registran una sola vez en el diario.</string>
+    <string name="mbef84c80fa18" formatted="false">Actualizar toma</string>
+    <string name="mf9fcebd51383" formatted="false">Deja vacío para quitar el objetivo</string>
+    <string name="mfa5df149550b" formatted="false">Guardar objetivo</string>
+    <string name="m4eaa406251ca" formatted="false">medida</string>
+    <string name="m073c5dc664c2" formatted="false">cápsula</string>
+    <string name="m6f4d3f36ea02" formatted="false">comprimido</string>
+    <string name="mbc7819b34ff8" formatted="false">Desconocido</string>
+    <string name="m89b86ab0e66f" formatted="false">Idioma</string>
+    <string name="mc76d18079a07" formatted="false">Actualizaciones</string>
+    <string name="mb0794025de85" formatted="false">La base de alimentos se actualiza sin reinstalar la aplicación.</string>
+    <string name="mdbb9d521810e" formatted="false">Buscando actualizaciones…</string>
+    <string name="m736b9062b336" formatted="false">Buscar actualizaciones</string>
+    <string name="m87ed9170be21" formatted="false">Fallaron algunas comprobaciones. Tus datos sin conexión siguen disponibles.</string>
+    <string name="mb45ea6048892" formatted="false">Ver versiones de la aplicación</string>
+    <string name="mc38c3903da3e" formatted="false">Actualiza la aplicación antes de instalar esta versión de la base.</string>
+    <string name="mfabfef0bf5ca" formatted="false">Actualizando base de datos…</string>
+    <string name="m6fa074ab6809" formatted="false">Actualizar solo la base</string>
+    <string name="m59924e6a2452" formatted="false">La actualización no superó la validación. Se conserva tu catálogo anterior.</string>
+    <string name="mc818f4297c8d" formatted="false">Aviso de precisión y fuentes</string>
+    <string name="mbac64a013634" formatted="false">Aviso sobre datos alimentarios</string>
+    <string name="m318804e47c16" formatted="false">Traducción local aproximada</string>
+    <string name="mdf65659012e9" formatted="false">Buscar en línea</string>
+    <string name="m1a6a5ba8c23d" formatted="false">Buscando…</string>
+    <string name="meabbb14c5def" formatted="false">Clave API USDA · solo esta sesión</string>
+    <string name="m7c70e003bac0" formatted="false">Busca primero en local. Las consultas externas solo se envían al pulsar Buscar en línea.</string>
+    <string name="m6da13addb000" formatted="false">Fuente</string>
+    <string name="m6ed264fd5623" formatted="false">Búsqueda externa completada</string>
+    <string name="m6bc66688f141" formatted="false">Falló la consulta al proveedor</string>
+    <string name="mdca0f09f861e" formatted="false">Introduce al menos dos caracteres</string>
+    <string name="mfd29e9a5752a" formatted="false">Espera unos segundos antes de buscar otra vez</string>
+    <string name="mc1cb0759dcab" formatted="false">Introduce tu clave API USDA</string>
+    <string name="mff52bbcd3f3e" formatted="false">Alimento guardado</string>
+    <string name="ma51c90f7815a" formatted="false">Introduce un nombre de alimento</string>
+    <string name="m67618f27de68" formatted="false">Añadido al diario</string>
+    <string name="m53550cff7439" formatted="false">Registro actualizado</string>
+    <string name="m313945aa03a8" formatted="false">Registro eliminado; eliminación en Health Connect en cola</string>
+    <string name="md958362c15d5" formatted="false">Registro de comida repetido</string>
+    <string name="m19df932c7271" formatted="false">Introduce un nombre de suplemento</string>
+    <string name="m7800924bf9ae" formatted="false">Introduce un objetivo positivo o déjalo vacío</string>
+    <string name="m4a6506eb1c31" formatted="false">Introduce el peso de una porción para calcular los nutrientes</string>
+    <string name="m29027eff18a7" formatted="false">No se encontró el alimento asociado</string>
+    <string name="m259a0703ff43" formatted="false">Suplemento guardado</string>
+    <string name="m29fb72fc0920" formatted="false">Toma registrada</string>
+    <string name="m6576bba4386c" formatted="false">Dosis de suplemento actualizada</string>
+    <string name="m2e25638d7d19" formatted="false">Toma eliminada</string>
+    <string name="m2f1367d63a3d" formatted="false">No se pudo completar esta acción</string>
+    <string name="m89a5db0f8e82" formatted="false">No se puede abrir el catálogo</string>
+    <string name="m1aac3f49995f" formatted="false">El catálogo debe ocupar menos de 10 MB</string>
+    <string name="mb47962087115" formatted="false">Importa como máximo 20.000 alimentos a la vez</string>
+    <string name="m60f47f5b37a8" formatted="false">Identificadores de alimentos duplicados en el catálogo</string>
+    <string name="mdebb9d283a41" formatted="false">Cada alimento necesita un identificador con prefijo, nombre y fuente</string>
+    <string name="m98be4a1f6da8" formatted="false">Se requiere el peso de la porción</string>
+    <string name="m07eb4b8a56a3">Aplicación %1$s</string>
+    <string name="md7ad5588416f">Base %1$s · %2$s alimentos</string>
+    <string name="mee0c1992b052">Actualización disponible: %1$s</string>
+    <string name="m2e282212c3f9">Actualización de la base disponible: %1$s</string>
+    <string name="mab36228547e3">Objetivo %1$s kcal · datos incompletos</string>
+    <string name="mce0cdcbe8dac">Objetivo %1$s kcal</string>
+    <string name="mee7bb7a400b0">%1$s registros · datos nutricionales incompletos</string>
+    <string name="mf04bb3a45043">%1$s registros</string>
+    <string name="mfb648b260587">Última sincronización: %1$s</string>
+    <string name="m6df36ff072ac">Sincronizar · %1$s pendientes</string>
+    <string name="m3146ea1feb76">%1$s alimentos importados</string>
+    <string name="m43ce1a0e2b14">Cantidad · %1$s</string>
+    <string name="mcdb25affadfd">Objetivo de cantidad diaria · %1$s</string>
+    <string name="m788a1ebf7caf">Gramos por %1$s</string>
+    <string name="m48e9d038fd70">Unidad: %1$s</string>
+    <string name="m65936d002938">%1$s g / %2$s g</string>
+    <string name="m3fe7d2980c95">%1$s g · hoy</string>
+    <string name="m7b7059f019f5">%1$s g · %2$s</string>
+    <string name="m033f0f52a8f0">%1$s mg / %2$s mg</string>
+    <string name="mfefb359ed625">%1$s mg · hoy</string>
+    <string name="mbfde4f61c753">%1$s mg · %2$s</string>
+    <string name="m8e1a2ae3588f">%1$s medida / %2$s medida</string>
+    <string name="mb6bc29abfa5e">%1$s medida · hoy</string>
+    <string name="m3d8851f7a5a5">%1$s medida · %2$s</string>
+    <string name="m9e1c005dd520">%1$s cápsula / %2$s cápsula</string>
+    <string name="meaff10d47e32">%1$s cápsula · hoy</string>
+    <string name="m9a7344c48cd1">%1$s cápsula · %2$s</string>
+    <string name="m6a9f089c848b">%1$s comprimido / %2$s comprimido</string>
+    <string name="m8e56005e625c">%1$s comprimido · hoy</string>
+    <string name="med113393c321">%1$s comprimido · %2$s</string>
+    <string name="m935ea641ef04">%1$s ml / %2$s ml</string>
+    <string name="m255ec6d69ac1">%1$s ml · hoy</string>
+    <string name="mda1351420476">%1$s ml · %2$s</string>
+    <string name="m9208ce440bbe" formatted="false">Los nutrientes deben ser finitos y no negativos</string>
+    <string name="m53818bd39c54" formatted="false">Introduce un peso positivo en gramos</string>
+    <string name="mdc98d980fc3b" formatted="false">El factor debe ser positivo</string>
+    <string name="m370f292ba08f" formatted="false">Introduce una dosis positiva</string>
+    <string name="m8383e15b67e2" formatted="false">El peso de porción debe ser positivo</string>
+    <string name="m4a7957a5d67d" formatted="false">Dosis demasiado grande</string>
+    <string name="m617967962bf6" formatted="false">La base ya está actualizada</string>
+    <string name="m930b3ff212f8" formatted="false">Esquema de catálogo no compatible</string>
+    <string name="md7f9a74cc335" formatted="false">El modo API solo envía la descripción y foto al servicio elegido. Las claves quedan en la memoria de la sesión. La IA local permanece en el dispositivo.</string>
+    <string name="m2de7d05d0217" formatted="false">Licencia del motor de IA</string>
+    <string name="me7fd0d752291" formatted="false">Widgets de inicio</string>
+    <string name="m0cb33735e08b" formatted="false">Añade un resumen diario o accesos a alimentos, IA y cámara.</string>
+    <string name="m92ce26d6f3b9" formatted="false">Añadir widget de resumen</string>
+    <string name="m55669312a3b9" formatted="false">Añadir widget de registro rápido</string>
+    <string name="m6120e78ec6a2" formatted="false">Mantén pulsado el inicio y elige Widgets → 8bitBites.</string>
+    <string name="m22a27527081c" formatted="false">Registro de comida con IA</string>
+    <string name="mb52b36b7269f" formatted="false">Atrás</string>
+    <string name="mfd1942665af9" formatted="false">Describe tu comida o elige una foto.</string>
+    <string name="m72a3fb88fe94" formatted="false">En el dispositivo</string>
+    <string name="mcf678cab87dc" formatted="false">Clave API</string>
+    <string name="mac05dac63255" formatted="false">Solo se envían esta descripción y la foto elegida al servicio indicado. La clave permanece en memoria hasta cerrar la aplicación.</string>
+    <string name="mdbf41a416cc8" formatted="false">URL base de API (HTTPS)</string>
+    <string name="mc7eb22a300df" formatted="false">ID del modelo</string>
+    <string name="md8191f443e4f" formatted="false">Elige un modelo visual para las fotos.</string>
+    <string name="m6819ed257e75" formatted="false">Tu clave API · solo esta sesión</string>
+    <string name="mf380610e2d3d" formatted="false">Configurar modelo local</string>
+    <string name="m4d1a3b82cabc" formatted="false">Descarga un modelo compatible de Hugging Face o importa un archivo .litertlm. Para imágenes elige un modelo de texto y fotos. El procesamiento permanece en tu dispositivo.</string>
+    <string name="me87d067d3391" formatted="false">Explorar y descargar modelos</string>
+    <string name="m0021f0825cb2" formatted="false">Importar modelo</string>
+    <string name="me963907dac5c" formatted="false">Quitar</string>
+    <string name="mf8dd3a3d3c7c" formatted="false">Modelos compatibles</string>
+    <string name="m1d423d9bd694" formatted="false">¿Qué comiste?</string>
+    <string name="me28ceec0b06d" formatted="false">100 g de queso y 2 rebanadas de pan</string>
+    <string name="m7ebd5d4c919a" formatted="false">Tomar foto</string>
+    <string name="m4a7eded8ed3a" formatted="false">Elegir foto</string>
+    <string name="mc8f5eda8ace9" formatted="false">Quitar foto</string>
+    <string name="mf6819feed1b1" formatted="false">Foto de comida seleccionada</string>
+    <string name="m8c4f950f5f7e" formatted="false">Reconocer comida</string>
+    <string name="me7465d8081dc" formatted="false">Comida añadida al diario</string>
+    <string name="m2fa473d659c8" formatted="false">Volver al diario</string>
+    <string name="m086d1d9b8de4" formatted="false">Añadir otra comida</string>
+    <string name="m6f92b7e4df2b" formatted="false">Revisar antes de guardar</string>
+    <string name="m34606e4ff408" formatted="false">Elige el alimento correcto y revisa cada peso. Las sugerencias de IA pueden ser imprecisas. Los nutrientes se calculan a partir de tu selección.</string>
+    <string name="mb2473cc93b00" formatted="false">Peso estimado · verifica</string>
+    <string name="m94c2d72e6eb8" formatted="false">Peso en gramos</string>
+    <string name="me88e33334de6" formatted="false">Buscar alimento correspondiente</string>
+    <string name="m17687166b442" formatted="false">Energía desconocida</string>
+    <string name="m2c65275ae0b0" formatted="false">proteína</string>
+    <string name="m38dd138ea247" formatted="false">Cambiar alimento</string>
+    <string name="mcf35d5c3346a" formatted="false">Sin coincidencias. Prueba un nombre más sencillo o crea el alimento desde la etiqueta.</string>
+    <string name="m0de52d27855f" formatted="false">Crear alimento desde etiqueta</string>
+    <string name="m76ecba1f27d2" formatted="false">Quitar elemento</string>
+    <string name="me854d55de7c8" formatted="false">Confirmar y guardar comida</string>
+    <string name="mb6fffc5ab71c" formatted="false">Empezar de nuevo</string>
+    <string name="m6b5d48471464" formatted="false">Modelos en el dispositivo</string>
+    <string name="m16a31ca45138" formatted="false">Descargar de Hugging Face</string>
+    <string name="mb1771bd118fd" formatted="false">Abajo aparecen los archivos LiteRT-LM compatibles. Las descargas continúan al salir de esta pantalla o pasar a segundo plano. Puedes pausarlas y reanudarlas. Android puede pausarlas por restricciones del sistema.</string>
+    <string name="m7c8d374ba569" formatted="false">Solo red sin límite de datos</string>
+    <string name="me812205f2373" formatted="false">Wi-Fi u otra conexión sin límite</string>
+    <string name="m6f718f8cdd7b" formatted="false">Token de lectura Hugging Face (opcional)</string>
+    <string name="m3daf7fd84237" formatted="false">Qwen no requiere token. Para Gemma, abre su página, acepta las condiciones y usa un token de lectura de esa cuenta. Los tokens de descargas en segundo plano se cifran en el dispositivo y se eliminan al finalizar o borrar.</string>
+    <string name="m6f267a2a1c27" formatted="false">Texto y fotos</string>
+    <string name="m9ccbd022505b" formatted="false">Solo texto</string>
+    <string name="m9122d816c1f4" formatted="false">Página del modelo y licencia</string>
+    <string name="m89d03d92038b" formatted="false">Esperando la red seleccionada</string>
+    <string name="m8586e4fb8198" formatted="false">Esperando reanudación</string>
+    <string name="m084626a37d6a" formatted="false">Verificando modelo</string>
+    <string name="mc7dfb6f1d9c5" formatted="false">En pausa</string>
+    <string name="m451dda35fc50" formatted="false">La descarga requiere atención</string>
+    <string name="m9b4592f9ae45" formatted="false">Descargando</string>
+    <string name="m9a976fc228b6" formatted="false">Seleccionado</string>
+    <string name="m8d558ce2b2a2" formatted="false">Usar modelo</string>
+    <string name="m781961bc81c2" formatted="false">Pausar</string>
+    <string name="mb3bd0b5a7049" formatted="false">Reanudar</string>
+    <string name="ma479c9c34e87" formatted="false">Descargar</string>
+    <string name="m36fff63ccbcd" formatted="false">Descartar</string>
+    <string name="ma6223f3031a8" formatted="false">Modelo importado · capacidades según el archivo</string>
+    <string name="m1919d722d8a0" formatted="false">Usar modelo importado</string>
+    <string name="md0343323ecfc" formatted="false">Las descargas se verifican antes de usarse. Las licencias de modelos son independientes de la aplicación.</string>
+    <string name="m8a12d7b11a65" formatted="false">Importar actualización SQLite</string>
+    <string name="mc1c9cbe6993c" formatted="false">Tu perfil</string>
+    <string name="m33f385bb3b7f" formatted="false">Foto de perfil</string>
+    <string name="me976bd16c14d" formatted="false">Elegir foto de perfil</string>
+    <string name="mce3661a25546" formatted="false">Guardado en este dispositivo</string>
+    <string name="m42513ed0ee2b" formatted="false">Fotografiar tu comida</string>
+    <string name="m39e31f29813a" formatted="false">Incluye todo el plato en la imagen. Añade pesos a la descripción para mejorar la estimación.</string>
+    <string name="m725f60705b23" formatted="false">Permite el acceso a la cámara para tomar una foto aquí.</string>
+    <string name="m1dfb1b870feb" formatted="false">Permitir cámara</string>
+    <string name="m07b3e447db02" formatted="false">Favoritos</string>
+    <string name="m560040c54a3b" formatted="false">IA</string>
+    <string name="mc7f73bb54d92" formatted="false">Ajustes</string>
+    <string name="mc927250a71a3" formatted="false">Tu resumen diario</string>
+    <string name="md87f47b47e4d" formatted="false">Resumen</string>
+    <string name="mde9b1be49dae" formatted="false">Agua</string>
+    <string name="m745b5a481804" formatted="false">Vaso</string>
+    <string name="m3b8ac6c75a92" formatted="false">Botella</string>
+    <string name="md60f8f72a3ac" formatted="false">Añadir agua</string>
+    <string name="m550e270078be" formatted="false">Cantidad por toma</string>
+    <string name="m43dc8532f7e5" formatted="false">Cantidad</string>
+    <string name="me212cb5c0dff" formatted="false">Pulsa + al beber</string>
+    <string name="mf7219236a0f8" formatted="false">Cantidad personalizada</string>
+    <string name="m22b47caca649" formatted="false">Deshacer última toma</string>
+    <string name="mbe1f2f3ec867" formatted="false">Objetivo alcanzado</string>
+    <string name="m28ff3e29db2b" formatted="false">Un toque añade esta cantidad. Desde 700 ml se muestra una botella.</string>
+    <string name="m9869e506c38f" formatted="false">Expandir</string>
+    <string name="m9cf188d3a677" formatted="false">Contraer</string>
+    <string name="mb40a9b0a3c2a" formatted="false">Proteína en polvo</string>
+    <string name="med961bb52094" formatted="false">Creatina</string>
+    <string name="m59b99c7c1ec4" formatted="false">Otro suplemento</string>
+    <string name="mb445e5e5893b" formatted="false">Es un suplemento</string>
+    <string name="m2176fc51a216" formatted="false">Permanece en esta comida y también aparece en Suplementos. Los nutrientes se cuentan una sola vez.</string>
+    <string name="me237051ba3d7" formatted="false">El peso del polvo y la proteína alimentaria se registran por separado.</string>
+    <string name="mffdd1f1a2857" formatted="false">Comidas</string>
+    <string name="m413347c6a38c" formatted="false">Acciones del registro</string>
+    <string name="m48d8c627be3c" formatted="false">Objetivos</string>
+    <string name="maddbe59018d4" formatted="false">Objetivo diario · g</string>
+    <string name="m22aba062f0f1" formatted="false">Buscar favoritos</string>
+    <string name="m4914d44ee6e4" formatted="false">Añadir a favoritos</string>
+    <string name="m8b9da771965f" formatted="false">Quitar de favoritos</string>
+    <string name="m263460b7f8bc" formatted="false">Marca alimentos con una estrella para acceder a ellos rápidamente.</string>
+    <string name="mfed2d253bf56" formatted="false">No hay alimentos coincidentes. Prueba otro nombre o crea un alimento.</string>
+    <string name="m86c0a35ec883" formatted="false">Más opciones</string>
+    <string name="mff9f1ff32120" formatted="false">Edad</string>
+    <string name="m974df3c33497" formatted="false">Peso · kg</string>
+    <string name="mb0ea4993d34c" formatted="false">Altura · cm</string>
+    <string name="me301dd6062f7" formatted="false">Sexo</string>
+    <string name="m3f3a489c72de" formatted="false">Hombre</string>
+    <string name="mb7c17e97d3d6" formatted="false">Mujer</string>
+    <string name="m93039e609d94" formatted="false">Sin especificar</string>
+    <string name="mf74b47eb9ba9" formatted="false">Objetivos nutricionales</string>
+    <string name="m8c5e46ecb084" formatted="false">Objetivos opcionales. Activa solo los que quieras.</string>
+    <string name="m23bc7757bb51" formatted="false">Objetivo de proteína</string>
+    <string name="mf077aa7e558d" formatted="false">Objetivo de carbohidratos</string>
+    <string name="m3364edaa31db" formatted="false">Objetivo de grasas</string>
+    <string name="m725dff31518f" formatted="false">Objetivo de proteína en polvo · g</string>
+    <string name="m1a22393dc154" formatted="false">Objetivo de creatina · g</string>
+    <string name="m7937752aa71a" formatted="false">Deja vacío un objetivo opcional para quitarlo.</string>
+    <string name="mcc48288a51d2" formatted="false">Guardar objetivos</string>
+    <string name="m706e8eabd4f0" formatted="false">Mostrar seguimiento del agua</string>
+    <string name="m3e79f290c496" formatted="false">Objetivo diario de agua · ml</string>
+    <string name="m5713af352da8" formatted="false">Objetivo inicial sugerido</string>
+    <string name="m0478f23956e9" formatted="false">Usar objetivo sugerido</string>
+    <string name="mb0f9cc869839" formatted="false">Sobre esta sugerencia</string>
+    <string name="m8db9d3c93bc7" formatted="false">Guardar objetivo de agua</string>
+    <string name="m9c6130e73a85" formatted="false">Mostrar suplementos</string>
+    <string name="mdd7d30049456" formatted="false">Mostrar tendencias</string>
+    <string name="mefc007a393f6" formatted="false">Guardar</string>
+    <string name="m41435a2ebe1d" formatted="false">Introduce edad y sexo para una referencia adulta. Siempre puedes fijar tu propio objetivo.</string>
+    <string name="m70c97e49902d" formatted="false">Tu objetivo sigue siendo tu elección. Alcanzarlo no impide registrar más agua.</string>
+    <string name="m6cca7b494136" formatted="false">Referencia adulta: 2,0 L de bebidas para hombres o 1,6 L para mujeres, estimados a partir de valores EFSA suponiendo un 20 % procedente de alimentos. Es una referencia inicial, no una prescripción individual.</string>
+    <string name="m3d86af08cf5c" formatted="false">El peso, la altura, las calorías y los gramos de suplementos no determinan por sí solos una necesidad personal. No se añade agua automáticamente por creatina o proteína en polvo. Registra el volumen real de agua del batido.</string>
+</resources>

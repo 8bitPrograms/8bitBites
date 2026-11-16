@@ -1,0 +1,30 @@
+{
+  "version": "0.1.0",
+  "schema": 1,
+  "minimumAppCode": 2,
+  "highlights": true,
+  "notes": {
+    "en": [
+      "Independent food database updates.",
+      "Source-attributed mass-based food labels.",
+      "Offline English/Turkish food-term search."
+    ],
+    "tr": [
+      "Bağımsız besin veri tabanı güncellemeleri.",
+      "Kaynak bilgili, gram esaslı besin etiketleri.",
+      "Çevrimdışı İngilizce/Türkçe besin terimi araması."
+    ]
+  },
+  "foodCount": 419,
+  "excluded": {
+    "Not a mass-based label": 755,
+    "No reported nutrients": 27,
+    "Missing serving basis": 7
+  },
+  "duplicateRows": 5,
+  "noticeVersion": 1,
+  "formatVersion": 1,
+  "file": "versions/0.1.0/foods.sqlite",
+  "bytes": 282624,
+  "sha256": "3ca91a2462dff4d0c5e2f45efa4d425e1e1a3f3b940db30d5f48c61bcfea55b9"
+}

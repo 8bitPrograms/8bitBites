@@ -1,0 +1,40 @@
+{
+  "formatVersion": 1,
+  "versionCode": 6,
+  "versionName": "0.5.0-dev",
+  "highlights": true,
+  "notes": {
+    "en": [
+      "Water tracking with custom portions, glasses and bottles.",
+      "Favorites, optional macro goals, simpler supplements and a compact profile dashboard."
+    ],
+    "tr": [
+      "Özel miktarlar, bardak ve şişelerle su takibi.",
+      "Favoriler, isteğe bağlı makro hedefleri, sade takviye kaydı ve kompakt profil özeti."
+    ],
+    "de": [
+      "Wasserprotokoll mit eigenen Mengen, Gläsern und Flaschen.",
+      "Favoriten, optionale Nährstoffziele, einfachere Ergänzungen und kompakte Profilübersicht."
+    ],
+    "fr": [
+      "Suivi de l’eau avec quantités personnalisées, verres et bouteilles.",
+      "Favoris, objectifs nutritionnels facultatifs, compléments simplifiés et tableau de bord compact."
+    ],
+    "es": [
+      "Agua con cantidades personalizadas, vasos y botellas.",
+      "Favoritos, objetivos nutricionales opcionales, suplementos simplificados y resumen compacto."
+    ],
+    "it": [
+      "Acqua con quantità personalizzate, bicchieri e bottiglie.",
+      "Preferiti, obiettivi nutrizionali facoltativi, integratori semplificati e riepilogo compatto."
+    ],
+    "pt": [
+      "Água com quantidades personalizadas, copos e garrafas.",
+      "Favoritos, metas nutricionais opcionais, suplementos simplificados e resumo compacto."
+    ],
+    "ja": [
+      "量を自由に設定し、コップやボトルで水分を記録。",
+      "お気に入り、任意の栄養目標、簡単なサプリ記録、コンパクトなプロフィール画面。"
+    ]
+  }
+}

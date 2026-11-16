@@ -1,0 +1,10 @@
+<resources>
+    <string name="widget_overview_name">Tägliche Ernährung</string>
+    <string name="widget_overview_description">Energie und Nährstoffe des Tages mit Verknüpfungen zu Lebensmitteln und KI-Kamera.</string>
+    <string name="widget_quick_name">Schnell hinzufügen</string>
+    <string name="widget_quick_description">Lebensmittelerfassung, KI oder App-Kamera öffnen.</string>
+    <string name="widget_add">Essen</string>
+    <string name="widget_camera">Foto</string>
+    <string name="widget_ai">Mahlzeit mit KI beschreiben</string>
+    <string name="widget_profile">Profil öffnen</string>
+</resources>

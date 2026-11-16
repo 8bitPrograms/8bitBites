@@ -1,0 +1,41 @@
+[
+  {
+    "id": "gemma3-1b",
+    "name": "Gemma 3 \u00b7 1B",
+    "repository": "litert-community/Gemma3-1B-IT",
+    "revision": "d448835d84411a08f577e25f3afebe528402d73b",
+    "filename": "Gemma3-1B-IT_multi-prefill-seq_q4_ekv4096.litertlm",
+    "bytes": 584417280,
+    "sha256": "1325ae366d31950f137c9c357b9fa89448b176d76998180c08ceaca78bba98be",
+    "vision": false,
+    "gated": true,
+    "license": "gemma",
+    "memoryGb": 6
+  },
+  {
+    "id": "qwen25-15b",
+    "name": "Qwen 2.5 \u00b7 1.5B",
+    "repository": "litert-community/Qwen2.5-1.5B-Instruct",
+    "revision": "2f23bacf8ec78b83dfcd7271c5cb25777b1be5e0",
+    "filename": "Qwen2.5-1.5B-Instruct_multi-prefill-seq_q8_ekv4096.litertlm",
+    "bytes": 1597922856,
+    "sha256": "c4a9b7289365ab80fe599b844b77ad253eb3c53fb0e5d963d699146a6f01255e",
+    "vision": false,
+    "gated": false,
+    "license": "apache-2.0",
+    "memoryGb": 6
+  },
+  {
+    "id": "gemma3n-e2b",
+    "name": "Gemma 3n \u00b7 E2B",
+    "repository": "google/gemma-3n-E2B-it-litert-lm",
+    "revision": "c03b6f60b8da6c5400b6838a2cf26420f80c0a01",
+    "filename": "gemma-3n-E2B-it-int4.litertlm",
+    "bytes": 3655827456,
+    "sha256": "2ed7bc3a0026c93d5b8a4544b352d9d00cd66ff0bac3ef6a20ac3d2cba4010d6",
+    "vision": true,
+    "gated": true,
+    "license": "gemma",
+    "memoryGb": 8
+  }
+]
